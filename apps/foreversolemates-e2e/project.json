@@ -1,0 +1,9 @@
+{
+  "name": "foreversolemates-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/foreversolemates-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["foreversolemates"],
+  "// targets": "to see all targets run: nx show project foreversolemates-e2e --web",
+  "targets": {}
+}

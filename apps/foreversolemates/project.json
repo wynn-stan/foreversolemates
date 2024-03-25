@@ -1,0 +1,9 @@
+{
+  "name": "foreversolemates",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/foreversolemates",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project foreversolemates --web",
+  "targets": {}
+}
