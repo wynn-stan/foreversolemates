@@ -3,7 +3,49 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/foreversolemates",
   "projectType": "application",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project foreversolemates --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/foreversolemates/"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/foreversolemates"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "foreversolemates:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "foreversolemates:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "foreversolemates:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "foreversolemates:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
 }

@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+  font-family: WorkSans, sans-serif;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 1rem;
+
+  li {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
