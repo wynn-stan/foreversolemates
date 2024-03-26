@@ -21,11 +21,11 @@ export default function ShopByCategory() {
   ];
 
   return (
-    <StyledContainer className="space-y-6 w-full overflow-auto px-6">
+    <StyledContainer className="space-y-6 w-full px-6">
       <div className="text-center text-lg">Shop By Category</div>
-      <div className="flex justify-start md:justify-center gap-10 text-center ">
+      <div className="flex justify-start md:justify-center gap-10 pb-4 text-center overflow-auto ">
         {sectionItems.map((item, key) => (
-          <SectionItem {...item} />
+          <SectionItem key={key} {...item} />
         ))}
       </div>
     </StyledContainer>
@@ -44,7 +44,7 @@ function SectionItem({
       <div className="container">
         <StyledImage src={imgSrc} />
       </div>
-      <Link href="#" className="link">
+      <Link href="" className="link">
         <p
           style={{ transition: 'border 1s' }}
           className={helpers.classNames(
@@ -61,11 +61,15 @@ function SectionItem({
 
 const StyledContainer = styled.div`
   & .container {
-    height: 312px;
-    width: 182px;
+    height: 439px;
+
+    width: 286px;
     overflow: hidden;
   }
 `;
+//     height: 312px;
+//   min-width: 182px;
+// width: 100%;
 
 const StyledImage = styled.img`
   height: 100%;

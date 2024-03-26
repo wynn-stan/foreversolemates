@@ -14,7 +14,9 @@ export default function Index() {
     <div className="h-full flex flex-col gap-20">
       <div className="flex-grow gap-6">
         <RootNavigation />
-        {/* <PromoBanner /> */}
+        <div className="mb-16 hidden md:block">
+          <PromoBanner />
+        </div>
         <div className="flex flex-col gap-16 items-center">
           <ShopByCategory />
           {/* <AdditionalServices /> */}
