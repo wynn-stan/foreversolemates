@@ -35,7 +35,7 @@ http.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error: AxiosError<string>) => {
     if (error.response?.status !== 500) {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 403) {
         if (logout) {
           logout();
         }
