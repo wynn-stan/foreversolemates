@@ -30,7 +30,7 @@ export default function Navbar({ isOpen, setIsOpen }: Navbar) {
   const router = useRouter();
 
   return (
-    <div className="sticky top-0 z-50 bg-white w-full px-6 py-4 md:px-8 border-b-2 border-gray-20">
+    <div className="sticky top-0 z-50 bg-white w-full px-6 py-4 md:px-8 border-b border-gray-10">
       <div className="flex justify-between items-center text-[#1A2933]">
         {/* Right Section of Navbar */}
         {layout?.back ? (

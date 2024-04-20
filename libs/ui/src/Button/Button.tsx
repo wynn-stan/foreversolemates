@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Spinner from '../Spinner/Spinner';
+import { PlusIcon } from 'lucide-react';
 
 type Variant =
   | 'default'
@@ -14,10 +15,12 @@ type Variant =
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
+  icon?: 'plus';
 }
 
 export default function Button({
   variant = 'default',
+  icon,
   disabled,
   children,
   className,
@@ -54,68 +57,10 @@ export default function Button({
       {...props}
     >
       {isSubmitting ? <Spinner /> : ''}
-      {children}
+      <>
+        {icon && icon === 'plus' ? <PlusIcon size={20} /> : <></>}
+        {children}
+      </>
     </button>
   );
 }
-
-// import { ButtonHTMLAttributes, forwardRef } from 'react';
-// import { Spinner } from '../Spinner/Spinner';
-// import { helpers } from '@foreversolemates/utils';
-
-// export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-//   isSubmitting?: boolean;
-//   contentClassName?: string;
-// }
-
-// export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-//   (
-//     {
-//       children,
-//       disabled,
-//       className,
-//       isSubmitting = false,
-//       contentClassName,
-//       ...props
-//     },
-//     ref
-//   ) => {
-//     /**
-//      * variables
-//      */
-//     disabled = (() => {
-//       if (isSubmitting) {
-//         return true;
-//       }
-//       return disabled;
-//     })();
-
-//     return (
-//       <button
-//         ref={ref}
-//         className={helpers.classNames(
-//           'outline-0 h-12 px-3.5',
-//           'text-sm font-semibold whitespace-nowrap select-none',
-//           'border-[1px] border-transparent rounded-sm',
-//           'gap-2 flex items-center justify-center',
-//           'disabled:pointer-events-none',
-//           'active:shadow-[inset_0_0_100px_100px_rgba(0,0,0,0.1)]',
-//           className
-//         )}
-//         {...{ disabled, ...props }}
-//       >
-//         {isSubmitting ? <Spinner /> : ''}
-//         <div
-//           className={helpers.classNames(
-//             contentClassName,
-//             'flex items-center justify-center gap-2'
-//           )}
-//         >
-//           {children}
-//         </div>
-//       </button>
-//     );
-//   }
-// );
-
-// export default Button;

@@ -11,6 +11,7 @@ import { useStore } from '../../../../hooks';
 import routes from '../../../../routes';
 import Add from './(components)/Add';
 import { helpers } from '@foreversolemates/utils';
+import { SectionHeader } from '../../../../components';
 
 export default function Page() {
   //navigation
@@ -38,19 +39,23 @@ export default function Page() {
   return (
     <>
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="text-2xl font-semibold">Admin Users</div>
-          <Button
-            onClick={() => setShowAdd(true)}
-            variant="outline-secondary"
-            className="flex gap-2"
-          >
-            <span>
-              <PlusIcon size={20} />
-            </span>
-            <span>Add User</span>
-          </Button>
-        </div>
+        <SectionHeader
+          header="Admin Users"
+          actions={
+            <>
+              <Button
+                onClick={() => setShowAdd(true)}
+                variant="outline-secondary"
+                className="flex gap-2"
+              >
+                <span>
+                  <PlusIcon size={20} />
+                </span>
+                <span>Add User</span>
+              </Button>
+            </>
+          }
+        />
         <Table>
           <thead>
             <Table.Th>Fullname</Table.Th>
