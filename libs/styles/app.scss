@@ -5,6 +5,12 @@
 @layer base {
     @import 'fonts';
     @import 'reboot';
-
+    @import 'table';
   }
+
+  @layer components {
+    @import 'modal';
+    @import 'utils';
+  }
+  
   

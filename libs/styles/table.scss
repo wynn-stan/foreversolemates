@@ -1,0 +1,42 @@
+.table {
+    @apply overflow-x-auto w-full;
+  }
+  
+  table {
+    @apply text-left w-full whitespace-nowrap text-sm
+            divide-y divide-gray-20 rounded-[8px_8px_0px_0px]
+            border-separate border-spacing-0
+            border border-gray-20;
+  
+    thead {
+      @apply bg-gray-10;
+  
+      th {
+        @apply px-6 py-4 font-semibold text-gray-50;
+  
+        &:first-child {
+          @apply rounded-tl-lg;
+        }
+  
+        &:last-child {
+          @apply rounded-tr-lg;
+        }
+      }
+    }
+  
+    tbody {
+      @apply divide-y divide-gray-20;
+  
+      td {
+        @apply px-6 py-4 align-middle font-normal text-sm border-t border-gray-20;
+      }
+    }
+  
+    tr {
+      th,
+      td {
+        @apply h-full;
+      }
+    }
+  }
+  

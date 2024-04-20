@@ -15,22 +15,33 @@
     font-weight: 500;
     font-style: normal;
   }
-  
+
   @font-face {
     font-family: 'WorkSans';
-    src: url('/assets/fonts/WorkSans-Bold.ttf');
+    src: url('/assets/fonts/WorkSans-SemiBold.ttf');
     src: local('Work Sans'),
-      url('/assets/fonts/WorkSans-Bold.ttf') format('truetype');
+      url('/assets/fonts/WorkSans-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'WorkSans';
+    src: url('/assets/fonts/WorkSans-Bold.ttf');
+    src: local('Work Sans'),
+      url('/assets/fonts/WorkSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+
+  
+  @font-face {
+    font-family: 'WorkSans';
     src: url('/assets/fonts/WorkSans-ExtraBold.ttf');
     src: local('Work Sans'),
       url('/assets/fonts/WorkSans-ExtraBold.ttf') format('truetype');
-    font-weight: 700;
+    font-weight: 800;
     font-style: normal;
   }
   

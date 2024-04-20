@@ -1,0 +1,9 @@
+{
+  "name": "admin-fsm-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/admin-fsm-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["admin-fsm"],
+  "// targets": "to see all targets run: nx show project admin-fsm-e2e --web",
+  "targets": {}
+}
