@@ -23,9 +23,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       back: () => router.push(routes.store.inventory.index),
       backComponent: <span>Inventory</span>,
     });
-  }, []);
 
-  console.log(collections);
+    return () => setLayout({});
+  }, []);
 
   return (
     <div className="flex gap-10 h-full">

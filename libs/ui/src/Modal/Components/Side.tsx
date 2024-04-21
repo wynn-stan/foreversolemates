@@ -81,11 +81,16 @@ export function Side({
                 'sticky top-0 bg-white z-[1]'
               )}
             >
-              <div className="flex items-center justify-center relative">
-                <button onClick={() => onHide?.()} className="absolute left-0">
+              <div
+                className={clsx(
+                  direction === 'left' ? 'flex-row' : 'flex-row-reverse',
+                  'flex gap-4 items-center justify-between'
+                )}
+              >
+                <p className="text-lg font-semibold">{header}</p>
+                <button onClick={() => onHide?.()} className="">
                   <X />
                 </button>
-                <p className="text-lg font-semibold">{header}</p>
               </div>
             </div>
           )}

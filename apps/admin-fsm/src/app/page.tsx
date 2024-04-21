@@ -7,7 +7,7 @@ export default function Index() {
   const token = cookies().get('token');
 
   if (token?.value) {
-    redirect(routes.system.admin_users.index);
+    redirect(routes.store.inventory.index);
   } else {
     redirect(routes.auth.login.index);
   }

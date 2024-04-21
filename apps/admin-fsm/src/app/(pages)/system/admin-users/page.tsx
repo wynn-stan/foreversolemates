@@ -31,7 +31,6 @@ export default function Page() {
     totalCount: number;
     totalPages: number;
   }>('/secure/user/accounts');
-  console.log(data);
 
   //variables
   const users = data?.data || [];

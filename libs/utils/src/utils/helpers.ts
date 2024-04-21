@@ -12,7 +12,7 @@ export const classNames = (...classes: any) => {
 //   simpleLineBreaks: true,
 // });
 
-export const currencyFormatter = (amount: number, currency = 'USD') => {
+export const currencyFormatter = (amount: number, currency = 'GHS') => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,

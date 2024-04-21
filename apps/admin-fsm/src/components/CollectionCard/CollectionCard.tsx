@@ -40,7 +40,7 @@ export default function LocalCollectionCard({
         <StyledImage className="hidden">
           <Image
             unoptimized
-            className="2xl:w-[200px] 2xl:h-[200px] object-contain"
+            className="w-[150px] h-[150px] 2xl:w-[200px] 2xl:h-[200px] object-contain"
             width={150}
             height={150}
             alt="banner_image"

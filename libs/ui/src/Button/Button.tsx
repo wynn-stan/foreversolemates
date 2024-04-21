@@ -11,7 +11,8 @@ type Variant =
   | 'alert'
   | 'outline-secondary'
   | 'outline-tertiary'
-  | 'outline-alert';
+  | 'outline-alert'
+  | 'outline-black';
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
@@ -40,6 +41,7 @@ export default function Button({
     'outline-secondary': 'text-black border border-gray-10',
     'outline-tertiary': 'text-black border border-gray-30',
     'outline-alert': 'text-red-40 bg-white border border-red-10',
+    'outline-black': 'text-black bg-white border border-black',
   };
 
   return (

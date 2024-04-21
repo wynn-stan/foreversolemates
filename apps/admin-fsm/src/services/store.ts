@@ -12,3 +12,8 @@ export const updateCollectionService = (id: string, payload: object) =>
 
 export const deleteCollectionService = (id: string) =>
   http.delete<never, any>(`/secure/delete/collection/${id}`);
+
+export const addProductService = (payload: object) =>
+  http.post<typeof payload, any>('/secure/add/product', payload, {
+    headers: { 'content-type': 'multipart/form-data' },
+  });
