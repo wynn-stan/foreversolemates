@@ -9,6 +9,7 @@ export default function Input({
   return (
     <Field
       className={twMerge(
+        'placeholder:text-gray-20',
         `outline-none py-3 px-4 border border-gray-10 w-full ${className}`
       )}
       name={name}

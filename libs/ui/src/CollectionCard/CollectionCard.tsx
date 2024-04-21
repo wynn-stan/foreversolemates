@@ -3,6 +3,7 @@ import Image from 'next/image';
 import AllCollections from './AllCollections';
 import styled from 'styled-components';
 import { HTMLAttributes } from 'react';
+import LoadingCard from './LoadingCard';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   topTagline?: string;
@@ -57,4 +58,4 @@ function CollectionCard({
   );
 }
 
-export default Object.assign(CollectionCard, { AllCollections });
+export default Object.assign(CollectionCard, { AllCollections, LoadingCard });

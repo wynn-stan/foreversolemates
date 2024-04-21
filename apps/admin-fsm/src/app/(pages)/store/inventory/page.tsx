@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Dropdown } from '@fsm/ui';
+import { Button, CollectionCard, Dropdown } from '@fsm/ui';
 import { LocalCollectionCard, SectionHeader } from '../../../../components';
 import useSWR from 'swr';
 import queryString from 'query-string';
@@ -8,15 +8,19 @@ import { CollectionModel, PaginatedData } from '../../../../models';
 import { ChevronDownIcon } from 'lucide-react';
 import Add from './(components)/Add';
 import { useState } from 'react';
+import Delete from './(components)/Delete';
+import Update from './(components)/Update';
 
 export default function Page() {
   //state
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showRemove, setShowRemove] = useState(false);
+  const [selectedCollection, setSelectedCollection] =
+    useState<CollectionModel>();
 
   //api
-  const { data } = useSWR<PaginatedData<CollectionModel>>(
+  const { data, isLoading, mutate } = useSWR<PaginatedData<CollectionModel>>(
     `/secure/collections?${queryString.stringify({
       page: 1,
       size: 10,
@@ -47,6 +51,15 @@ export default function Page() {
 
         {/* Collection Cards */}
         <div className="flex gap-10 flex-wrap">
+          {/* Loading state */}
+          {isLoading && (
+            <>
+              {Array.from({ length: 3 }, (_, i) => (
+                <CollectionCard.LoadingCard key={i} />
+              ))}
+            </>
+          )}
+
           {collections.length ? (
             <>
               <LocalCollectionCard
@@ -81,8 +94,21 @@ export default function Page() {
                           </Button>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item>Update collection</Dropdown.Item>
-                          <Dropdown.Item className="text-red-40">
+                          <Dropdown.Item
+                            onClick={() => {
+                              setSelectedCollection(item);
+                              setShowEdit(true);
+                            }}
+                          >
+                            Update collection
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={() => {
+                              setSelectedCollection(item);
+                              setShowRemove(true);
+                            }}
+                            className="text-red-40"
+                          >
                             Remove collection
                           </Dropdown.Item>
                         </Dropdown.Menu>
@@ -97,8 +123,28 @@ export default function Page() {
           )}
         </div>
       </div>
+      {/* Add Collection Modal */}
+      <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
 
-      <Add show={showAdd} onHide={() => setShowAdd(false)} />
+      {/* Delete Collection Modal */}
+      {selectedCollection?._id && (
+        <Delete
+          details={selectedCollection}
+          mutate={mutate}
+          show={showRemove}
+          onHide={() => setShowRemove(false)}
+        />
+      )}
+
+      {/* Update Collection Modal */}
+      {selectedCollection?._id && showEdit && (
+        <Update
+          details={selectedCollection}
+          mutate={mutate}
+          show={showEdit}
+          onHide={() => setShowEdit(false)}
+        />
+      )}
     </>
   );
 }

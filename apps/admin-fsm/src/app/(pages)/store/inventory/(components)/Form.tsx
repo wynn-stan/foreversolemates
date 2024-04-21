@@ -1,16 +1,109 @@
-import { Formik } from 'formik';
+import { schema } from '@foreversolemates/utils';
+import { Button, Field } from '@fsm/ui';
+import { addCollectionService } from 'apps/admin-fsm/src/services/store';
+import { Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 
-export default function Form() {
+interface IForm {
+  name: string;
+  top_tagline: string;
+  bottom_tagline: string;
+}
+
+interface Props {
+  onSubmit: (
+    params: IForm & { image: File },
+    actions: FormikHelpers<IForm & { image: File }>
+  ) => void;
+  defaultValues?: Partial<IForm & { image: string }>;
+}
+
+export default function Form({ defaultValues, onSubmit }: Props) {
   return (
     <Formik
+      validateOnMount
       validationSchema={yup.object({
         name: yup.string().required('Collection name is required'),
+        top_tagline: yup.string().required('Top tagline name is required'),
+        bottom_tagline: yup.string().required('Bottom tagline is required'),
+        image: schema.requireFile({
+          field: 'image',
+        }),
       })}
-      initialValues={{ name: '', top_tagline: '', bottom_tagline: '' }}
-      onSubmit={() => {}}
+      initialValues={{
+        name: defaultValues?.name || '',
+        top_tagline: defaultValues?.top_tagline || '',
+        bottom_tagline: defaultValues?.bottom_tagline || '',
+        image: {} as File,
+      }}
+      onSubmit={(params, actions) => {
+        onSubmit(params, actions);
+      }}
     >
-      {({ values, isSubmitting, handleSubmit }) => <></>}
+      {({
+        values,
+        errors,
+        isSubmitting,
+        isValid,
+        handleSubmit,
+        setFieldValue,
+      }) => (
+        <div className="space-y-4">
+          <Field.Group
+            wrapperClassName="!space-y-3"
+            name="image"
+            label="Banner Image"
+          >
+            {values.image?.name ? (
+              <Field.ImageUpload.Preview
+                file={values.image}
+                onClose={() => setFieldValue('image', {} as File)}
+              />
+            ) : (
+              <Field.ImageUpload
+                onChange={(files) => {
+                  setFieldValue('image', files[0]);
+                }}
+              />
+            )}
+          </Field.Group>
+
+          <Field.Group name="name" label="Collection Name">
+            <Field.Input
+              name="name"
+              value={values.name}
+              placeholder="Collection name"
+            />
+          </Field.Group>
+
+          <Field.Group name="top_tagline" label="Top tagline">
+            <Field.Input
+              name="top_tagline"
+              value={values.top_tagline}
+              placeholder="Top tagline"
+            />
+          </Field.Group>
+
+          <Field.Group name="bottom_tagline" label="Bottom tagline">
+            <Field.Input
+              name="bottom_tagline"
+              value={values.bottom_tagline}
+              placeholder="Bottom tagline"
+            />
+          </Field.Group>
+
+          <div className="flex justify-end">
+            <Button
+              className="!rounded-md"
+              onClick={() => handleSubmit()}
+              disabled={!isValid}
+              {...{ isSubmitting }}
+            >
+              {defaultValues?.name ? 'Update Collection' : 'Add Collection'}
+            </Button>
+          </div>
+        </div>
+      )}
     </Formik>
   );
 }

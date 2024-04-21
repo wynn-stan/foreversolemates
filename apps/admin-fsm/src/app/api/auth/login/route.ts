@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     cookies().set({
       name: 'token',
-      value: data.token,
+      value: data?.token,
       httpOnly: true,
       path: '/',
       sameSite: 'strict',
