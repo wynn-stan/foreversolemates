@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify({ email: data?.email }), {
       status: 200,
-      headers: { 'Set-Cookie': `token=${data.token}` },
+      headers: { 'Set-Cookie': `token=${data?.token}` },
     });
   } catch (error: any) {
     const data = error.response.data;

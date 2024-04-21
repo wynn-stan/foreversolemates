@@ -55,8 +55,8 @@ export default function Page() {
                 router.push('/');
               })
               .catch((err: { response: { data: { message: string } } }) => {
-                toast.error(helpers.capitalize(err?.response?.data?.message));
                 setSubmitting(false);
+                toast.error(helpers.capitalize(err?.response?.data?.message));
               });
           }}
         >

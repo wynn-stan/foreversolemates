@@ -6,7 +6,7 @@ export const addCollectionService = (payload: object) =>
   });
 
 export const updateCollectionService = (id: string, payload: object) =>
-  http.post<typeof payload, any>(`/secure/update/collection/${id}`, payload, {
+  http.patch<typeof payload, any>(`/secure/update/collection/${id}`, payload, {
     headers: { 'content-type': 'multipart/form-data' },
   });
 

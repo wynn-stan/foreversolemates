@@ -10,6 +10,7 @@ export default function Add({ show, onHide, mutate }: Props) {
   return (
     <Modal header="Add Collection" size="sm" {...{ show, onHide }}>
       <Form
+        onCancel={onHide}
         onSubmit={(params, { setSubmitting }) => {
           const formData = new FormData();
           formData.append('name', params.name);

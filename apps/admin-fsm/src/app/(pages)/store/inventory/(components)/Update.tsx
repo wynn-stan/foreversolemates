@@ -3,6 +3,7 @@ import { ModalProps } from '../../../../../models';
 import Form from './Form';
 import { updateCollectionService } from '../../../../../services/store';
 import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
 interface Props extends ModalProps {
   details: {
@@ -16,23 +17,71 @@ interface Props extends ModalProps {
 }
 
 export default function Update({ show, onHide, mutate, details }: Props) {
+  //state
+  const [imageFile, setImageFile] = useState<File>();
+
+  //variables
+  const filename = (() => {
+    const list = details.banner_image?.split('/') || [];
+    return list[list.length - 1];
+  })();
+
+  //variables - form default values
+  const defaultValues = {
+    name: details.collection_name,
+    ...details,
+    image: imageFile,
+  };
+
+  //get blob from image
+  //effect
+  useEffect(() => {
+    details.banner_image &&
+      fetch(details.banner_image)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const file_type = (() => {
+            const list = filename.split('.');
+            return list[list.length - 1];
+          })();
+          const file = new File([blob], filename, { type: file_type });
+          console.log(file);
+          setImageFile(file);
+        });
+  }, []);
+
   return (
     <Modal header="Update Collection" size="sm" {...{ show, onHide }}>
-      <Form
-        defaultValues={{ name: details.collection_name, ...details }}
-        onSubmit={(params, { setSubmitting }) => {
-          //   updateCollectionService(formData)
-          //     .then(() => {
-          //       toast.success('Collection updated successfully');
-          //       mutate && mutate();
-          //       onHide();
-          //     })
-          //     .catch(() => {
-          //       toast.error('Unable to update collection. Please try again');
-          //       setSubmitting(false);
-          //     });
-        }}
-      />
+      {(details?.banner_image && imageFile) || !details.banner_image ? (
+        <Form
+          onCancel={onHide}
+          defaultValues={defaultValues}
+          onSubmit={(params, { setSubmitting }) => {
+            const formData = new FormData();
+            formData.append('name', params.name);
+            formData.append('top_tagline', params.top_tagline);
+            formData.append('bottom_tagline', params.bottom_tagline);
+            formData.append('image', params.image);
+
+            updateCollectionService(details._id, formData)
+              .then(() => {
+                toast.success('Collection updated successfully');
+                mutate && mutate();
+                onHide();
+              })
+              .catch(() => {
+                toast.error('Unable to update collection. Please try again');
+                setSubmitting(false);
+              });
+          }}
+        />
+      ) : (
+        <div className="space-y-4">
+          {Array.from({ length: 5 }, (_, i) => (
+            <div className="min-w-[100px] w-full h-[25px] bg-gray-20 animate-pulse" />
+          ))}
+        </div>
+      )}
     </Modal>
   );
 }
