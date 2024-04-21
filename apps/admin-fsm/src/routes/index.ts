@@ -11,6 +11,12 @@ const routes = {
   store: {
     inventory: {
       index: '/store/inventory',
+      all: {
+        index: '/store/inventory/all',
+      },
+      collection: {
+        index: '/store/inventory/collection/[id]',
+      },
     },
     customer_management: {
       index: '/store/customer-management',

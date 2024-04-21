@@ -33,7 +33,8 @@ export default function Update({ show, onHide, mutate, details }: Props) {
     image: imageFile,
   };
 
-  //get blob from image
+  //since we are given the image url from api, get the blob of that and make it a file
+
   //effect
   useEffect(() => {
     details.banner_image &&
@@ -45,7 +46,6 @@ export default function Update({ show, onHide, mutate, details }: Props) {
             return list[list.length - 1];
           })();
           const file = new File([blob], filename, { type: file_type });
-          console.log(file);
           setImageFile(file);
         });
   }, []);

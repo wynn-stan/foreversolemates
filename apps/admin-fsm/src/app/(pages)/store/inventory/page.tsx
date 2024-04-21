@@ -1,17 +1,24 @@
 'use client';
 
 import { Button, CollectionCard, Dropdown } from '@fsm/ui';
-import { LocalCollectionCard, SectionHeader } from '../../../../components';
-import useSWR from 'swr';
-import queryString from 'query-string';
-import { CollectionModel, PaginatedData } from '../../../../models';
 import { ChevronDownIcon } from 'lucide-react';
-import Add from './(components)/Add';
-import { useState } from 'react';
+import queryString from 'query-string';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import useSWR from 'swr';
+
+import { LocalCollectionCard, SectionHeader } from '../../../../components';
+import { CollectionModel, PaginatedData } from '../../../../models';
+import { useLayout } from '../../../../hooks';
 import Delete from './(components)/Delete';
 import Update from './(components)/Update';
+import routes from '../../../../routes';
+import Add from './(components)/Add';
 
 export default function Page() {
+  //hooks
+  const { setLayout } = useLayout();
+
   //state
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -29,6 +36,11 @@ export default function Page() {
 
   //variables
   const collections = data?.data || [];
+
+  //effect
+  useEffect(() => {
+    setLayout({});
+  }, []);
 
   return (
     <>
@@ -68,9 +80,9 @@ export default function Page() {
                 bannerImage={'/assets/all-collections.png'}
                 collectionName={'All Products'}
                 actions={
-                  <>
+                  <Link href={routes.store.inventory.all.index}>
                     <Button className="rounded-md">View</Button>
-                  </>
+                  </Link>
                 }
               />
 
@@ -81,7 +93,7 @@ export default function Page() {
                   bannerImage={item.banner_image}
                   collectionName={item.collection_name}
                   actions={
-                    <div className="flex gap-4">
+                    <div className="flex gap-2">
                       <Button className="rounded-md">View</Button>
                       <Dropdown>
                         <Dropdown.Toggle>

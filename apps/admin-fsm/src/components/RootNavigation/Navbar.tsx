@@ -44,7 +44,7 @@ export default function Navbar({ isOpen, setIsOpen }: Navbar) {
             >
               <ArrowLeftIcon />
             </span>
-            {layout?.backComponent}
+            <span className="text-2xl font-bold">{layout?.backComponent}</span>
           </div>
         ) : (
           <div className="flex items-center gap-4 text-lg font-bold">

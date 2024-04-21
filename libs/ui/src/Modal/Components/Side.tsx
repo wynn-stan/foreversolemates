@@ -12,6 +12,7 @@ export interface SideProps {
   onHide?: () => void;
   direction?: 'left' | 'right';
   children: any;
+  containerClassName?: string;
 }
 
 export function Side({
@@ -20,6 +21,7 @@ export function Side({
   header,
   children,
   direction = 'right',
+  containerClassName,
 }: SideProps) {
   /**
    * variables
@@ -63,9 +65,10 @@ export function Side({
           className={clsx(
             'bg-white',
             'flex flex-col',
-            'h-full w-full max-w-[520px]',
+            'h-full w-fit',
             'fixed top-0 overflow-y-auto z-[1050]',
-            direction === 'left' ? 'left-0' : 'right-0'
+            direction === 'left' ? 'left-0' : 'right-0',
+            containerClassName
           )}
         >
           {/* header

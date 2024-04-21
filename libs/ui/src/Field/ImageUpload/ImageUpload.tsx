@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { PlusIcon, X } from 'lucide-react';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -45,9 +45,14 @@ function ImageUpload({ onChange }: Props) {
 }
 
 function Preview({ url, file, onClose }: PreviewProps) {
+  //memo
+  const objectUrl = useMemo(() => {
+    return file ? URL.createObjectURL(file) : '';
+  }, [file]);
+
   return (
     <StyledInput className="relative">
-      {file ? <StyledImage src={URL.createObjectURL(file)} /> : ''}
+      {file ? <StyledImage src={objectUrl} /> : ''}
       {url ? <StyledImage src={url} /> : ''}
 
       {onClose ? (
