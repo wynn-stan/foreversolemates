@@ -21,7 +21,7 @@ export default function Compact({
   const initial_price = details.initial_price;
   const discounted_price = details.discount
     ? initial_price - initial_price * (details.discount / 100)
-    : details.discount;
+    : details.initial_price;
 
   return (
     <div className="space-y-4 max-w-[250px]">
@@ -38,13 +38,12 @@ export default function Compact({
       <div className="space-y-1">
         <div className="text-xl font-medium">{details.product_name}</div>
 
-        <div className="flex gap-1 items-baseline">
-          <div className="text-base">
-            {helpers.currencyFormatter(initial_price)}
-          </div>
-          {discounted_price ? (
+        <div className="flex gap-2 items-baseline">
+          {helpers.currencyFormatter(discounted_price)}
+
+          {details.discount ? (
             <div className="text-sm text-gray-30 line-through">
-              {helpers.currencyFormatter(discounted_price)}
+              {helpers.currencyFormatter(initial_price)}
             </div>
           ) : (
             ''

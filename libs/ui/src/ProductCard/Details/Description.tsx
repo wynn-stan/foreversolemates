@@ -4,7 +4,7 @@ interface Props {
 
 export default function Description({ description }: Props) {
   return (
-    <div>
+    <div className="w-full">
       <div className="font-medium text-sm w-[80px] pb-1 border-b-2 border-black">
         Description
       </div>

@@ -38,3 +38,41 @@ export const fullname = ({
 
 export const capitalize = (string: string) =>
   string.charAt(0).toUpperCase() + string.slice(1);
+
+export const getFilesFromImageUrls = async (urls: string[]) => {
+  //variables - get filenames for each url
+  const filenames = (() => {
+    const list = urls?.map((url) => {
+      const all_list = url.split('/');
+      return all_list[all_list.length - 1];
+    });
+    return list || [];
+  })();
+
+  //store all request
+  const fetch_requests = urls.map((item) =>
+    fetch(item).then((res) => res.blob())
+  );
+
+  //getting the files after all requests are made
+  const image_files = await Promise.all(fetch_requests).then((blobs) => {
+    //create a file for each blob
+    return blobs.map((blob, index) => {
+      //get the file type
+      const file_type = (() => {
+        const list = filenames?.[index]?.split('.');
+        return list[list.length - 1];
+      })();
+
+      //create the file
+      const file = new File([blob], filenames?.[index], {
+        type: file_type,
+      });
+
+      //end
+      return file;
+    });
+  });
+
+  return image_files;
+};

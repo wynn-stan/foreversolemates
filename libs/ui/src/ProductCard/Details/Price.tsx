@@ -11,18 +11,18 @@ export default function Price({ initial_price, discount, className }: Props) {
   //variables
   const discounted_price = discount
     ? initial_price - initial_price * (discount / 100)
-    : discount;
+    : initial_price;
 
   return (
     <div
       className={clsx('flex gap-3 items-baseline tracking-tight', className)}
     >
       <div className="text-lg font-medium ">
-        {currencyFormatter(initial_price)}
+        {currencyFormatter(discounted_price || initial_price)}
       </div>
-      {discounted_price ? (
+      {discount ? (
         <div className="text-sm text-gray-30 line-through">
-          {currencyFormatter(discounted_price)}
+          {currencyFormatter(initial_price)}
         </div>
       ) : (
         ''

@@ -31,7 +31,7 @@ function Details({ checkedSize, onSizeClick, details }: Props) {
   return (
     <div className={clsx('flex flex-col md:flex-row gap-4')}>
       <Images urls={details.images} />
-      <div className="space-y-3">
+      <div className="space-y-3 flex-grow ">
         <div className="">
           <div className="text-3xl tracking-tight font-medium">
             {details.product_name}

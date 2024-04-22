@@ -22,7 +22,7 @@ export default function Add({ mutate, show, onHide }: Props) {
     >
       <Form
         actionType="Add"
-        onSubmit={async (params, { setSubmitting }) => {
+        onSubmit={(params, { setSubmitting }) => {
           //variables
           const final_price = getFinalPrice(
             params.initial_price,

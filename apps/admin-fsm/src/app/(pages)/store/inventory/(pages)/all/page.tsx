@@ -13,6 +13,7 @@ import { PaginatedData, ProductModel } from '../../../../../../models';
 import Add from '../(components)/Add';
 import Preview from '../(components)/Preview';
 import Update from '../(components)/Update';
+import Delete from '../(components)/Delete';
 
 export default function Page() {
   //hooks
@@ -102,7 +103,8 @@ export default function Page() {
       )}
 
       {selectedProduct && showDelete && (
-        <Preview
+        <Delete
+          mutate={mutate}
           details={selectedProduct}
           show={showDelete}
           onHide={() => setShowDelete(false)}

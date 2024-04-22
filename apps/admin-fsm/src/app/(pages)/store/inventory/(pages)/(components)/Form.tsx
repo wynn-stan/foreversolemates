@@ -76,6 +76,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
             ' flex flex-col justify-between'
           )}
         >
+          <>{console.log(values.collection_id, collectionOptions)}</>
           <div className="space-y-6">
             <AddImages
               label="Product images"
@@ -201,6 +202,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
             <Button variant="outline-secondary" icon="eye">
               Preview
             </Button>
+            <>{console.log(isSubmitting)}</>
 
             <Button
               onClick={() => handleSubmit()}

@@ -6,6 +6,7 @@ import { ModalProps, ProductModel } from '../../../../../../models';
 import { getFinalPrice } from './Form/Utils';
 import Form from './Form';
 import { useEffect, useState } from 'react';
+import { helpers } from '@foreversolemates/utils';
 
 interface Props extends ModalProps {
   mutate: () => void;
@@ -16,15 +17,6 @@ export default function Update({ details, mutate, show, onHide }: Props) {
   //state
   const [imageFiles, setImageFiles] = useState<File[]>();
 
-  //variables
-  const filenames = (() => {
-    const list = details?.images?.map((url) => {
-      const all_list = url.split('/');
-      return all_list[all_list.length - 1];
-    });
-    return list || [];
-  })();
-
   //variables - form default values
   const defaultValues = {
     ...details,
@@ -34,29 +26,10 @@ export default function Update({ details, mutate, show, onHide }: Props) {
 
   //effect
   useEffect(() => {
-    //since we are given the image url from api, get the blob of that and make it a file
-
-    const fetch_requests = details?.images?.map((item) =>
-      fetch(item).then((res) => res.blob())
-    );
-
-    details.images?.length &&
-      details.images.map(async (image, index) => {
-        const image_files = await Promise.all(fetch_requests).then((blobs) => {
-          return blobs.map((blob, index) => {
-            const file_type = (() => {
-              const list = filenames?.[index]?.split('.');
-              return list[list.length - 1];
-            })();
-            const file = new File([blob], filenames?.[index], {
-              type: file_type,
-            });
-            return file;
-          });
-        });
-
-        setImageFiles(image_files);
-      });
+    const files = helpers.getFilesFromImageUrls(details.images);
+    files.then((files) => {
+      return setImageFiles(files);
+    });
   }, []);
 
   return (
@@ -68,8 +41,8 @@ export default function Update({ details, mutate, show, onHide }: Props) {
     >
       <Form
         defaultValues={{ ...defaultValues }}
-        actionType="Add"
-        onSubmit={async (params, { setSubmitting }) => {
+        actionType="Update"
+        onSubmit={(params, { setSubmitting }) => {
           //variables
           const final_price = getFinalPrice(
             params.initial_price,

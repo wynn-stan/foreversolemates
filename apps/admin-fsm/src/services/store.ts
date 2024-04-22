@@ -23,5 +23,5 @@ export const updateProductService = (id: string, payload: object) =>
     headers: { 'content-type': 'multipart/form-data' },
   });
 
-export const deleteProductService = (id: string, payload: object) =>
-  http.patch<typeof payload, any>(`/secure/delete/product/${id}`, payload, {});
+export const deleteProductService = (id: string) =>
+  http.delete<never, any>(`/secure/delete/product/${id}`);

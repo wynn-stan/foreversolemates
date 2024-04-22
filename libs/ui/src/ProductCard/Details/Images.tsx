@@ -34,7 +34,7 @@ export default function Images({ urls }: Props) {
       <div className="flex justify-center">
         <Image
           unoptimized
-          className=""
+          className="w-[335px] h-[450px] object-cover"
           width={335}
           height={450}
           src={currentImage}
