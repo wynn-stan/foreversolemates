@@ -34,7 +34,10 @@ const useGetCollections = () => {
     },
   ];
 
-  return { collections };
+  // for select component
+  const collectionOptions = list;
+
+  return { collections, collectionOptions };
 };
 
 export default useGetCollections;

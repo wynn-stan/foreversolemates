@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Spinner from '../Spinner/Spinner';
-import { PlusIcon } from 'lucide-react';
+import { ChevronDownIcon, EyeIcon, PlusIcon } from 'lucide-react';
 
 type Variant =
   | 'default'
@@ -16,7 +16,7 @@ type Variant =
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
-  icon?: 'plus';
+  icon?: 'plus' | 'eye' | 'chevrondown';
 }
 
 export default function Button({
@@ -62,6 +62,8 @@ export default function Button({
       <>
         {icon && icon === 'plus' ? <PlusIcon size={20} /> : <></>}
         {children}
+        {icon && icon === 'eye' ? <EyeIcon size={20} /> : <></>}
+        {icon && icon === 'chevrondown' ? <ChevronDownIcon size={20} /> : <></>}
       </>
     </button>
   );

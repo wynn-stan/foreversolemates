@@ -30,7 +30,6 @@ export default function Page() {
   );
 
   const products = data?.data || [];
-  console.log(products);
 
   return (
     <>

@@ -11,10 +11,13 @@ interface Props extends ModalProps {
 
 export default function Add({ mutate, show, onHide }: Props) {
   return (
-    <Modal.Side direction="right" header="Add User" {...{ show, onHide }}>
-      <div className="max-w-[500px] w-full">
-        <Form onSubmit={(params, { setSubmitting }) => {}} />
-      </div>
+    <Modal.Side
+      containerClassName="!w-full max-w-[600px]"
+      direction="right"
+      header="Add Product"
+      {...{ show, onHide }}
+    >
+      <Form actionType="Add" onSubmit={(params, { setSubmitting }) => {}} />
     </Modal.Side>
   );
 }
