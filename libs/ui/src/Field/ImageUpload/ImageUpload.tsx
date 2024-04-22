@@ -59,8 +59,8 @@ function Preview({ url, file, onClose }: PreviewProps) {
         <span
           onClick={onClose}
           className={clsx(
-            'cursor-pointer rounded-full border border-gray-30',
-            'absolute right-[-7px] top-[-7px]'
+            'cursor-pointer rounded-full bg-gray-20 p-[2px]',
+            'absolute right-[-8px] top-[-8px]'
           )}
         >
           <X size={12} />

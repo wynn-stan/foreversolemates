@@ -8,6 +8,8 @@ import * as yup from 'yup';
 import clsx from 'clsx';
 import AddAvailableAttribute from './Form/AddAvailableAttribute';
 import AddImages from './Form/AddImages';
+import { getFinalPrice } from './Form/Utils';
+import { schema } from '@foreversolemates/utils';
 
 interface IForm {
   collection_id: string;
@@ -30,24 +32,29 @@ interface Props {
 
 export default function Form({ onSubmit, defaultValues, actionType }: Props) {
   //hooks
-  const { collections } = options.useGetCollections();
+  const { collections, collectionOptions } = options.useGetCollections();
 
-  //variables
-  const collectionOptions =
-    collections?.map((item) => ({
-      label: item.collection_name,
-      value: item.id,
-    })) || [];
-
-  //functions
-  const getFinalPrice = (initial: number, discount: number) => {
-    return initial - initial * (discount / 100);
-  };
   return (
     <Formik
       enableReinitialize
       validateOnMount
-      validationSchema={yup.object({})}
+      validationSchema={yup.object({
+        name: schema.requireString('Product name'),
+        collection_id: schema.requireString('Collection'),
+        initial_price: schema.requireNumber('Initial price').min(1),
+        available_units: schema.requireNumber('Available units').min(1),
+        alert: schema.requireNumber('Low stock indicator'),
+        description: schema.requireString('Description'),
+        images: yup.array().of(
+          schema.requireFile({
+            field: 'image',
+          })
+        ),
+        available_sizes: yup.array().of(schema.requireNumber('Available size')),
+        available_colors: yup
+          .array()
+          .of(schema.requireString('Available colors')),
+      })}
       initialValues={{
         collection_id: '',
         name: '',
@@ -69,11 +76,16 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
             ' flex flex-col justify-between'
           )}
         >
+          <>{console.log(values)}</>
+
           <div className="space-y-6">
             <AddImages
               label="Product images"
               name="images"
               images={values.images}
+              onAdd={(file) =>
+                setFieldValue('images', [...values.images, file])
+              }
             />
 
             <Field.Group name="collection_id" label="Collection">
@@ -137,6 +149,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                 label="Available units"
               >
                 <Field.Input
+                  type="number"
                   name="available_units"
                   placeholder="0"
                   value={values.available_units}
@@ -149,6 +162,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                 label="Low stock indicator"
               >
                 <Field.Input
+                  type="number"
                   name="alert"
                   placeholder="0"
                   value={values.alert}
@@ -191,6 +205,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
             </Button>
 
             <Button
+              onClick={() => handleSubmit()}
               disabled={!isValid}
               variant={actionType === 'Delete' ? 'alert' : 'default'}
               {...{ isSubmitting }}

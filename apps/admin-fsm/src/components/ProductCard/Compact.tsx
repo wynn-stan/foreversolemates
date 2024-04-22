@@ -8,9 +8,15 @@ interface Props {
   details: ProductModel;
   onUpdate: (selectedProduct: ProductModel) => void;
   onDelete: (selectedProduct: ProductModel) => void;
+  onPreview: (selectedProduct: ProductModel) => void;
 }
 
-export default function Compact({ onDelete, onUpdate, details }: Props) {
+export default function Compact({
+  onDelete,
+  onUpdate,
+  details,
+  onPreview,
+}: Props) {
   //variables
   const initial_price = details.initial_price;
   const discounted_price = details.discount
@@ -48,7 +54,11 @@ export default function Compact({ onDelete, onUpdate, details }: Props) {
 
       {/* Actions */}
       <div className="flex gap-4">
-        <Button className="flex gap-2 !rounded-md" variant="outline-black">
+        <Button
+          onClick={() => onPreview(details)}
+          className="flex gap-2 !rounded-md"
+          variant="outline-black"
+        >
           <span>Preview</span>
           <EyeIcon size={20} />
         </Button>

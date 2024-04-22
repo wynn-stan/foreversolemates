@@ -35,7 +35,10 @@ const useGetCollections = () => {
   ];
 
   // for select component
-  const collectionOptions = list;
+  const collectionOptions = list.map((item) => ({
+    label: item.collection_name,
+    value: item.id,
+  }));
 
   return { collections, collectionOptions };
 };

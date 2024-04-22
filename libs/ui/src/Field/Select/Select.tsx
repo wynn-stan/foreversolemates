@@ -28,7 +28,7 @@ export default function LocalSelect({
     <Select
       className={className}
       placeholder={placeholder}
-      value={value}
+      inputId={value}
       options={options}
       onChange={onChange}
     />

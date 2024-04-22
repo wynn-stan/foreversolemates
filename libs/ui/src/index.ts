@@ -11,3 +11,4 @@ export { default as Modal } from './Modal/Modal';
 export { default as CollectionCard } from './CollectionCard/CollectionCard';
 export { default as Collection } from './Collection/Collection';
 export { default as Pill } from './Pill/Pill';
+export { default as ProductCard } from './ProductCard/ProductCard';

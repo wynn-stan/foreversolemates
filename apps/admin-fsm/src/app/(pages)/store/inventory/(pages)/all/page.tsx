@@ -11,6 +11,7 @@ import queryString from 'query-string';
 import { ProductCard } from '../../../../../../components';
 import { PaginatedData, ProductModel } from '../../../../../../models';
 import Add from '../(components)/Add';
+import Preview from '../(components)/Preview';
 
 export default function Page() {
   //hooks
@@ -20,6 +21,8 @@ export default function Page() {
   const [showAdd, setShowAdd] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductModel>();
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
@@ -56,6 +59,10 @@ export default function Page() {
               <div key={key}>
                 <ProductCard.Compact
                   details={item}
+                  onPreview={(details) => {
+                    setSelectedProduct(details);
+                    setShowPreview(true);
+                  }}
                   onDelete={() => {}}
                   onUpdate={() => {}}
                 />
@@ -69,6 +76,8 @@ export default function Page() {
 
       {/* Modals */}
       <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
+
+      <Preview show={showPreview} onHide={() => setShowPreview(false)} />
     </>
   );
 }

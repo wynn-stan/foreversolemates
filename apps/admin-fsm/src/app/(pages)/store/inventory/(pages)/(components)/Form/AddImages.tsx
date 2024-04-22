@@ -7,33 +7,34 @@ interface Props {
   images: File[];
   name: string;
   label: string;
+  onAdd: (file: File) => void;
 }
 
-export default function AddImages({ images, name, label }: Props) {
+export default function AddImages({ images, name, label, onAdd }: Props) {
   return (
-    <FieldArray name={name}>
-      {(arrayHelpers) => (
-        <Field.Group label={label} name={name}>
-          <div className="flex gap-3 overflow-y-auto">
-            {images.map((image, index) => (
-              <>
-                {/* 
-              <Field.ImageUpload.Preview
-                key={index}
-                file={image}
-                onClose={() => arrayHelpers.remove(index)}
+    <Field.Group wrapperClassName="" name={name} label={label}>
+      <div className="w-full flex gap-3">
+        <FieldArray name={name}>
+          {(arrayHelpers) => (
+            <div className="flex flex-wrap gap-3">
+              {images.map((image, index) => (
+                <>
+                  <Field.ImageUpload.Preview
+                    key={index}
+                    file={image}
+                    onClose={() => arrayHelpers.remove(index)}
+                  />
+                </>
+              ))}
+              <Field.ImageUpload
+                onChange={(file) => {
+                  onAdd(file[0]);
+                }}
               />
-              */}
-              </>
-            ))}
-            <Field.ImageUpload
-              onChange={(file) => {
-                arrayHelpers.push(file[0]);
-              }}
-            />
-          </div>
-        </Field.Group>
-      )}
-    </FieldArray>
+            </div>
+          )}
+        </FieldArray>
+      </div>
+    </Field.Group>
   );
 }
