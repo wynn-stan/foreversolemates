@@ -25,10 +25,10 @@ export default function Compact({
 
   return (
     <div className="space-y-4 max-w-[250px]">
-      <div className="bg-gray-100 w-[250px] h-[250px]">
+      <div className="bg-gray-10 w-[250px] h-[250px]">
         <Image
           unoptimized
-          className="w-full h-full"
+          className="w-full h-full object-cover"
           src={details.images[0]}
           alt="product_image"
           width={250}

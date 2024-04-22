@@ -13,7 +13,7 @@ export interface ModalProps extends Restart.ModalProps {
   index?: number;
   header?: string | React.ReactNode;
   size?: 'sm' | 'lg' | 'xl' | 'full';
-  dialogProps?: HTMLProps<HTMLDivElement>;
+  className?: string;
 }
 
 export function Modal({
@@ -24,7 +24,7 @@ export function Modal({
   children,
   index = 0,
   backdrop,
-  dialogProps,
+  className,
   ...props
 }: ModalProps) {
   /**
@@ -41,7 +41,7 @@ export function Modal({
       case 'full':
         return 'max-w-full h-screen overflow-y-auto !my-0';
       default:
-        return 'max-w-[564px] rounded-lg';
+        return 'rounded-lg';
     }
   })();
 
@@ -136,7 +136,7 @@ export function Modal({
           'relative',
           'mx-auto w-full my-6',
           'min-h-[calc(100%-3rem)]',
-          dialogProps?.className
+          className
         )}
       >
         <div

@@ -11,7 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useStore } from '../../../hooks';
 import { useEffect } from 'react';
-import { confirmAdminAccountService } from 'apps/admin-fsm/src/services/user';
+import { confirmAdminAccountService } from '../../../services/user';
 
 export default function Page() {
   //hooks

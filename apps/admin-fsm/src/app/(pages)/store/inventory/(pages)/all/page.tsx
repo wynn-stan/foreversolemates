@@ -12,6 +12,7 @@ import { ProductCard } from '../../../../../../components';
 import { PaginatedData, ProductModel } from '../../../../../../models';
 import Add from '../(components)/Add';
 import Preview from '../(components)/Preview';
+import Update from '../(components)/Update';
 
 export default function Page() {
   //hooks
@@ -54,7 +55,7 @@ export default function Page() {
         </div>
 
         {products?.length ? (
-          <div>
+          <div className="flex gap-12 flex-wrap">
             {products.map((item, key) => (
               <div key={key}>
                 <ProductCard.Compact
@@ -63,8 +64,14 @@ export default function Page() {
                     setSelectedProduct(details);
                     setShowPreview(true);
                   }}
-                  onDelete={() => {}}
-                  onUpdate={() => {}}
+                  onDelete={(details) => {
+                    setSelectedProduct(details);
+                    setShowDelete(true);
+                  }}
+                  onUpdate={(details) => {
+                    setSelectedProduct(details);
+                    setShowUpdate(true);
+                  }}
                 />
               </div>
             ))}
@@ -77,7 +84,30 @@ export default function Page() {
       {/* Modals */}
       <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
 
-      <Preview show={showPreview} onHide={() => setShowPreview(false)} />
+      {selectedProduct && showPreview && (
+        <Preview
+          details={selectedProduct}
+          show={showPreview}
+          onHide={() => setShowPreview(false)}
+        />
+      )}
+
+      {selectedProduct && showUpdate && (
+        <Update
+          mutate={mutate}
+          details={selectedProduct}
+          show={showUpdate}
+          onHide={() => setShowUpdate(false)}
+        />
+      )}
+
+      {selectedProduct && showDelete && (
+        <Preview
+          details={selectedProduct}
+          show={showDelete}
+          onHide={() => setShowDelete(false)}
+        />
+      )}
     </>
   );
 }

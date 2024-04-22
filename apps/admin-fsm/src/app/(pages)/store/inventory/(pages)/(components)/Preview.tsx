@@ -1,12 +1,18 @@
-import { Modal } from '@fsm/ui';
-import { ModalProps } from 'apps/admin-fsm/src/models';
+import { Modal, ProductCard } from '@fsm/ui';
+import { ModalProps, ProductModel } from '../../../../../../models';
 
-interface Props extends ModalProps {}
+interface Props extends ModalProps {
+  details: ProductModel;
+}
 
-export default function Preview({ show, onHide }: Props) {
+export default function Preview({ details, show, onHide }: Props) {
   return (
-    <Modal show={show} onHide={onHide}>
-      <>hi</>
+    <Modal className="max-w-[880px]" show={show} onHide={onHide}>
+      <ProductCard.Details
+        onSizeClick={() => {}}
+        checkedSize={0}
+        details={details}
+      />
     </Modal>
   );
 }

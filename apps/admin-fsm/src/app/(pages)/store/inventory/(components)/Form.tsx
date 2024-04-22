@@ -1,8 +1,9 @@
 import { schema } from '@foreversolemates/utils';
-import { Button, Field } from '@fsm/ui';
-import { addCollectionService } from 'apps/admin-fsm/src/services/store';
 import { Formik, FormikHelpers } from 'formik';
+import { Button, Field } from '@fsm/ui';
 import * as yup from 'yup';
+
+import { addCollectionService } from '../../../../../services/store';
 
 interface IForm {
   name: string;

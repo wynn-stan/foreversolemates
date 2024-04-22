@@ -56,16 +56,16 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
           .of(schema.requireString('Available colors')),
       })}
       initialValues={{
-        collection_id: '',
-        name: '',
-        initial_price: 0,
-        discount: 0,
-        available_units: 0,
-        alert: 0,
-        description: '',
-        images: [] as File[],
-        available_sizes: [] as number[],
-        available_colors: [] as string[],
+        collection_id: defaultValues?.collection_id || '',
+        name: defaultValues?.name || '',
+        initial_price: defaultValues?.initial_price || 0,
+        discount: defaultValues?.discount || 0,
+        available_units: defaultValues?.available_units || 0,
+        alert: defaultValues?.alert || 0,
+        description: defaultValues?.description || '',
+        images: defaultValues?.images || ([] as File[]),
+        available_sizes: defaultValues?.available_sizes || ([] as number[]),
+        available_colors: defaultValues?.available_colors || ([] as string[]),
       }}
       onSubmit={(params, actions) => onSubmit(params, actions)}
     >
@@ -76,8 +76,6 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
             ' flex flex-col justify-between'
           )}
         >
-          <>{console.log(values)}</>
-
           <div className="space-y-6">
             <AddImages
               label="Product images"

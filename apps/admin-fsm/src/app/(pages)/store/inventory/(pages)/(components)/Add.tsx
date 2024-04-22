@@ -29,33 +29,29 @@ export default function Add({ mutate, show, onHide }: Props) {
             params.discount
           );
 
-          //   const formData = new FormData();
-          //   formData.append('name', params.name);
-          //   formData.append('initial_price', params.initial_price.toString());
-          //   formData.append('discount', params.discount.toString());
-          //   formData.append('final_price', final_price.toString());
-          //   formData.append('available_units', params.available_units.toString());
-          //   formData.append('alert', params.alert.toString());
-          //   formData.append('collection_id', params.collection_id);
-          //   formData.append(
-          //     'available_sizes',
-          //     JSON.stringify(params.available_sizes)
-          //   );
-          //   formData.append(
-          //     'available_colors',
-          //     JSON.stringify(params.available_colors)
-          //   );
-
-          const arrayOfDataUrls = await Promise.all(
-            params.images.map(getBase64fromBlob)
+          const formData = new FormData();
+          formData.append('name', params.name);
+          formData.append('initial_price', params.initial_price.toString());
+          formData.append('description', params.description);
+          formData.append('discount', params.discount.toString());
+          formData.append('final_price', final_price.toString());
+          formData.append('available_units', params.available_units.toString());
+          formData.append('alert', params.alert.toString());
+          formData.append('collection_id', params.collection_id);
+          formData.append(
+            'available_sizes',
+            JSON.stringify(params.available_sizes)
           );
-          //   const stringifiedArray = JSON.stringify(arrayOfDataUrls);
+          formData.append(
+            'available_colors',
+            JSON.stringify(params.available_colors)
+          );
 
-          addProductService({
-            ...params,
-            images: arrayOfDataUrls,
-            final_price,
-          })
+          params.images.map((image, index) => {
+            formData.append(`image_${index}`, image);
+          });
+
+          addProductService(formData)
             .then(() => {
               toast.success('Product added successfully');
               mutate && mutate();
