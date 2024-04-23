@@ -67,47 +67,43 @@ export default function CollectionLayout({
           </Button>
         </div>
 
-        {products?.length ? (
-          <div
-            className={clsx(
-              'justify-center md:justify-start',
-              'flex gap-12 flex-wrap'
+        <div
+          className={clsx(
+            'justify-center md:justify-start',
+            'flex gap-12 flex-wrap pb-8'
+          )}
+        >
+          {/* loading */}
+          {isLoading &&
+            Array.from({ length: 5 }, (_, i) =>
+              cardType === 'compact' ? (
+                <div className="w-[250px] h-[388px] bg-gray-20 animate-pulse"></div>
+              ) : (
+                <></>
+              )
             )}
-          >
-            {/* loading */}
-            {isLoading &&
-              Array.from({ length: 5 }, (_, i) =>
-                cardType === 'compact' ? (
-                  <div className="w-[250px] h-[388px] bg-gray-20 animate-pulse"></div>
-                ) : (
-                  <></>
-                )
-              )}
 
-            {products?.length &&
-              products.map((item, key) => (
-                <div key={key}>
-                  <Card
-                    details={item}
-                    onPreview={(details) => {
-                      setSelectedProduct(details);
-                      setShowPreview(true);
-                    }}
-                    onDelete={(details) => {
-                      setSelectedProduct(details);
-                      setShowDelete(true);
-                    }}
-                    onUpdate={(details) => {
-                      setSelectedProduct(details);
-                      setShowUpdate(true);
-                    }}
-                  />
-                </div>
-              ))}
-          </div>
-        ) : (
-          <></>
-        )}
+          {products?.length &&
+            products.map((item, key) => (
+              <div key={key}>
+                <Card
+                  details={item}
+                  onPreview={(details) => {
+                    setSelectedProduct(details);
+                    setShowPreview(true);
+                  }}
+                  onDelete={(details) => {
+                    setSelectedProduct(details);
+                    setShowDelete(true);
+                  }}
+                  onUpdate={(details) => {
+                    setSelectedProduct(details);
+                    setShowUpdate(true);
+                  }}
+                />
+              </div>
+            ))}
+        </div>
       </div>
 
       {/* Modals */}

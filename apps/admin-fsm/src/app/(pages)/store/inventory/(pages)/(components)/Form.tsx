@@ -139,10 +139,10 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                   />
                 </Field.Group>
 
-                <Field.Group name="name" label="Final Price (GH₵)">
+                <Field.Group name="undefined" label="Final Price (GH₵)">
                   <Field.Input
-                    name="name"
-                    className="bg-gray-10"
+                    name="undefined"
+                    className="bg-gray-10 pointer-events-none"
                     placeholder="0"
                     value={getFinalPrice(values.initial_price, values.discount)}
                   />

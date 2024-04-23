@@ -11,7 +11,7 @@ export default function SizeOptions({ sizes, onClick, checkedSize }: Props) {
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium">Available sizes</div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         {sizes.map((size, index) => (
           <Pill
             size="sm"

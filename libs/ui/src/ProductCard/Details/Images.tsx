@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -34,7 +36,7 @@ export default function Images({ urls }: Props) {
       <div className="flex justify-center">
         <Image
           unoptimized
-          className="w-[335px] h-[450px] object-cover"
+          className="w-[335px] h-[350px] object-cover"
           width={335}
           height={450}
           src={currentImage}

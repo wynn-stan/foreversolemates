@@ -11,7 +11,7 @@ export default function ColorOptions({ colors, onClick, checkedColor }: Props) {
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium">Available colors</div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         {colors.map((color, index) => (
           <Pill
             size="sm"

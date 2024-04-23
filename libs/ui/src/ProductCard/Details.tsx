@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import Images from './Details/Images';
 import Price from './Details/Price';
@@ -29,6 +31,7 @@ interface Props {
   checkedColor?: string;
   onSizeClick: (index: number) => void;
   onColorClick: (index: string) => void;
+  onAdd?: (quantity: number) => void;
 }
 
 function Details({
@@ -37,13 +40,14 @@ function Details({
   onColorClick,
   onSizeClick,
   details,
+  onAdd = () => {},
 }: Props) {
   return (
     <div className={clsx('flex flex-col md:flex-row gap-4')}>
       <div className="">
         <Images urls={details.images} />
       </div>
-      <div className="space-y-3 flex-grow ">
+      <div className="space-y-3 flex-grow md:max-w-[375px] ">
         <div className="">
           <div className="text-3xl tracking-tight font-medium">
             {details.product_name}
@@ -75,7 +79,7 @@ function Details({
           </div>
         </div>
         <div className="h-full">
-          <AddToCart onAdd={() => {}} />
+          <AddToCart onAdd={onAdd} />
         </div>
       </div>
     </div>

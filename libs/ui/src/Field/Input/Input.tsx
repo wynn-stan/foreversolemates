@@ -4,6 +4,7 @@ import { twJoin, twMerge } from 'tailwind-merge';
 export default function Input({
   name,
   className,
+  value,
   ...props
 }: FieldAttributes<unknown>) {
   return (
@@ -12,6 +13,7 @@ export default function Input({
         'placeholder:text-gray-20',
         `outline-none py-3 px-4 border border-gray-10 w-full ${className}`
       )}
+      value={value || undefined}
       name={name}
       {...props}
     />

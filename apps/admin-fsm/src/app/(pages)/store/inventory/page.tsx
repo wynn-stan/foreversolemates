@@ -88,6 +88,7 @@ export default function Page() {
 
               {collections.map((item, key) => (
                 <LocalCollectionCard
+                  key={key}
                   topTagline={item.top_tagline}
                   bottomTagline={item.bottom_tagline}
                   bannerImage={item.banner_image}

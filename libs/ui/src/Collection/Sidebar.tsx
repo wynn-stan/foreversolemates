@@ -51,7 +51,10 @@ export default function Sidebar({ collections }: Props) {
                 {item.sub_collections?.map((sub_item, key) => {
                   return (
                     <div key={key}>
-                      <Link href={sub_item.slug || ''}>
+                      <Link
+                        onClick={(e) => e.stopPropagation()}
+                        href={sub_item.slug || ''}
+                      >
                         <div
                           className={clsx(
                             'font-medium text-sm',
