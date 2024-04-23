@@ -25,7 +25,7 @@ export default function Sidebar({ collections }: Props) {
   const path = usePathname();
 
   return (
-    <div className="space-y-6 max-w-[225px] w-full">
+    <div className="space-y-6 w-[225px]">
       {collections?.map((item, key) => (
         <div key={key}>
           <Link href={item.slug || ''}>

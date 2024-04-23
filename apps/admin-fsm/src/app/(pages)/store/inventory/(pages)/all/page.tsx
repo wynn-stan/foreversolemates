@@ -56,7 +56,12 @@ export default function Page() {
         </div>
 
         {products?.length ? (
-          <div className="flex gap-12 flex-wrap">
+          <div
+            className={clsx(
+              'justify-center md:justify-start',
+              'flex gap-12 flex-wrap'
+            )}
+          >
             {products.map((item, key) => (
               <div key={key}>
                 <ProductCard.Compact

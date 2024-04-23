@@ -10,10 +10,11 @@ interface Props {
 export default function SizeOptions({ sizes, onClick, checkedSize }: Props) {
   return (
     <div className="space-y-2">
-      <div>Available sizes</div>
+      <div className="text-sm font-medium">Available sizes</div>
       <div className="flex gap-3">
         {sizes.map((size, index) => (
           <Pill
+            size="sm"
             key={index}
             checked={checkedSize === size}
             onClick={() => onClick?.(size)}

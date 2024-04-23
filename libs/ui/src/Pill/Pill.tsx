@@ -4,19 +4,36 @@ import { HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   checked?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export default function Pill({
+  size = 'lg',
   checked,
   className,
   onClick,
   children,
   ...props
 }: Props) {
+  //variables
+  const sizeStyle = (() => {
+    switch (size) {
+      case 'sm':
+        return 'px-4 py-2 text-xs';
+      case 'md':
+        return 'px-4 py-2 text-sm';
+      case 'lg':
+        return 'px-6 py-3';
+      default:
+        return 'px-6 py-3';
+    }
+  })();
+
   return (
     <div
       className={clsx(
-        'flex gap-1 items-center justify-center px-6 py-3 font-medium',
+        sizeStyle,
+        'flex gap-1 items-center justify-center font-medium',
         'text-sm rounded-full ',
         'border border-gray-20',
         checked ? 'text-white bg-black' : 'text-black',

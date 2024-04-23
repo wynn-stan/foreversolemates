@@ -4,6 +4,7 @@ import Price from './Details/Price';
 import StockIndicator from './Details/StockIndicator';
 import Description from './Details/Description';
 import SizeOptions from './Details/SizeOptions';
+import ColorOptions from './Details/ColorOptions';
 
 interface ProductModel {
   _id: string;
@@ -23,14 +24,24 @@ interface ProductModel {
 
 interface Props {
   details: ProductModel;
-  onSizeClick: (index: number) => void;
   checkedSize?: number;
+  checkedColor?: string;
+  onSizeClick: (index: number) => void;
+  onColorClick: (index: string) => void;
 }
 
-function Details({ checkedSize, onSizeClick, details }: Props) {
+function Details({
+  checkedSize,
+  checkedColor,
+  onColorClick,
+  onSizeClick,
+  details,
+}: Props) {
   return (
     <div className={clsx('flex flex-col md:flex-row gap-4')}>
-      <Images urls={details.images} />
+      <div className="">
+        <Images urls={details.images} />
+      </div>
       <div className="space-y-3 flex-grow ">
         <div className="">
           <div className="text-3xl tracking-tight font-medium">
@@ -46,11 +57,22 @@ function Details({ checkedSize, onSizeClick, details }: Props) {
           low_stock_indicator={details.alert}
         />
         <Description description={details.description} />
-        <SizeOptions
-          checkedSize={checkedSize}
-          onClick={onSizeClick}
-          sizes={details.available_sizes}
-        />
+        <div className="flex gap-6 flex-wrap">
+          <div className="flex-grow">
+            <SizeOptions
+              checkedSize={checkedSize}
+              onClick={onSizeClick}
+              sizes={details.available_sizes}
+            />
+          </div>
+          <div className="flex-grow">
+            <ColorOptions
+              colors={details.available_colors}
+              checkedColor={checkedColor}
+              onClick={onColorClick}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
