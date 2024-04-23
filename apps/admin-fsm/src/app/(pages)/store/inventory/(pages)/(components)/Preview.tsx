@@ -7,7 +7,12 @@ interface Props extends ModalProps {
 
 export default function Preview({ details, show, onHide }: Props) {
   return (
-    <Modal className="max-w-[880px]" show={show} onHide={onHide}>
+    <Modal
+      header="Preview"
+      className="max-w-[880px]"
+      show={show}
+      onHide={onHide}
+    >
       <ProductCard.Details
         onSizeClick={() => {}}
         onColorClick={() => {}}

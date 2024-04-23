@@ -5,6 +5,7 @@ import StockIndicator from './Details/StockIndicator';
 import Description from './Details/Description';
 import SizeOptions from './Details/SizeOptions';
 import ColorOptions from './Details/ColorOptions';
+import AddToCart from './Details/AddToCart';
 
 interface ProductModel {
   _id: string;
@@ -72,6 +73,9 @@ function Details({
               onClick={onColorClick}
             />
           </div>
+        </div>
+        <div className="h-full">
+          <AddToCart onAdd={() => {}} />
         </div>
       </div>
     </div>

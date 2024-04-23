@@ -4,7 +4,12 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Spinner from '../Spinner/Spinner';
-import { ChevronDownIcon, EyeIcon, PlusIcon } from 'lucide-react';
+import {
+  ChevronDownIcon,
+  EyeIcon,
+  PlusIcon,
+  ShoppingCartIcon,
+} from 'lucide-react';
 
 type Variant =
   | 'default'
@@ -16,11 +21,13 @@ type Variant =
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
-  icon?: 'plus' | 'eye' | 'chevrondown';
+  icon?: 'plus' | 'eye' | 'chevrondown' | 'cart';
+  direction?: 'left' | 'right';
 }
 
 export default function Button({
   variant = 'default',
+  direction = 'right',
   icon,
   disabled,
   children,
@@ -44,6 +51,22 @@ export default function Button({
     'outline-black': 'text-black bg-white border border-black',
   };
 
+  //icon
+  const Icon = (() => {
+    switch (icon) {
+      case 'cart':
+        return ShoppingCartIcon;
+      case 'chevrondown':
+        return ChevronDownIcon;
+      case 'eye':
+        return EyeIcon;
+      case 'plus':
+        return PlusIcon;
+      default:
+        return () => <></>;
+    }
+  })();
+
   return (
     <button
       className={twMerge(
@@ -60,10 +83,9 @@ export default function Button({
     >
       {isSubmitting ? <Spinner /> : ''}
       <>
-        {icon && icon === 'plus' ? <PlusIcon size={20} /> : <></>}
+        {direction === 'left' ? <Icon size={20} /> : <></>}
         {children}
-        {icon && icon === 'eye' ? <EyeIcon size={20} /> : <></>}
-        {icon && icon === 'chevrondown' ? <ChevronDownIcon size={20} /> : <></>}
+        {direction === 'right' ? <Icon size={20} /> : <></>}
       </>
     </button>
   );
