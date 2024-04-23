@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { PaginatedData, ProductModel } from '../../../../../../../models';
 import CollectionLayout from '../../(components)/Layout.tsx/Layout';
 import { usePathname } from 'next/navigation';
+import { options } from '../../../../../../../hooks';
 
 export default function Page() {
   //navigation
@@ -20,11 +21,16 @@ export default function Page() {
     })}`
   );
 
+  //collection name
+  const { collectionOptions } = options.useGetCollections();
+  const collectionName =
+    collectionOptions.find((item) => item.value === id)?.label || 'Products';
+
   return (
     <CollectionLayout
       cardType="compact"
       {...{ data, isLoading, mutate }}
-      header="Collection"
+      header={collectionName}
     />
   );
 }
