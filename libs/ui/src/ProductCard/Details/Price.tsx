@@ -15,7 +15,10 @@ export default function Price({ initial_price, discount, className }: Props) {
 
   return (
     <div
-      className={clsx('flex gap-3 items-baseline tracking-tight', className)}
+      className={clsx(
+        'flex flex-wrap gap-3 items-baseline tracking-tight',
+        className
+      )}
     >
       <div className="text-lg font-medium ">
         {currencyFormatter(discounted_price || initial_price)}

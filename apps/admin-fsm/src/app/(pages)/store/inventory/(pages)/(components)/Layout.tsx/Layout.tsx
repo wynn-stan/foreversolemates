@@ -69,21 +69,22 @@ export default function CollectionLayout({
 
         <div
           className={clsx(
-            'justify-center md:justify-start',
-            'flex gap-12 flex-wrap pb-8'
+            'flex pb-8  md:gap-12 flex-wrap',
+            cardType === 'compact'
+              ? 'justify-center md:justify-start gap-6'
+              : 'justify-start gap-8'
           )}
         >
           {/* loading */}
-          {isLoading &&
+          {isLoading ? (
             Array.from({ length: 5 }, (_, i) =>
               cardType === 'compact' ? (
                 <div className="w-[250px] h-[388px] bg-gray-20 animate-pulse"></div>
               ) : (
                 <></>
               )
-            )}
-
-          {products?.length &&
+            )
+          ) : products?.length ? (
             products.map((item, key) => (
               <div key={key}>
                 <Card
@@ -102,7 +103,10 @@ export default function CollectionLayout({
                   }}
                 />
               </div>
-            ))}
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 

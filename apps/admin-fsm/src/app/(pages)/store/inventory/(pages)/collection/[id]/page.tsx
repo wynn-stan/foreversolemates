@@ -28,7 +28,7 @@ export default function Page() {
 
   return (
     <CollectionLayout
-      cardType="compact"
+      cardType="detailed"
       {...{ data, isLoading, mutate }}
       header={collectionName}
     />

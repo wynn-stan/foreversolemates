@@ -2,7 +2,9 @@ import Image from 'next/image';
 import { ProductModel } from '../../models';
 import { Button, Dropdown } from '@fsm/ui';
 import { ChevronDown, EyeIcon } from 'lucide-react';
-import { helpers } from '@foreversolemates/utils';
+import { helpers, useWidth } from '@foreversolemates/utils';
+import styled from 'styled-components';
+import clsx from 'clsx';
 
 interface Props {
   details: ProductModel;
@@ -23,26 +25,47 @@ export default function Compact({
     ? initial_price - initial_price * (details.discount / 100)
     : details.initial_price;
 
+  //hooks - mobile
+  const width = useWidth();
+  const isMobile = width ? width <= 1024 : undefined;
+
   return (
-    <div className="space-y-4 max-w-[250px]">
-      <div className="bg-gray-10 w-[250px] h-[250px]">
+    <div className="space-y-4 max-w-[150px] lg:max-w-[250px]">
+      <div
+        className={clsx(
+          'bg-gray-10 ',
+          'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]'
+        )}
+      >
         <Image
           unoptimized
-          className="w-full h-full object-cover"
+          className={clsx(
+            'object-cover',
+            'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]'
+          )}
           src={details.images[0]}
           alt="product_image"
-          width={250}
-          height={250}
+          width={150}
+          height={150}
         />
       </div>
       <div className="space-y-1">
-        <div className="text-xl font-medium">{details.product_name}</div>
+        <div className={clsx('font-medium truncate ', 'text-lg lg:text-xl')}>
+          {details.product_name}
+        </div>
 
-        <div className="flex gap-2 items-baseline">
+        <div
+          className={clsx('flex gap-2 items-baseline', ' text-sm lg:text-base')}
+        >
           {helpers.currencyFormatter(discounted_price)}
 
           {details.discount ? (
-            <div className="text-sm text-gray-30 line-through">
+            <div
+              className={clsx(
+                'text-gray-30 line-through ',
+                'text-xs lg:text-sm'
+              )}
+            >
               {helpers.currencyFormatter(initial_price)}
             </div>
           ) : (
@@ -52,24 +75,33 @@ export default function Compact({
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4">
+      <div className={clsx('flex gap-4', 'flex-col lg:flex-row')}>
         <Button
           onClick={() => onPreview(details)}
-          className="flex gap-2 !rounded-md"
+          className={clsx(
+            'flex gap-2 !rounded-md',
+            'py-2 px-2 text-sm',
+            'lg:py-3 lg:px-2 lg:text-base'
+          )}
           variant="outline-black"
         >
           <span>Preview</span>
-          <EyeIcon size={20} />
+          <EyeIcon size={isMobile ? 16 : 20} />
         </Button>
 
         <Dropdown>
-          <Dropdown.Toggle>
+          <Dropdown.Toggle className="w-full">
             <Button
-              className="flex gap-2 !rounded-md"
+              className={clsx(
+                'flex gap-2 !rounded-md',
+                'py-2 px-2 text-sm',
+                'lg:py-3 lg:px-2 lg:text-base',
+                'w-full'
+              )}
               variant="outline-secondary"
             >
               <span>More</span>
-              <ChevronDown size={20} />
+              <ChevronDown size={isMobile ? 16 : 20} />
             </Button>
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -88,3 +120,27 @@ export default function Compact({
     </div>
   );
 }
+
+const StyledCard = styled.div`
+  @media (max-width: 768px) {
+    .product-image {
+      width: 150px;
+      height: 150px;
+    }
+
+    .product-name {
+      font-size: 16px;
+    }
+
+    .discounted-price {
+      font-size: 14px;
+    }
+
+    .initial-price {
+      font-size: 12px;
+    }
+
+    svg {
+    }
+  }
+`;

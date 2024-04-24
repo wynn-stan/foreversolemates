@@ -86,4 +86,12 @@ function Details({
   );
 }
 
-export default Object.assign(Details, { Price });
+export default Object.assign(Details, {
+  Price,
+  SizeOptions,
+  StockIndicator,
+  AddToCart,
+  ColorOptions,
+  Description,
+  Images,
+});
