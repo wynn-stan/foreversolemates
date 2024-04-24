@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import useSWR from 'swr';
+import { motion } from 'framer-motion';
 
 import { LocalCollectionCard, SectionHeader } from '../../../../components';
 import { CollectionModel, PaginatedData } from '../../../../models';
@@ -14,10 +15,12 @@ import Delete from './(components)/Delete';
 import Update from './(components)/Update';
 import routes from '../../../../routes';
 import Add from './(components)/Add';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   //hooks
   const { setLayout } = useLayout();
+  const router = useRouter();
 
   //state
   const [showAdd, setShowAdd] = useState(false);
@@ -74,61 +77,83 @@ export default function Page() {
 
           {collections.length ? (
             <>
-              <LocalCollectionCard
-                topTagline={'Ease and elegance for your feet'}
-                bottomTagline={'Delve into our curated collections'}
-                bannerImage={'/assets/all-collections.png'}
-                collectionName={'All Products'}
-                actions={
-                  <Link href={routes.store.inventory.all.index}>
-                    <Button className="rounded-md">View</Button>
-                  </Link>
-                }
-              />
-
-              {collections.map((item, key) => (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <LocalCollectionCard
-                  key={key}
-                  topTagline={item.top_tagline}
-                  bottomTagline={item.bottom_tagline}
-                  bannerImage={item.banner_image}
-                  collectionName={item.collection_name}
+                  topTagline={'Ease and elegance for your feet'}
+                  bottomTagline={'Delve into our curated collections'}
+                  bannerImage={'/assets/all-collections.png'}
+                  collectionName={'All Products'}
+                  onCardClick={() => {
+                    router.push(routes.store.inventory.all.index);
+                  }}
                   actions={
-                    <div className="flex gap-2">
+                    <Link href={routes.store.inventory.all.index}>
                       <Button className="rounded-md">View</Button>
-                      <Dropdown>
-                        <Dropdown.Toggle>
-                          <Button
-                            variant="outline-tertiary"
-                            className="rounded-md flex gap-1"
-                          >
-                            <span>More</span>
-                            <ChevronDownIcon size={20} />
-                          </Button>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setSelectedCollection(item);
-                              setShowEdit(true);
-                            }}
-                          >
-                            Update collection
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setSelectedCollection(item);
-                              setShowRemove(true);
-                            }}
-                            className="text-red-40"
-                          >
-                            Remove collection
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
+                    </Link>
                   }
                 />
+              </motion.div>
+
+              {collections.map((item, key) => (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <LocalCollectionCard
+                    key={key}
+                    topTagline={item.top_tagline}
+                    bottomTagline={item.bottom_tagline}
+                    bannerImage={item.banner_image}
+                    collectionName={item.collection_name}
+                    onCardClick={() =>
+                      router.push(
+                        routes.store.inventory.collection.index.replace(
+                          '[id]',
+                          item._id
+                        )
+                      )
+                    }
+                    actions={
+                      <div className="flex gap-2">
+                        <Link
+                          href={routes.store.inventory.collection.index.replace(
+                            '[id]',
+                            item._id
+                          )}
+                        >
+                          <Button className="rounded-md">View</Button>
+                        </Link>{' '}
+                        <Dropdown>
+                          <Dropdown.Toggle>
+                            <Button
+                              variant="outline-tertiary"
+                              className="rounded-md flex gap-1"
+                            >
+                              <span>More</span>
+                              <ChevronDownIcon size={20} />
+                            </Button>
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              onClick={() => {
+                                setSelectedCollection(item);
+                                setShowEdit(true);
+                              }}
+                            >
+                              Update collection
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => {
+                                setSelectedCollection(item);
+                                setShowRemove(true);
+                              }}
+                              className="text-red-40"
+                            >
+                              Remove collection
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                    }
+                  />
+                </motion.div>
               ))}
             </>
           ) : (

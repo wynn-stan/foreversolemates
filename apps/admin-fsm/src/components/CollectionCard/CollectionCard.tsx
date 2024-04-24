@@ -9,6 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   bannerImage?: string;
   collectionName: string;
   actions: React.ReactNode;
+  onCardClick?: () => void;
 }
 
 export default function LocalCollectionCard({
@@ -17,15 +18,18 @@ export default function LocalCollectionCard({
   collectionName,
   bannerImage,
   bottomTagline,
+  onCardClick,
 }: Props) {
   return (
     <div
+      onClick={onCardClick}
       className={clsx(
         'bg-[#F0F0F0] h-[255px]',
         'flex-grow  xl:max-w-[550px] rounded-md',
         'px-8 py-6',
         'flex gap-6 items-center',
-        'justify-center text-center xl:justify-between xl:text-left'
+        'justify-center text-center xl:justify-between xl:text-left',
+        onCardClick ? 'cursor-pointer' : ''
       )}
     >
       <div>
@@ -34,7 +38,14 @@ export default function LocalCollectionCard({
         <div className="my-6 text-sm font-medium text-gray-40">
           {bottomTagline}
         </div>
-        <div className="flex justify-center xl:block">{actions}</div>
+        <div
+          className="flex justify-center xl:block"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          {actions}
+        </div>
       </div>
       {bannerImage ? (
         <StyledImage className="hidden">

@@ -1,10 +1,11 @@
 'use client';
 
-import { Button, Collection } from '@fsm/ui';
-import { useState } from 'react';
+import { Button, Collection, Paginate } from '@fsm/ui';
+import { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import useSWR from 'swr';
 import queryString from 'query-string';
+import { motion } from 'framer-motion';
 
 import { options } from '../../../../../../../hooks';
 import { ProductCard } from '../../../../../../../components';
@@ -20,9 +21,13 @@ interface Props {
   mutate: () => void;
   header: string;
   cardType: 'compact' | 'detailed';
+  page: number;
+  setPage: any;
 }
 
 export default function CollectionLayout({
+  page: unformattedPage,
+  setPage,
   data,
   isLoading,
   mutate,
@@ -44,6 +49,23 @@ export default function CollectionLayout({
   const Card =
     cardType === 'compact' ? ProductCard.Compact : ProductCard.Detailed;
 
+  //variables - page, initially set to 0
+  const page = unformattedPage + 1;
+
+  const to = (() => {
+    if (data) {
+      //the last item is the current size * current page
+      //if the result is greater than the total items(everything not just this request), then we've passed the last item , thus return totalItems.
+      const last = data.size * data.page;
+      if (last > data?.totalCount) return data.totalCount;
+      return last;
+    }
+
+    return 0;
+  })();
+
+  const from = data ? data.page * data.size - data.size : 0;
+
   return (
     <>
       <div className="space-y-8 w-full">
@@ -54,7 +76,7 @@ export default function CollectionLayout({
 
         <div className="flex items-center justify-between">
           <div className="text-xs">
-            Showing {data?.page || '--'} to 16 of {data?.totalCount || '--'}{' '}
+            Showing {from + 1 || '--'} to {to} of {data?.totalCount || '--'}{' '}
             total
           </div>
           <Button
@@ -69,24 +91,32 @@ export default function CollectionLayout({
 
         <div
           className={clsx(
-            'flex pb-8  md:gap-12 flex-wrap',
+            'flex md:gap-12 ',
             cardType === 'compact'
-              ? 'justify-center md:justify-start gap-6'
-              : 'justify-start gap-8'
+              ? 'justify-center md:justify-start gap-6 flex-wrap'
+              : 'justify-start flex-col gap-8'
           )}
         >
           {/* loading */}
-          {isLoading ? (
+          {isLoading &&
             Array.from({ length: 5 }, (_, i) =>
               cardType === 'compact' ? (
-                <div className="w-[250px] h-[388px] bg-gray-20 animate-pulse"></div>
+                <div className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"></div>
               ) : (
-                <></>
+                <div className="flex gap-4">
+                  <div className="w-[150px] h-[150px] bg-gray-20 animate-pulse"></div>
+                  <div className="w-full max-w-[800px] h-[150px] bg-gray-20 animate-pulse"></div>
+                </div>
               )
-            )
-          ) : products?.length ? (
+            )}
+
+          {!isLoading && products?.length ? (
             products.map((item, key) => (
-              <div key={key}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key={key}
+              >
                 <Card
                   details={item}
                   onPreview={(details) => {
@@ -102,12 +132,24 @@ export default function CollectionLayout({
                     setShowUpdate(true);
                   }}
                 />
-              </div>
+              </motion.div>
             ))
           ) : (
             <></>
           )}
         </div>
+
+        {data && (
+          <div className="flex justify-center pb-8 ">
+            <Paginate
+              to={to}
+              from={from + 1}
+              total={data?.totalCount}
+              pageCount={data?.totalPages || 0}
+              {...{ page: unformattedPage, setPage }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Modals */}

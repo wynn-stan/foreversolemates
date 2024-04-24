@@ -28,7 +28,7 @@ export default function Sidebar({ collections }: Props) {
     <div className="space-y-6 w-[225px]">
       {collections?.map((item, key) => (
         <div key={key}>
-          <Link href={item.slug || ''}>
+          <div>
             <div
               className={clsx(
                 'font-medium  text-sm',
@@ -37,16 +37,18 @@ export default function Sidebar({ collections }: Props) {
                 path.includes(item.slug || '') ? 'text-black' : 'text-gray-30'
               )}
             >
-              <div className="flex justify-between items-center">
-                {item.sub_collections?.length ? (
-                  <>
-                    {item.collection_name}
-                    <MinusIcon size={16} />
-                  </>
-                ) : (
-                  <>{item.collection_name}</>
-                )}
-              </div>
+              <Link href={item.slug || ''}>
+                <div className="flex justify-between items-center">
+                  {item.sub_collections?.length ? (
+                    <>
+                      {item.collection_name}
+                      <MinusIcon size={16} />
+                    </>
+                  ) : (
+                    <>{item.collection_name}</>
+                  )}
+                </div>
+              </Link>
               <div className="pl-4 space-y-4">
                 {item.sub_collections?.map((sub_item, key) => {
                   return (
@@ -72,7 +74,7 @@ export default function Sidebar({ collections }: Props) {
                 })}
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       ))}
     </div>

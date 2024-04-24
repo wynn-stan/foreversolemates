@@ -7,11 +7,15 @@ import { PaginatedData, ProductModel } from '../../../../../../../models';
 import CollectionLayout from '../../(components)/Layout.tsx/Layout';
 import { usePathname } from 'next/navigation';
 import { options } from '../../../../../../../hooks';
+import { useState } from 'react';
 
 export default function Page() {
   //navigation
   const paths = usePathname().split('/');
   const id = paths[paths.length - 1];
+
+  //state
+  const [page, setPage] = useState(0);
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
@@ -29,7 +33,7 @@ export default function Page() {
   return (
     <CollectionLayout
       cardType="detailed"
-      {...{ data, isLoading, mutate }}
+      {...{ data, isLoading, mutate, page, setPage }}
       header={collectionName}
     />
   );

@@ -14,6 +14,7 @@ interface Props {
   value: any;
   onChange: (option: Option | null) => void;
   placeholder?: string;
+  defaultValue?: Option;
 }
 
 export default function LocalSelect({
@@ -23,9 +24,11 @@ export default function LocalSelect({
   options,
   className,
   placeholder,
+  defaultValue,
 }: Props) {
   return (
     <Select
+      defaultValue={defaultValue}
       className={className}
       placeholder={placeholder}
       inputId={value}

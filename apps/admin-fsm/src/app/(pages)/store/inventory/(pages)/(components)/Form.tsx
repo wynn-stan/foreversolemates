@@ -40,6 +40,10 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
   const [showPreview, setShowPreview] = useState(false);
   const [previewDetails, setPreviewDetails] = useState<IForm>({} as IForm);
 
+  const defaultCollection = collectionOptions.find(
+    (item) => item.value === defaultValues?.collection_id
+  );
+
   return (
     <>
       <Formik
@@ -100,6 +104,7 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                   name="collection_id"
                   className="w-full"
                   value={values.collection_id}
+                  defaultValue={defaultCollection}
                   placeholder="Select Collection"
                   options={collectionOptions}
                   onChange={(option) => {

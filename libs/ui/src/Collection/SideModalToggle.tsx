@@ -21,7 +21,8 @@ export default function SideModalToggle({ collections }: Props) {
         className={clsx(
           'block md:hidden',
           'cursor-pointer',
-          'text-gray-30 border border-gray-10 p-2 w-fit'
+          'text-gray-30 border border-gray-10 p-2 w-fit',
+          'flex items-center'
         )}
         onClick={() => setShowMenu(true)}
       >

@@ -13,3 +13,4 @@ export { default as Collection } from './Collection/Collection';
 export { default as Pill } from './Pill/Pill';
 export { default as ProductCard } from './ProductCard/ProductCard';
 export { default as Loaders } from './Loaders/Loaders';
+export { default as Paginate } from './Paginate/Paginate';
