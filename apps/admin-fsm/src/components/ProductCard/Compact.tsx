@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import { ProductModel } from '../../models';
 import { Button, Dropdown } from '@fsm/ui';
 import { ChevronDown, EyeIcon } from 'lucide-react';
 import { helpers, useWidth } from '@foreversolemates/utils';
 import styled from 'styled-components';
 import clsx from 'clsx';
+
+import { ProductModel } from '../../models';
 
 interface Props {
   details: ProductModel;
@@ -30,7 +31,10 @@ export default function Compact({
   const isMobile = width ? width <= 1024 : undefined;
 
   return (
-    <div className="space-y-4 max-w-[150px] lg:max-w-[250px]">
+    <div
+      onClick={() => onPreview(details)}
+      className="space-y-4 max-w-[150px] lg:max-w-[250px] cursor-pointer"
+    >
       <div
         className={clsx(
           'bg-gray-10 ',
@@ -75,7 +79,10 @@ export default function Compact({
       </div>
 
       {/* Actions */}
-      <div className={clsx('flex gap-4', 'flex-col lg:flex-row')}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={clsx('flex gap-4', 'flex-col lg:flex-row')}
+      >
         <Button
           onClick={() => onPreview(details)}
           className={clsx(

@@ -112,11 +112,7 @@ export default function CollectionLayout({
 
           {!isLoading && products?.length ? (
             products.map((item, key) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                key={key}
-              >
+              <div key={key}>
                 <Card
                   details={item}
                   onPreview={(details) => {
@@ -132,7 +128,7 @@ export default function CollectionLayout({
                     setShowUpdate(true);
                   }}
                 />
-              </motion.div>
+              </div>
             ))
           ) : (
             <></>

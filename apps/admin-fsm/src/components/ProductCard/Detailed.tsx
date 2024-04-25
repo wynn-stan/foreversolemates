@@ -33,7 +33,7 @@ export default function Detailed({
     <div className="flex gap-4">
       <div
         className={clsx(
-          'bg-gray-10 ',
+          'bg-gray-10 cursor-pointer ',
           'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]'
         )}
       >
