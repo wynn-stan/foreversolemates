@@ -45,15 +45,21 @@ export default function Page() {
                 email,
                 password,
               })
-              .then((response: { data: { email: string } }) => {
-                setStore((store) => ({
-                  ...store,
-                  user: {
-                    email: response?.data?.email,
-                  },
-                }));
-                router.push('/');
-              })
+              .then(
+                (response: {
+                  data: { email: string; firstName: string; lastName: string };
+                }) => {
+                  setStore((store) => ({
+                    ...store,
+                    user: {
+                      email: response?.data?.email,
+                      firstName: response?.data?.firstName,
+                      lastName: response?.data?.lastName,
+                    },
+                  }));
+                  router.push('/');
+                }
+              )
               .catch((err: { response: { data: { message: string } } }) => {
                 setSubmitting(false);
                 toast.error(helpers.capitalize(err?.response?.data?.message));

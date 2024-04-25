@@ -24,7 +24,7 @@ export default function LocalCollectionCard({
     <div
       onClick={onCardClick}
       className={clsx(
-        'bg-[#F0F0F0] h-[255px]',
+        ' border-[2px] border-[#f8f8f8] h-[255px]',
         'flex-grow  xl:max-w-[550px] rounded-md',
         'px-8 py-6',
         'flex gap-6 items-center',

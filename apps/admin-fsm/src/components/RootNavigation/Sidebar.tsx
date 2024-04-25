@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
 import Link from 'next/link';
+import { helpers } from '@foreversolemates/utils';
 
 interface Props {
   toggleSidebar?: () => void;
@@ -78,7 +79,7 @@ export default function Sidebar({ toggleSidebar }: Props) {
     store?.logout?.();
   };
   return (
-    <div className="min-w-[300px] border-r border-r-gray-10 h-screen overflow-auto py-4">
+    <div className="bg-black min-w-[300px] border-r border-r-gray-10 h-screen overflow-auto py-4">
       <div className="h-full flex flex-col justify-between">
         <div className="">
           <div
@@ -157,7 +158,11 @@ export default function Sidebar({ toggleSidebar }: Props) {
             </div>
 
             <div className="tracking-tight">
-              <div className="text-gray-900 font-medium">Harper Nelson</div>
+              <div className="text-gray-200 font-medium">
+                {helpers.capitalize(store?.user?.firstName || '--')}
+                {'  '}
+                {helpers.capitalize(store?.user?.lastName || '--')}
+              </div>
               <div
                 className={clsx(
                   'text-gray-30  break-words',
@@ -170,7 +175,10 @@ export default function Sidebar({ toggleSidebar }: Props) {
           </div>
           <div
             onClick={() => handleLogout()}
-            className="hover:cursor-pointer py-2 flex items-center gap-2 font-medium"
+            className={clsx(
+              'hover:cursor-pointer py-2 flex items-center gap-2 font-medium',
+              'text-gray-20'
+            )}
           >
             {isSubmitting ? <Spinner /> : <LogOutIcon size={20} />}
             <div>Log out</div>

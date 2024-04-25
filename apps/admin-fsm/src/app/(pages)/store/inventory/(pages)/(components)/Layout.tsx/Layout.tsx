@@ -82,7 +82,7 @@ export default function CollectionLayout({
           <Button
             direction="left"
             onClick={() => setShowAdd(true)}
-            variant="outline-secondary"
+            variant="dark"
             icon="plus"
           >
             Add Product

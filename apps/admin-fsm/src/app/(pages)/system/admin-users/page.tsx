@@ -44,7 +44,7 @@ export default function Page() {
             <>
               <Button
                 onClick={() => setShowAdd(true)}
-                variant="outline-secondary"
+                variant="dark"
                 className="flex gap-2"
               >
                 <span>

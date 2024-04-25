@@ -77,7 +77,11 @@ export default function Page() {
 
           {collections.length ? (
             <>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <motion.div
+                className="w-full xl:max-w-[550px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
                 <LocalCollectionCard
                   topTagline={'Ease and elegance for your feet'}
                   bottomTagline={'Delve into our curated collections'}
@@ -95,7 +99,11 @@ export default function Page() {
               </motion.div>
 
               {collections.map((item, key) => (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <motion.div
+                  className="w-full xl:max-w-[550px]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
                   <LocalCollectionCard
                     key={key}
                     topTagline={item.top_tagline}

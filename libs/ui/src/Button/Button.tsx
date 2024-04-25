@@ -14,6 +14,7 @@ import {
 type Variant =
   | 'default'
   | 'alert'
+  | 'dark'
   | 'outline-secondary'
   | 'outline-tertiary'
   | 'outline-alert'
@@ -44,6 +45,7 @@ export default function Button({
   //variant styles
   const variant_style: { [key: string]: string } = {
     default: 'text-white bg-black',
+    dark: 'text-white bg-[#262626]',
     alert: 'text-white bg-red-40',
     'outline-secondary': 'text-black border border-gray-10',
     'outline-tertiary': 'text-black border border-gray-30',

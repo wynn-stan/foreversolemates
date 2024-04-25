@@ -15,6 +15,8 @@ export async function POST(request: Request) {
         email: boolean;
         expires: number;
         status: number;
+        firstName: string;
+        lastName: string;
       };
     } = await axios.post<never, any>(
       `${process?.env?.NEXT_PUBLIC_BASE_API}/login`,
@@ -36,10 +38,17 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 30,
     });
 
-    return new Response(JSON.stringify({ email: data?.email }), {
-      status: 200,
-      headers: { 'Set-Cookie': `token=${data?.token}` },
-    });
+    return new Response(
+      JSON.stringify({
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        email: data?.email,
+      }),
+      {
+        status: 200,
+        headers: { 'Set-Cookie': `token=${data?.token}` },
+      }
+    );
   } catch (error: any) {
     const data = error.response.data;
     return new Response(JSON.stringify(data), { status: 400 });

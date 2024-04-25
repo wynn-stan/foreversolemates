@@ -7,7 +7,7 @@ export default function Copyright({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={`text-gray-30 text-sm ${className}`} {...props}>
-      &copy; ForeverSolemates {dayjs().format('YYYY')}
+      &copy; ForeverSoleMates {dayjs().format('YYYY')}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { useStore } from '../../hooks';
 import { ArrowLeftIcon, ChevronDownIcon, MenuIcon, X } from 'lucide-react';
 import { Dropdown } from '@fsm/ui';
 import Image from 'next/image';
+import { helpers } from '@foreversolemates/utils';
 
 interface Navbar {
   isOpen: boolean;
@@ -80,7 +81,11 @@ export default function Navbar({ isOpen, setIsOpen }: Navbar) {
             />
             <div className="hidden sm:flex cursor-pointer flex-col gap-2 text-left">
               <small className="">{store?.user?.email || '--'}</small>
-              <small className="text-muted font-medium">{'Harper'}</small>
+              <small className="text-muted font-medium">
+                {helpers.capitalize(store?.user?.firstName || '--')}
+                {'  '}
+                {helpers.capitalize(store?.user?.lastName || '--')}
+              </small>
             </div>
 
             <span className="hidden sm:block">
