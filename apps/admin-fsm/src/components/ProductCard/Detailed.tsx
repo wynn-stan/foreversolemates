@@ -49,7 +49,7 @@ export default function Detailed({
           height={150}
         />
       </div>
-      <div className="space-y-3 max-w-[420px] w-full">
+      <div className="space-y-3 max-w-[420px] w-full 2xl:w-[420px]">
         <ProductCard.Details.StockIndicator
           available_units={details.available_units}
           low_stock_indicator={details.alert}

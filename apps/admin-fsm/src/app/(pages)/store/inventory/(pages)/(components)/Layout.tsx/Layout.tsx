@@ -94,7 +94,7 @@ export default function CollectionLayout({
             'flex md:gap-12 ',
             cardType === 'compact'
               ? 'justify-center md:justify-start gap-6 flex-wrap'
-              : 'justify-start flex-col gap-8'
+              : 'justify-start flex-col gap-8 2xl:flex-row 2xl:flex-wrap'
           )}
         >
           {/* loading */}
