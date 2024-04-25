@@ -104,7 +104,8 @@ export default function Detailed({
             className={clsx(
               'flex gap-2 !rounded-md',
               'py-2 px-2 text-sm',
-              'lg:py-3 lg:px-2 lg:text-base'
+              'lg:py-3 lg:px-2 lg:text-base',
+              'hover-btn'
             )}
             variant="outline-black"
           >

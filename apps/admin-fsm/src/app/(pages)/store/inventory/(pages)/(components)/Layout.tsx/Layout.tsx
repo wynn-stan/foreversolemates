@@ -14,6 +14,7 @@ import Add from '../Add';
 import Preview from '../Preview';
 import Update from '../Update';
 import Delete from '../Delete';
+import styled from 'styled-components';
 
 interface Props {
   data: PaginatedData<ProductModel> | undefined;
@@ -112,7 +113,7 @@ export default function CollectionLayout({
 
           {!isLoading && products?.length ? (
             products.map((item, key) => (
-              <div key={key}>
+              <StyledCard key={key}>
                 <Card
                   details={item}
                   onPreview={(details) => {
@@ -128,7 +129,7 @@ export default function CollectionLayout({
                     setShowUpdate(true);
                   }}
                 />
-              </div>
+              </StyledCard>
             ))
           ) : (
             <></>
@@ -179,3 +180,10 @@ export default function CollectionLayout({
     </>
   );
 }
+
+const StyledCard = styled.div`
+  &:hover .hover-btn {
+    background: #262626;
+    color: white;
+  }
+`;
