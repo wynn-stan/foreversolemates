@@ -5,10 +5,13 @@ import { Button } from '@fsm/ui';
 import clsx from 'clsx';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import routes from '../../routes';
 
 export default function PromoBanner() {
   //hooks
-  const width = useWidth() || 0;
+  const { width } = useWidth();
+  const router = useRouter();
 
   //variables
   const imageSize = (() => {
@@ -37,7 +40,11 @@ export default function PromoBanner() {
           made for life.
         </div>
 
-        <Button className="!gap-4" icon="arrow-right" onClick={() => {}}>
+        <Button
+          className="!gap-4"
+          icon="arrow-right"
+          onClick={() => router.push(routes.shop.all.index)}
+        >
           Shop Now
         </Button>
       </div>

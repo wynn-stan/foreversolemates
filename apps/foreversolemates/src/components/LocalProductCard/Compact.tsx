@@ -1,6 +1,6 @@
 import { Button, ProductCard } from '@fsm/ui';
-import clsx from 'clsx';
 import { ProductModel } from '../../models';
+import clsx from 'clsx';
 
 interface Props {
   details: ProductModel;

@@ -1,7 +1,7 @@
 import { useWidth } from '@foreversolemates/utils';
 import { motion } from 'framer-motion';
 
-import LocalProductCard from '../../components/LocalProductCard/LocalProductCard';
+import { LocalProductCard } from '../../components';
 import Cover from './Explore/Cover';
 import Header from './Explore/Header';
 import { ArrowRightIcon } from 'lucide-react';
@@ -9,7 +9,7 @@ import clsx from 'clsx';
 
 export default function Explore() {
   //hooks
-  const width = useWidth() || 0;
+  const { width } = useWidth();
 
   //variables
   const product_length = (() => {

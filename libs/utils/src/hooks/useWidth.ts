@@ -4,7 +4,7 @@ const useWidth = () => {
   /**
    * state
    */
-  const [width, setWidth] = useState<number>();
+  const [width, setWidth] = useState<number>(0);
 
   /**
    * function
@@ -29,7 +29,18 @@ const useWidth = () => {
     };
   });
 
-  return width || handleWidth(true);
+  /*
+   * variables
+   */
+  const props = {
+    width,
+    sm: width >= 640,
+    md: width >= 768,
+    lg: width >= 1024,
+    xl: width >= 1280,
+  };
+
+  return width ? { ...props } : { width: handleWidth(true) || 0 };
 };
 
 export default useWidth;

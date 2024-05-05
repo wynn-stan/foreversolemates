@@ -5,3 +5,5 @@ export { default as RootNavigation } from './RootNavigation/RootNavigation';
 export { default as PromoBanner } from './PromoBanner/PromoBanner';
 export { default as Footer } from './Footer/Footer';
 export { default as Layout } from './Layout/Layout';
+export { default as LocalProductCard } from './LocalProductCard/LocalProductCard';
+export { default as Collection } from './Collection/Collection';

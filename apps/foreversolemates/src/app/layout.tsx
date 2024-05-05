@@ -1,6 +1,7 @@
 import './styles.scss';
 import { StyledComponentsRegistry } from './registry';
 import { Layout } from '../components';
+import AppProvider from '../providers/app';
 
 export const metadata = {
   title: 'ForeverSoleMates',
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen">
         <StyledComponentsRegistry>
-          <Layout.Root>{children}</Layout.Root>
+          <AppProvider>
+            <Layout.Root>{children}</Layout.Root>
+          </AppProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

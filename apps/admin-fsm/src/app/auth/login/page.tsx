@@ -60,10 +60,18 @@ export default function Page() {
                   router.push('/');
                 }
               )
-              .catch((err: { response: { data: { message: string } } }) => {
-                setSubmitting(false);
-                toast.error(helpers.capitalize(err?.response?.data?.message));
-              });
+              .catch(
+                (err: {
+                  response: { data: { message: string }; status: number };
+                }) => {
+                  setSubmitting(false);
+                  err?.response?.status === 504
+                    ? toast.error('Server is booting up. Please try again')
+                    : toast.error(
+                        helpers.capitalize(err?.response?.data?.message)
+                      );
+                }
+              );
           }}
         >
           {({ values, errors, isValid, handleSubmit, isSubmitting }) => (

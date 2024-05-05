@@ -24,7 +24,7 @@ export default function Compact({ details, onClick, actions }: Props) {
     : details.initial_price;
 
   //hooks - mobile
-  const width = useWidth();
+  const { width } = useWidth();
   const isMobile = width ? width <= 1024 : undefined;
 
   return (

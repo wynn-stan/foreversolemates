@@ -10,6 +10,7 @@ import { Logo } from '@fsm/ui';
 import Link from 'next/link';
 
 import { NavProps } from './RootNavigation';
+import routes from '../../routes';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   return (
@@ -21,7 +22,9 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         <MenuIcon />
       </div>
 
-      <Logo.Full />
+      <Link href={routes.home.index}>
+        <Logo.Full />
+      </Link>
 
       <div className="hidden md:flex gap-4 items-center">
         <Link href="#">About us</Link>
