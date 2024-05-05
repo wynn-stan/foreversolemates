@@ -27,7 +27,7 @@ function CollectionCard({
         'w-[550px] rounded-md',
         'px-8 py-6',
         'flex gap-6 items-center',
-        bannerImage ? 'justify-center text-center' : ' justify-between'
+        !bannerImage ? 'justify-center text-center' : ' justify-between'
       )}
     >
       <div>

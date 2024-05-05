@@ -1,46 +1,22 @@
-import Image from 'next/image';
+'use client';
+
+import { useState } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
-import styled from 'styled-components';
-import Link from 'next/link';
-import {
-  SearchIcon,
-  ShoppingBagIcon,
-  UserIcon,
-  UserRoundIcon,
-} from 'lucide-react';
+
+export interface NavProps {
+  showSidebar: boolean;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function RootNavigation() {
+  //state
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
-    <div className="px-8 py-4 flex justify-between gap-4 items-center">
-      <div>
-        <Link href="/">
-          <StyledImage src="/assets/logo.jpg" alt="logo" />
-        </Link>
-      </div>
-
-      <div className="hidden md:flex gap-4 items-center">
-        <Link href="#">About us</Link>
-        <Link href="#">Shop</Link>
-        <Link href="#">Contact us</Link>
-      </div>
-
-      <div className="flex gap-4 items-center">
-        <Link href="#">
-          <SearchIcon />
-        </Link>
-        <Link href="#">
-          <UserRoundIcon />
-        </Link>
-        <Link href="#">
-          <ShoppingBagIcon />
-        </Link>
-      </div>
+    <div className="w-full">
+      <Navbar {...{ showSidebar, setShowSidebar }} />
+      <Sidebar {...{ showSidebar, setShowSidebar }} />
     </div>
   );
 }
-
-const StyledImage = styled.img`
-  width: auto;
-  height: 60px;
-`;

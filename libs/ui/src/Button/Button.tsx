@@ -5,6 +5,8 @@ import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Spinner from '../Spinner/Spinner';
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   ChevronDownIcon,
   EyeIcon,
   PlusIcon,
@@ -22,7 +24,7 @@ type Variant =
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
-  icon?: 'plus' | 'eye' | 'chevrondown' | 'cart';
+  icon?: 'plus' | 'eye' | 'chevrondown' | 'cart' | 'arrow-left' | 'arrow-right';
   direction?: 'left' | 'right';
 }
 
@@ -64,6 +66,10 @@ export default function Button({
         return EyeIcon;
       case 'plus':
         return PlusIcon;
+      case 'arrow-right':
+        return ArrowRightIcon;
+      case 'arrow-left':
+        return ArrowLeftIcon;
       default:
         return () => <></>;
     }

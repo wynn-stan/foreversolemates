@@ -20,7 +20,7 @@ export default function Group({
 }: Props) {
   return (
     <div className={clsx('space-y-2', wrapperClassName)}>
-      <div className="text-sm font-medium text-gray-40">{label}</div>
+      {label && <div className="text-sm font-medium text-gray-40">{label}</div>}
       <div
         className={clsx(
           'flex gap-3',

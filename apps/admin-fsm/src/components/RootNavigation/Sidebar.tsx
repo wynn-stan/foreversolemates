@@ -88,7 +88,7 @@ export default function Sidebar({ toggleSidebar }: Props) {
               toggleSidebar ? 'justify-between' : 'justify-center'
             )}
           >
-            <Logo width={65} height={65} />
+            <Logo.Full variant="light" />
             {toggleSidebar ? (
               <div
                 className=" opacity-70 hover:opacity-100 hover:cursor-pointer"

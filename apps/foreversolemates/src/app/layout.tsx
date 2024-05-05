@@ -1,8 +1,9 @@
 import './styles.scss';
 import { StyledComponentsRegistry } from './registry';
+import { Layout } from '../components';
 
 export const metadata = {
-  title: 'Forever SoleMates',
+  title: 'ForeverSoleMates',
   description: '',
 };
 
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen">
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <Layout.Root>{children}</Layout.Root>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
