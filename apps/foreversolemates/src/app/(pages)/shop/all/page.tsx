@@ -33,8 +33,6 @@ export default function Page() {
         imageSrc: '/assets/all-collections.png',
       },
     });
-
-    // return setLayout({});
   }, []);
 
   return (
@@ -42,7 +40,7 @@ export default function Page() {
       <Collection.Layout
         cardType="compact"
         {...{ data, isLoading, mutate, page, setPage }}
-        header="All Products"
+        header=""
       />
     </>
   );

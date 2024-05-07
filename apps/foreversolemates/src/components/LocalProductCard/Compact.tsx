@@ -1,14 +1,22 @@
 import { Button, ProductCard } from '@fsm/ui';
 import { ProductModel } from '../../models';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
+import routes from '../../routes';
 
 interface Props {
   details: ProductModel;
 }
 
 export default function Compact({ details }: Props) {
+  //navigation
+  const router = useRouter();
+
   return (
     <ProductCard.Compact
+      onClick={() =>
+        router.push(routes.shop.product.index.replace('[id]', details._id))
+      }
       details={{
         discount: details.discount,
         initial_price: details.initial_price,
@@ -22,8 +30,8 @@ export default function Compact({ details }: Props) {
             onClick={() => {}}
             className={clsx(
               'flex gap-2',
-              'py-2 px-2 text-sm',
-              'lg:py-3 lg:px-2 lg:text-base',
+              'py-2 px-4 text-sm',
+              'lg:text-base',
               'hover:bg-[#262626] hover:text-white'
             )}
             variant="outline-black"

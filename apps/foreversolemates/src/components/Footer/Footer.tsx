@@ -5,9 +5,10 @@ import Subscribe from './Subscribe';
 
 export default function Footer() {
   return (
-    <div className="border-t border-gray-20 mt-10">
+    <div className="border-t border-gray-20 mt-10 bg-gray-5">
       <div
         className={clsx(
+          '',
           'gap-4 py-10 px-4',
           'flex flex-col-reverse sm:flex-row justify-between',
           'max-w-6xl ',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useWidth } from '@foreversolemates/utils';
-import { Button } from '@fsm/ui';
+import { Button, SubmitWrapper } from '@fsm/ui';
 import clsx from 'clsx';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
@@ -40,13 +40,20 @@ export default function PromoBanner() {
           made for life.
         </div>
 
-        <Button
-          className="!gap-4"
-          icon="arrow-right"
-          onClick={() => router.push(routes.shop.all.index)}
-        >
-          Shop Now
-        </Button>
+        <SubmitWrapper>
+          {({ setSubmitting, isSubmitting, Spinner }) => (
+            <Button
+              className="!gap-4"
+              onClick={() => {
+                setSubmitting(true);
+                router.push(routes.shop.all.index);
+              }}
+            >
+              Shop Now
+              {isSubmitting ? <Spinner /> : <ArrowRight size={20} />}
+            </Button>
+          )}
+        </SubmitWrapper>
       </div>
       <div className={`w-[${imageSize}px] h-[${imageSize}px] hidden md:block`}>
         <Image

@@ -6,8 +6,14 @@ import Cover from './Explore/Cover';
 import Header from './Explore/Header';
 import { ArrowRightIcon } from 'lucide-react';
 import clsx from 'clsx';
+import { ProductModel } from '../../models';
 
-export default function Explore() {
+interface Props {
+  header: string;
+  products: ProductModel[];
+}
+
+export default function Explore({ header, products }: Props) {
   //hooks
   const { width } = useWidth();
 
@@ -21,51 +27,15 @@ export default function Explore() {
 
   return (
     <div>
-      <Header title="Explore Taj" />
-      <div className="flex justify-center gap-6 relative">
-        {/* <Cover imgSrc="/assets/all-collections.png" onClick={() => {}} /> */}
-        {Array.from({ length: product_length }, (_, i) => (
-          <LocalProductCard.Compact
-            key={i}
-            details={{
-              _id: '',
-              alert: 0,
-              available_colors: [''],
-              available_sizes: [30],
-              available_units: 20,
-              collection_id: '',
-              description: '',
-              createdOn: '',
-              discount: 0,
-              final_price: 0,
-              images: ['/assets/all-collections.png'],
-              initial_price: 0,
-              product_name: 'Gravity Falls',
-              status: '',
-            }}
-          />
-        ))}
-
-        {/* <motion.div
-          whileHover={{
-            backgroundColor: '#262626',
-            color: 'white',
-            width: '100px',
-          }}
-          className={clsx(
-            ' px-4 py-3 flex justify-center border border-black',
-            'h-fit',
-            'absolute my-auto top-0 bottom-0 right-0',
-            'cursor-pointer'
-          )}
-        >
-          <div className="mx-auto flex gap-2 w-full overflow-hidden">
-            <div>
-              <ArrowRightIcon />
-            </div>
-            <div>Explore</div>
-          </div>
-        </motion.div> */}
+      <Header title={header} />
+      <div className="flex flex-wrap justify-center gap-6 relative ">
+        {Array.from({ length: product_length }, (_, i) =>
+          products?.[i] ? (
+            <LocalProductCard.Compact key={i} details={products[i]} />
+          ) : (
+            <></>
+          )
+        )}
       </div>
     </div>
   );

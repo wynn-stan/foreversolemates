@@ -27,9 +27,9 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
       </Link>
 
       <div className="hidden md:flex gap-4 items-center">
+        <Link href={routes.home.index}>Home</Link>
+        <Link href={routes.shop.all.index}>Shop</Link>
         <Link href="#">About us</Link>
-        <Link href="#">Shop</Link>
-        <Link href="#">Contact us</Link>
       </div>
 
       <div className="flex gap-4 items-center">
@@ -39,7 +39,7 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         {/* <Link href="#">
             <UserRoundIcon />
           </Link> */}
-        <Link href="#">
+        <Link href={routes.cart.index}>
           <ShoppingBagIcon />
         </Link>
       </div>

@@ -5,19 +5,27 @@ import routes from '../../routes';
 
 const useGetCollections = () => {
   //api
-  const { data, isLoading } = useSWR<PaginatedData<CollectionModel>>(
-    `/secure/collections?${queryString.stringify({
+  const { data, isLoading, error } = useSWR<{
+    data: CollectionModel[][];
+  }>(
+    `/collections?${queryString.stringify({
       page: 1,
       size: 50,
     })}`
   );
 
   //variables
+
+  const apiCollections = data?.data?.[0] || [];
+
   const list =
-    data?.data?.map((item) => ({
+    data?.data?.[0]?.map((item) => ({
       id: item._id,
       collection_name: item.collection_name,
-      slug: routes.shop.all.index, //|| routes.store.inventory.collection.index.replace('[id]', item._id),
+      banner_image: item.banner_image,
+      top_tagline: item.top_tagline,
+      bottom_tagline: item.bottom_tagline,
+      slug: routes.shop.collection.index.replace('[id]', item._id || ''),
     })) || [];
 
   const collections = [
@@ -26,12 +34,12 @@ const useGetCollections = () => {
       collection_name: 'All',
       slug: routes.shop.all.index,
     },
-    // {
-    //   id: 'collection',
-    //   collection_name: 'Collections',
-    //   slug: list[0]?.slug,
-    //   sub_collections: list,
-    // },
+    {
+      id: 'collection',
+      collection_name: 'Collections',
+      slug: list[0]?.slug,
+      sub_collections: list,
+    },
   ];
 
   // for select component
@@ -40,7 +48,15 @@ const useGetCollections = () => {
     value: item.id,
   }));
 
-  return { collections, collectionOptions };
+  return {
+    api: {
+      apiCollections,
+      isLoading,
+      error,
+    },
+    collections,
+    collectionOptions,
+  };
 };
 
 export default useGetCollections;

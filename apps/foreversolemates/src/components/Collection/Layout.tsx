@@ -13,7 +13,7 @@ interface Props {
   data: PaginatedData<ProductModel> | undefined;
   isLoading: boolean;
   mutate: () => void;
-  header: string;
+  header?: string;
   cardType: 'compact' | 'detailed';
   page: number;
   setPage: any;
@@ -58,10 +58,10 @@ export default function Layout({
 
   return (
     <>
-      <div className="space-y-8 w-full">
+      <div className="space-y-8 ">
         <div className="flex gap-4">
           <Collection.SideModalToggle collections={collections} />
-          <div className="font-medium text-4xl">{header}</div>
+          {header && <div className="font-medium text-4xl">{header}</div>}
         </div>
 
         <div className="flex items-center justify-between">
@@ -104,7 +104,7 @@ export default function Layout({
         </div>
 
         {data && (
-          <div className="flex justify-center pb-8 ">
+          <div className="flex justify-start py-8 ">
             <Paginate
               to={to}
               from={from + 1}

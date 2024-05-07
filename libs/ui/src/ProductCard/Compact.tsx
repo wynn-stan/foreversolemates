@@ -4,6 +4,7 @@ import { ChevronDown, EyeIcon } from 'lucide-react';
 import { helpers, useWidth } from '@foreversolemates/utils';
 import styled from 'styled-components';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 interface Props {
   details: {
@@ -13,10 +14,16 @@ interface Props {
     product_name: string;
   };
   onClick?: () => void;
+  href?: string;
   actions: React.ReactNode;
 }
 
-export default function Compact({ details, onClick, actions }: Props) {
+export default function Compact({
+  details,
+  onClick,
+  actions,
+  href = '',
+}: Props) {
   //variables
   const initial_price = details.initial_price;
   const discounted_price = details.discount
@@ -27,10 +34,14 @@ export default function Compact({ details, onClick, actions }: Props) {
   const { width } = useWidth();
   const isMobile = width ? width <= 1024 : undefined;
 
+  //variables - component
+  // const Component = href ? Link : 'div';
+
   return (
     <div
+      // href={href}
       onClick={onClick}
-      className="space-y-4 max-w-[150px] lg:max-w-[250px] cursor-pointer"
+      className="space-y-2 max-w-[150px] lg:max-w-[250px] cursor-pointer"
     >
       <div
         className={clsx(
@@ -50,7 +61,7 @@ export default function Compact({ details, onClick, actions }: Props) {
           height={150}
         />
       </div>
-      <div className="space-y-1">
+      <div className="space-y-0">
         <div className={clsx('font-medium truncate ', 'text-lg lg:text-xl')}>
           {details.product_name}
         </div>
@@ -58,7 +69,9 @@ export default function Compact({ details, onClick, actions }: Props) {
         <div
           className={clsx('flex gap-2 items-baseline', ' text-sm lg:text-base')}
         >
-          {helpers.currencyFormatter(discounted_price)}
+          <span className="font-medium">
+            {helpers.currencyFormatter(discounted_price)}
+          </span>
 
           {details.discount ? (
             <div

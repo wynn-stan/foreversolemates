@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@react-hook/window-size": "^3.1.1",
     "@restart/hooks": "^0.4.16",
     "@restart/ui": "^1.6.8",
     "axios": "^1.6.8",

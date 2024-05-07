@@ -91,9 +91,9 @@ export default function Button({
     >
       {isSubmitting ? <Spinner /> : ''}
       <>
-        {direction === 'left' ? <Icon size={20} /> : <></>}
+        {direction === 'left' && !isSubmitting ? <Icon size={20} /> : <></>}
         {children}
-        {direction === 'right' ? <Icon size={20} /> : <></>}
+        {direction === 'right' && !isSubmitting ? <Icon size={20} /> : <></>}
       </>
     </button>
   );

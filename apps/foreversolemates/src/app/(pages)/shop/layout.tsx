@@ -13,7 +13,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      {layout?.banner?.title && <Collection.Banner {...layout.banner} />}
       <Collection.SidebarLayout collections={collections}>
         {children}
       </Collection.SidebarLayout>
