@@ -2,10 +2,10 @@
 
 import queryString from 'query-string';
 import { ProductCard } from '@fsm/ui';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { options, useLayout } from '../../../../../hooks';
+import { options, useLayout, useStore } from '../../../../../hooks';
 import { PaginatedData, ProductModel } from '../../../../../models';
 import Explore from '../../../../(components)/Explore';
 
@@ -18,6 +18,7 @@ interface Props {
 export default function Page({ params: { id } }: Props) {
   //hooks
   const { layout, setLayout } = useLayout();
+  const { store, setStore } = useStore();
 
   //api
   const { data, isLoading } = useSWR<{ data: ProductModel }>(`/product/${id}`);
@@ -50,11 +51,17 @@ export default function Page({ params: { id } }: Props) {
         <div className="flex justify-center pt-0 md:pt-8">
           <ProductCard.Details
             details={details}
-            onColorClick={() => {}}
-            onSizeClick={() => {}}
-            checkedColor=""
-            checkedSize={0}
-            onAdd={(quantity) => {}}
+            onColorClick={(color) => {
+              setProductSpecs((specs) => ({ ...specs, color: [color] }));
+            }}
+            onSizeClick={(size) => {
+              setProductSpecs((specs) => ({ ...specs, size: [size] }));
+            }}
+            checkedColor={productSpecs.color?.[0]}
+            checkedSize={productSpecs.size?.[0]}
+            onAdd={(quantity) => {
+              setProductSpecs((specs) => ({ ...specs, quantity }));
+            }}
           />
         </div>
       )}

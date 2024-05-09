@@ -23,3 +23,7 @@ export interface ProductModel {
   createdOn: string;
   final_price: number;
 }
+
+export interface UserModel {
+  cart: ProductModel[];
+}

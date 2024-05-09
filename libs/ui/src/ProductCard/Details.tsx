@@ -8,6 +8,7 @@ import Description from './Details/Description';
 import SizeOptions from './Details/SizeOptions';
 import ColorOptions from './Details/ColorOptions';
 import AddToCart from './Details/AddToCart';
+import { useState } from 'react';
 
 interface ProductModel {
   _id: string;
@@ -27,21 +28,19 @@ interface ProductModel {
 
 interface Props {
   details: ProductModel;
-  checkedSize?: number;
-  checkedColor?: string;
-  onSizeClick: (index: number) => void;
-  onColorClick: (index: string) => void;
   onAdd?: (quantity: number) => void;
 }
 
-function Details({
-  checkedSize,
-  checkedColor,
-  onColorClick,
-  onSizeClick,
-  details,
-  onAdd = () => {},
-}: Props) {
+interface ProductSpecs {
+  color: string[];
+  size: number[];
+  quantity: number;
+}
+
+function Details({ details, onAdd = () => {} }: Props) {
+  //state
+  const [productSpecs, setProductSpecs] = useState<Partial<ProductSpecs>>({});
+
   return (
     <div className={clsx('flex flex-col md:flex-row gap-4')}>
       <div className="">
