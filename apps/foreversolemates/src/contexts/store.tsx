@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation';
 import { http } from '@foreversolemates/utils';
 import axios from 'axios';
 
-import { UserModel } from '../models';
+import { CartItem, UserModel } from '../models';
 import routes from '../routes';
 
 export interface StoreInterface {
+  cart: Partial<CartItem>[];
   user: Partial<UserModel>;
   logout: () => void;
 }
@@ -18,7 +19,7 @@ export const StoreContext = createContext<{
   store: Partial<StoreInterface>;
   setStore: Dispatch<SetStateAction<Partial<StoreInterface>>>;
 }>({
-  store: {},
+  store: { cart: [], user: {} },
   setStore: () => null,
 });
 

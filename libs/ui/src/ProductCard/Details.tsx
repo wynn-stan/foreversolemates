@@ -9,6 +9,9 @@ import SizeOptions from './Details/SizeOptions';
 import ColorOptions from './Details/ColorOptions';
 import AddToCart from './Details/AddToCart';
 import { useState } from 'react';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { motion } from 'framer-motion';
 
 interface ProductModel {
   _id: string;
@@ -28,60 +31,96 @@ interface ProductModel {
 
 interface Props {
   details: ProductModel;
-  onAdd?: (quantity: number) => void;
+  onAdd?: (product: ProductSpecs) => void;
 }
 
 interface ProductSpecs {
-  color: string[];
-  size: number[];
-  quantity: number;
+  color?: string;
+  size?: number;
+  quantity?: number;
 }
 
-function Details({ details, onAdd = () => {} }: Props) {
-  //state
-  const [productSpecs, setProductSpecs] = useState<Partial<ProductSpecs>>({});
-
+function Details({
+  details,
+  onAdd = () => {
+    //
+  },
+}: Props) {
   return (
-    <div className={clsx('flex flex-col md:flex-row gap-4')}>
-      <div className="">
-        <Images urls={details.images} />
-      </div>
-      <div className="space-y-3 flex-grow md:max-w-[375px] ">
-        <div className="">
-          <div className="text-3xl tracking-tight font-medium">
-            {details.product_name}
+    <Formik
+      enableReinitialize
+      validateOnMount
+      validationSchema={yup.object({
+        quantity: yup
+          .number()
+          .min(1, 'Quantity must be at least 1')
+          .required('Quantity is required'),
+        color: yup.string().required('Color is required'),
+        size: yup.number().required('Size is required'),
+      })}
+      initialValues={{ quantity: 0, color: '', size: 0 }}
+      onSubmit={(params) => {
+        onAdd(params);
+      }}
+    >
+      {({ values, isValid, handleSubmit, setFieldValue, resetForm }) => (
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, type: 'spring' }}
+          className={clsx('flex flex-col md:flex-row gap-4')}
+        >
+          <div className="">
+            <Images urls={details.images} />
           </div>
-          <Price
-            initial_price={details.initial_price}
-            discount={details.discount}
-          />
-        </div>
-        <StockIndicator
-          available_units={details.available_units}
-          low_stock_indicator={details.alert}
-        />
-        <Description description={details.description} />
-        <div className="flex gap-6 flex-wrap">
-          <div className="flex-grow">
-            <SizeOptions
-              checkedSize={checkedSize}
-              onClick={onSizeClick}
-              sizes={details.available_sizes}
+          <div className="space-y-3 flex-grow md:max-w-[375px] ">
+            <div className="">
+              <div className="text-3xl tracking-tight font-medium">
+                {details.product_name}
+              </div>
+              <Price
+                initial_price={details.initial_price}
+                discount={details.discount}
+              />
+            </div>
+            <StockIndicator
+              available_units={details.available_units}
+              low_stock_indicator={details.alert}
             />
+            <Description description={details.description} />
+            <div className="flex gap-6 flex-wrap">
+              <div className="flex-grow">
+                <SizeOptions
+                  checkedSize={values.size}
+                  onClick={(size) => {
+                    setFieldValue('size', size);
+                  }}
+                  sizes={details.available_sizes}
+                />
+              </div>
+              <div className="flex-grow">
+                <ColorOptions
+                  colors={details.available_colors}
+                  checkedColor={values.color}
+                  onClick={(color) => {
+                    setFieldValue('color', color);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="h-full">
+              <AddToCart
+                handleSubmit={() => {
+                  handleSubmit();
+                  resetForm();
+                }}
+                {...{ isValid, values, setFieldValue }}
+              />
+            </div>
           </div>
-          <div className="flex-grow">
-            <ColorOptions
-              colors={details.available_colors}
-              checkedColor={checkedColor}
-              onClick={onColorClick}
-            />
-          </div>
-        </div>
-        <div className="h-full">
-          <AddToCart onAdd={onAdd} />
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      )}
+    </Formik>
   );
 }
 

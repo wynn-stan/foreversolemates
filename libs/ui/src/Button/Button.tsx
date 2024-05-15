@@ -11,6 +11,7 @@ import {
   EyeIcon,
   PlusIcon,
   ShoppingCartIcon,
+  TrashIcon,
 } from 'lucide-react';
 
 type Variant =
@@ -24,7 +25,14 @@ type Variant =
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isSubmitting?: boolean;
   variant?: Variant;
-  icon?: 'plus' | 'eye' | 'chevrondown' | 'cart' | 'arrow-left' | 'arrow-right';
+  icon?:
+    | 'plus'
+    | 'eye'
+    | 'chevrondown'
+    | 'cart'
+    | 'arrow-left'
+    | 'arrow-right'
+    | 'trash';
   direction?: 'left' | 'right';
 }
 
@@ -70,6 +78,8 @@ export default function Button({
         return ArrowRightIcon;
       case 'arrow-left':
         return ArrowLeftIcon;
+      case 'trash':
+        return TrashIcon;
       default:
         return () => <></>;
     }
@@ -90,11 +100,10 @@ export default function Button({
       {...props}
     >
       {isSubmitting ? <Spinner /> : ''}
-      <>
-        {direction === 'left' && !isSubmitting ? <Icon size={20} /> : <></>}
-        {children}
-        {direction === 'right' && !isSubmitting ? <Icon size={20} /> : <></>}
-      </>
+
+      {direction === 'left' && !isSubmitting ? <Icon size={20} /> : <></>}
+      {children}
+      {direction === 'right' && !isSubmitting ? <Icon size={20} /> : <></>}
     </button>
   );
 }

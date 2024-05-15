@@ -11,6 +11,7 @@ export default function StockIndicator({
 }: Props) {
   //variables
   const below_stock = low_stock_indicator >= available_units;
+  const out_of_stock = available_units <= 0;
 
   return (
     <div className="flex items-center gap-2 font-medium text-sm">

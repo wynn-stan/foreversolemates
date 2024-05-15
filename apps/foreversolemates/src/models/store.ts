@@ -27,3 +27,9 @@ export interface ProductModel {
 export interface UserModel {
   cart: ProductModel[];
 }
+
+export interface CartItem extends ProductModel {
+  selectedSize?: number;
+  selectedQuantity?: number;
+  selectedColor?: string;
+}

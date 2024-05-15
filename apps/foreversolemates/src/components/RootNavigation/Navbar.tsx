@@ -11,8 +11,13 @@ import Link from 'next/link';
 
 import { NavProps } from './RootNavigation';
 import routes from '../../routes';
+import { useStore } from '../../hooks';
+import clsx from 'clsx';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
+  //hooks
+  const { store } = useStore();
+
   return (
     <div className="flex justify-between items-center py-4 px-8">
       <div
@@ -39,8 +44,17 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         {/* <Link href="#">
             <UserRoundIcon />
           </Link> */}
-        <Link href={routes.cart.index}>
+        <Link className="relative" href={routes.cart.index}>
           <ShoppingBagIcon />
+          <div
+            className={clsx(
+              'absolute top-[-15px] right-[-15px] w-5 h-5 rounded-full',
+              ' bg-gray-800 flex justify-center items-center',
+              'text-white text-sm'
+            )}
+          >
+            {store?.cart?.length || 0}
+          </div>
         </Link>
       </div>
     </div>

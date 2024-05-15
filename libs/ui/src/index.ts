@@ -2,6 +2,7 @@
 
 export { default as CollectionCard } from './CollectionCard/CollectionCard';
 export { default as SubmitWrapper } from './SubmitWrapper/SubmitWrapper';
+export { default as ProductImage } from './ProductImage/ProductImage';
 export { default as ProductCard } from './ProductCard/ProductCard';
 export { default as EmptyFormik } from './EmptyFormik/EmptyFormik';
 export { default as Collection } from './Collection/Collection';

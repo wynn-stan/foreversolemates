@@ -104,6 +104,7 @@ export default function Page() {
 
               {collections.map((item, key) => (
                 <motion.div
+                  key={key}
                   className="w-full xl:max-w-[550px]"
                   initial={{ opacity: 0, boxShadow: 'none' }}
                   animate={{ opacity: 1 }}

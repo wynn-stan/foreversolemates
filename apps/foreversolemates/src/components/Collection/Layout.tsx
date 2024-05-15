@@ -60,22 +60,24 @@ export default function Layout({
     <>
       <div className="space-y-8 ">
         <div className="flex gap-4">
-          <Collection.SideModalToggle collections={collections} />
-          {header && <div className="font-medium text-4xl">{header}</div>}
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="text-xs">
-            Showing {from + 1 || '--'} to {to} of {data?.totalCount || '--'}{' '}
-            total
+          <div className="flex gap-4 px-4 sm:px-0 ">
+            <Collection.SideModalToggle collections={collections} />
+            {header && <div className="font-medium text-4xl">{header}</div>}
           </div>
+
+          {/* <div className="flex items-center justify-between">
+            <div className="text-xs">
+              Showing {from + 1 || '--'} to {to} of {data?.totalCount || '--'}{' '}
+              total
+            </div>
+          </div> */}
         </div>
 
         <div
           className={clsx(
-            'flex md:gap-12 ',
+            'flex',
             cardType === 'compact'
-              ? 'justify-center md:justify-start gap-6 flex-wrap'
+              ? 'justify-center gap-4 flex-wrap '
               : 'justify-start flex-col gap-8 2xl:flex-row 2xl:flex-wrap'
           )}
         >
@@ -83,9 +85,12 @@ export default function Layout({
           {isLoading &&
             Array.from({ length: 5 }, (_, i) =>
               cardType === 'compact' ? (
-                <div className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"></div>
+                <div
+                  key={i}
+                  className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"
+                ></div>
               ) : (
-                <div className="flex gap-4">
+                <div key={i} className="flex gap-4">
                   <div className="w-[150px] h-[150px] bg-gray-20 animate-pulse"></div>
                   <div className="w-full max-w-[800px] h-[150px] bg-gray-20 animate-pulse"></div>
                 </div>
@@ -104,7 +109,7 @@ export default function Layout({
         </div>
 
         {data && (
-          <div className="flex justify-start py-8 ">
+          <div className="flex justify-center py-8 px-4 sm:px-0 ">
             <Paginate
               to={to}
               from={from + 1}
