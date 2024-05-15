@@ -76,7 +76,7 @@ export default function Index() {
             />
           </div>
           {apiCollections.map((item, key) => (
-            <div>
+            <div key={key}>
               <CollectionCard
                 topTagline={item.top_tagline}
                 actions={

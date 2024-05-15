@@ -2,12 +2,13 @@
 
 import queryString from 'query-string';
 import { ProductCard } from '@fsm/ui';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { options, useLayout } from '../../../../../hooks';
+import { options, useLayout, useStore } from '../../../../../hooks';
 import { PaginatedData, ProductModel } from '../../../../../models';
 import Explore from '../../../../(components)/Explore';
+import toast from 'react-hot-toast';
 
 interface Props {
   params: {
@@ -18,6 +19,7 @@ interface Props {
 export default function Page({ params: { id } }: Props) {
   //hooks
   const { layout, setLayout } = useLayout();
+  const { store, setStore } = useStore();
 
   //api
   const { data, isLoading } = useSWR<{ data: ProductModel }>(`/product/${id}`);
@@ -46,18 +48,37 @@ export default function Page({ params: { id } }: Props) {
 
   return (
     <>
-      {details && (
-        <div className="flex justify-center pt-0 md:pt-8">
+      <div className="flex justify-center pt-0 md:pt-8 px-4 sm:px-0 ">
+        {isLoading && (
+          <div className="flex gap-4">
+            <div className="min-w-[100px] max-w-full h-[450px] animate-pulse bg-gray-10" />
+            <div className="flex-grow min-w-[100px] max-w-[450px] h-[450px] animate-pulse bg-gray-5" />
+          </div>
+        )}
+
+        {details && (
           <ProductCard.Details
             details={details}
-            onColorClick={() => {}}
-            onSizeClick={() => {}}
-            checkedColor=""
-            checkedSize={0}
-            onAdd={(quantity) => {}}
+            onAdd={({ color, quantity, size }) => {
+              setStore((store) => {
+                return {
+                  ...store,
+                  cart: [
+                    {
+                      ...details,
+                      selectedSize: size,
+                      selectedQuantity: quantity,
+                      selectedColor: color,
+                    },
+                    ...(store?.cart || []),
+                  ],
+                };
+              });
+              toast.success('Product added to cart');
+            }}
           />
-        </div>
-      )}
+        )}
+      </div>
 
       {suggestedProducts && (
         <Explore header="You may also like" products={suggestedProducts} />

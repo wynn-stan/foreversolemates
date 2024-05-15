@@ -8,7 +8,7 @@ interface Props {
 
 export default function SidebarLayout({ children, collections }: Props) {
   return (
-    <div className="py-8 px-6 md:px-8 flex gap-10 h-full">
+    <div className="py-8 sm:px-4 md:px-8 flex gap-10 h-full">
       <div className="hidden md:block">
         <Sidebar collections={collections} />
       </div>

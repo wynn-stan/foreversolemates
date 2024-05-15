@@ -7,6 +7,8 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import routes from '../../routes';
+import { motion } from 'framer-motion';
+import { fadeInFromBelowVariants, fadeInVariants } from '../../utils';
 
 export default function PromoBanner() {
   //hooks
@@ -27,7 +29,12 @@ export default function PromoBanner() {
         'px-4 sm:px-10 xl:px-auto'
       )}
     >
-      <div className="max-w-[380px] space-y-12">
+      <motion.div
+        variants={fadeInFromBelowVariants}
+        animate="visible"
+        initial="hidden"
+        className="max-w-[380px] space-y-12"
+      >
         <div className="space-y-12">
           <div className="font-bold text-6xl">
             FOREVER <br /> SOLEMATES
@@ -35,7 +42,7 @@ export default function PromoBanner() {
           <div className="h-2 w-20 bg-black" />
         </div>
         <div className="">
-          Handcrafted men's African footwear brand, balancing aesthetics, good
+          Handcrafted men`s African footwear brand, balancing aesthetics, good
           design and most importantly, granting customers a perfect foot match
           made for life.
         </div>
@@ -54,8 +61,14 @@ export default function PromoBanner() {
             </Button>
           )}
         </SubmitWrapper>
-      </div>
-      <div className={`w-[${imageSize}px] h-[${imageSize}px] hidden md:block`}>
+      </motion.div>
+      <motion.div
+        variants={fadeInVariants}
+        animate="visible"
+        initial="hidden"
+        transition={{ duration: 0.5 }}
+        className={`w-[${imageSize}px] h-[${imageSize}px] hidden md:block`}
+      >
         <Image
           src="/assets/images/homepage/malik-2.png"
           className={`w-[${imageSize}px] h-[${imageSize}px]`}
@@ -63,7 +76,7 @@ export default function PromoBanner() {
           width={imageSize}
           height={imageSize}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }

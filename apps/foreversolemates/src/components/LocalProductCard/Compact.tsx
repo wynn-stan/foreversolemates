@@ -12,11 +12,13 @@ export default function Compact({ details }: Props) {
   //navigation
   const router = useRouter();
 
+  //function - navigateToProduct
+  const navigateToProduct = () =>
+    router.push(routes.shop.product.index.replace('[id]', details._id));
+
   return (
     <ProductCard.Compact
-      onClick={() =>
-        router.push(routes.shop.product.index.replace('[id]', details._id))
-      }
+      onClick={navigateToProduct}
       details={{
         discount: details.discount,
         initial_price: details.initial_price,
@@ -27,14 +29,15 @@ export default function Compact({ details }: Props) {
         <>
           <Button
             icon="cart"
-            onClick={() => {}}
+            onClick={navigateToProduct}
             className={clsx(
               'flex gap-2',
               'py-2 px-4 text-sm',
               'lg:text-base',
-              'hover:bg-[#262626] hover:text-white'
+              'hover:bg-[#262626] hover:text-white',
+              'rounded-md'
             )}
-            variant="outline-black"
+            variant="outline-secondary"
           >
             <span>Add to cart</span>
           </Button>

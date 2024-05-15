@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { SWRConfig } from 'swr';
 
 import LayoutProvider from './layout';
+import StoreProvider from '../contexts/store';
 
 export default function AppProvider({
   children,
@@ -28,12 +29,18 @@ export default function AppProvider({
 
   return (
     <>
-      <SWRConfig
-        value={{ fetcher, shouldRetryOnError: false, revalidateOnFocus: true }}
-      >
-        <LayoutProvider>{children}</LayoutProvider>
-        <Toaster position="top-right" />
-      </SWRConfig>
+      <StoreProvider>
+        <SWRConfig
+          value={{
+            fetcher,
+            shouldRetryOnError: false,
+            revalidateOnFocus: true,
+          }}
+        >
+          <LayoutProvider>{children}</LayoutProvider>
+          <Toaster position="top-right" />
+        </SWRConfig>
+      </StoreProvider>
     </>
   );
 }
