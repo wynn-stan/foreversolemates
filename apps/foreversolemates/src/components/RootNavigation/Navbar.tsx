@@ -13,6 +13,7 @@ import { NavProps } from './RootNavigation';
 import routes from '../../routes';
 import { useStore } from '../../hooks';
 import clsx from 'clsx';
+import styled from 'styled-components';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   //hooks
@@ -31,11 +32,11 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         <Logo.Full />
       </Link>
 
-      <div className="hidden md:flex gap-4 items-center">
+      <StyledLinks className="hidden md:flex gap-4 items-center">
         <Link href={routes.home.index}>Home</Link>
         <Link href={routes.shop.all.index}>Shop</Link>
         <Link href="#">About us</Link>
-      </div>
+      </StyledLinks>
 
       <div className="flex gap-4 items-center">
         {/* <Link href="#">
@@ -60,3 +61,10 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
     </div>
   );
 }
+
+const StyledLinks = styled.div`
+  & a:hover {
+    text-decoration: underline;
+    font-weight: 500;
+  }
+`;

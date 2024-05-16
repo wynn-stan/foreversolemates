@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Flag from 'react-country-flag';
 
 import Dropdown from '../../Dropdown/Dropdown';
+import clsx from 'clsx';
 
 export interface PhoneInputProps {
   name: string;
@@ -105,7 +106,11 @@ export function Phone({
   }, [handleCountries]);
 
   return (
-    <>
+    <div
+      className={clsx(
+        'outline-none py-3 border border-gray-10 w-full flex gap-1'
+      )}
+    >
       <Dropdown className="pl-4">
         <Dropdown.Toggle type="button" className="border-0 text-sm gap-1 w-12">
           {country.code && (
@@ -148,13 +153,13 @@ export function Phone({
         disabled={disabled}
         country={country.code}
         placeholder={placeholder}
-        className="form-input !px-0"
+        className="form-input !px-0 outline-none"
         onBlur={() => setFieldTouched(name, true)}
         onChange={(value: string) =>
           setFieldValue(name, formatPhoneNumberIntl(value)?.replace(/\s/g, ''))
         }
       />
-    </>
+    </div>
   );
 }
 

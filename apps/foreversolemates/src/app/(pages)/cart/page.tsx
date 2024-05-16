@@ -54,25 +54,32 @@ export default function Page() {
         }}
         cartItems={store?.cart || []}
       />
-      <div className="flex flex-col">
-        <div className="w-[2px] min-h-[5px] bg-gray-5 h-full flex-grow" />
-      </div>
-      <div className="max-w-[350px] w-full">
-        <Cart.Summary
-          items={
-            store?.cart?.map((item) => ({ final_price: 12 })) || [
-              { final_price: 0 },
-            ]
-          }
-          taxPercent={0}
-          onCancel={() => {
-            router.push(routes.shop.all.index);
-          }}
-          onCheckout={() => {
-            // router.push(routes.cart.checkout.index);
-          }}
-        />
-      </div>
+
+      {store?.cart?.length ? (
+        <>
+          <div className="flex flex-col">
+            <div className="w-[2px] min-h-[5px] bg-gray-5 h-full flex-grow" />
+          </div>
+          <div className="max-w-[350px] w-full">
+            <Cart.Summary
+              items={
+                store?.cart?.map((item) => ({ final_price: 12 })) || [
+                  { final_price: 0 },
+                ]
+              }
+              taxPercent={0}
+              onCancel={() => {
+                router.push(routes.shop.all.index);
+              }}
+              onCheckout={() => {
+                router.push(routes.cart.checkout.index);
+              }}
+            />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </motion.div>
   );
 }

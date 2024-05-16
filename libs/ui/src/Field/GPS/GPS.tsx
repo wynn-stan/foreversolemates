@@ -75,7 +75,7 @@ const handleGpsVerification = debounce(
   2000
 );
 
-export function GPS({
+export default function GPS({
   name,
   value,
   onSuccess,
