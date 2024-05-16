@@ -22,7 +22,11 @@ export default function Summary({
   //variables - tax
   const tax = (taxPercent / 100) * subtotal;
 
+  //variables - total
   const total = subtotal + tax;
+
+  //variables - disabled button
+  const isValid = items.length;
 
   return (
     <div className="space-y-4">
@@ -53,7 +57,7 @@ export default function Summary({
       </div>
 
       <div className="space-y-2 pt-6">
-        <Button onClick={onCheckout} className="w-full">
+        <Button disabled={!isValid} onClick={onCheckout} className="w-full">
           Proceed to checkout
         </Button>
         <Button onClick={onCancel} className="w-full" variant="outline-black">
