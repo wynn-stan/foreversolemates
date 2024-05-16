@@ -4,7 +4,11 @@ const routes = {
   },
   cart: {
     index: '/cart',
+    checkout: {
+      index: '/cart/checkout',
+    },
   },
+
   shop: {
     all: {
       index: '/shop/all',

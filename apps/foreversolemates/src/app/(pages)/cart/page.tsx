@@ -69,7 +69,7 @@ export default function Page() {
             router.push(routes.shop.all.index);
           }}
           onCheckout={() => {
-            //
+            // router.push(routes.cart.checkout.index);
           }}
         />
       </div>
