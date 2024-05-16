@@ -13,13 +13,7 @@ export default function Preview({ details, show, onHide }: Props) {
       show={show}
       onHide={onHide}
     >
-      <ProductCard.Details
-        onSizeClick={() => {}}
-        onColorClick={() => {}}
-        checkedSize={0}
-        checkedColor={''}
-        details={details}
-      />
+      <ProductCard.Details details={details} />
     </Modal>
   );
 }
