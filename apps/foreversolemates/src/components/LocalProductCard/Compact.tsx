@@ -27,7 +27,7 @@ export default function Compact({ details }: Props) {
       }}
       actions={
         <>
-          <Button
+          {/* <Button
             icon="cart"
             onClick={navigateToProduct}
             className={clsx(
@@ -40,7 +40,7 @@ export default function Compact({ details }: Props) {
             variant="outline-secondary"
           >
             <span>Add to cart</span>
-          </Button>
+          </Button> */}
         </>
       }
     />
