@@ -10,7 +10,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      {layout?.banner?.title && <Collection.Banner {...layout.banner} />}
+      {layout?.banner?.title && (
+        <Collection.Banner
+          patternBaseUrl="/assets/images/homepage"
+          {...layout.banner}
+        />
+      )}
       <div>{children}</div>
     </div>
   );

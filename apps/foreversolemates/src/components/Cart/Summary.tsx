@@ -5,6 +5,7 @@ interface Props {
   taxPercent: number;
   onCheckout: () => void;
   onCancel: () => void;
+  showActions?: boolean;
 }
 
 export default function Summary({
@@ -12,6 +13,7 @@ export default function Summary({
   taxPercent,
   onCancel,
   onCheckout,
+  showActions = true,
 }: Props) {
   //variables - subtotal
   const subtotal = items.reduce(
@@ -56,14 +58,16 @@ export default function Summary({
         </div>
       </div>
 
-      <div className="space-y-2 pt-6">
-        <Button disabled={!isValid} onClick={onCheckout} className="w-full">
-          Proceed to checkout
-        </Button>
-        <Button onClick={onCancel} className="w-full" variant="outline-black">
-          Continue Shopping
-        </Button>
-      </div>
+      {showActions && (
+        <div className="space-y-2 pt-6">
+          <Button disabled={!isValid} onClick={onCheckout} className="w-full">
+            Proceed to checkout
+          </Button>
+          <Button onClick={onCancel} className="w-full" variant="outline-black">
+            Continue Shopping
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
