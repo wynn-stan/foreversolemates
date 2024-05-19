@@ -5,7 +5,7 @@ import {
   addCollectionService,
   deleteCollectionService,
 } from '../../../../../services/store';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 interface Props extends ModalProps {

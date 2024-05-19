@@ -29,7 +29,7 @@ export default function PromoBanner() {
         {Array.from({ length: 4 }, (_, index) => {
           //variables - positions
           const positions = [
-            'bottom-0 right-0',
+            'bottom-0 right-0 ',
             'top-0 left-0',
             ' bottom-0 left-0',
             'top-0 right-0',
@@ -40,9 +40,9 @@ export default function PromoBanner() {
               <Image
                 src={`/assets/images/homepage/abstract-${index + 1}.svg`}
                 className={clsx(
-                  `absolute ${positions[index]}`,
                   'lg:w-[120px] lg:h-[120px]',
-                  'hidden lg:block'
+                  'hidden lg:block',
+                  `absolute ${positions[index]}`
                 )}
                 alt={`ab-${index}`}
                 width={120}

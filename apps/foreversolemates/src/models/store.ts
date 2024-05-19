@@ -21,7 +21,7 @@ export interface ProductModel {
   status: string;
   collection_id: string;
   createdOn: string;
-  final_price: number;
+  final_price?: number;
 }
 
 export interface UserModel {

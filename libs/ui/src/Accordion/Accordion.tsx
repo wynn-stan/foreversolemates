@@ -70,6 +70,7 @@ export default function Dropdown({ children, header }: Props) {
         // key={String(toggle)}
         className="border border-gray-5 overflow-hidden"
         variants={dropdownVariants}
+        initial="hidden"
         animate={dropdownAnimation}
       >
         {children}

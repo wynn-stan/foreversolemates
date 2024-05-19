@@ -1,6 +1,7 @@
 'use client';
 
 export { default as CollectionCard } from './CollectionCard/CollectionCard';
+export { default as HoverDropdown } from './HoverDropdown/HoverDropdown';
 export { default as SubmitWrapper } from './SubmitWrapper/SubmitWrapper';
 export { default as ProductImage } from './ProductImage/ProductImage';
 export { default as ProductCard } from './ProductCard/ProductCard';

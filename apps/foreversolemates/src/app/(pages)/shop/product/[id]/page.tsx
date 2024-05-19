@@ -1,14 +1,16 @@
 'use client';
 
-import queryString from 'query-string';
-import { ProductCard } from '@fsm/ui';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { toast } from 'react-toastify';
+import { ProductCard } from '@fsm/ui';
 import useSWR from 'swr';
 
 import { options, useLayout, useStore } from '../../../../../hooks';
 import { PaginatedData, ProductModel } from '../../../../../models';
 import Explore from '../../../../(components)/Explore';
-import toast from 'react-hot-toast';
+import routes from '../../../../../routes';
 
 interface Props {
   params: {
@@ -20,6 +22,7 @@ export default function Page({ params: { id } }: Props) {
   //hooks
   const { layout, setLayout } = useLayout();
   const { store, setStore } = useStore();
+  const router = useRouter();
 
   //api
   const { data, isLoading } = useSWR<{ data: ProductModel }>(`/product/${id}`);
@@ -74,6 +77,7 @@ export default function Page({ params: { id } }: Props) {
                   ],
                 };
               });
+              router.push(routes.cart.index);
               toast.success('Product added to cart');
             }}
           />

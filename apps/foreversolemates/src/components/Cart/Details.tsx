@@ -1,12 +1,14 @@
 'use client';
 
-import styled from 'styled-components';
-import { CartItem } from '../../models';
 import { Button, ProductCard, ProductImage } from '@fsm/ui';
+import { AnimatePresence } from 'framer-motion';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { getPriceAndDiscount, getStockSummary } from '../../utils';
 
+import { getPriceAndDiscount, getStockSummary } from '../../utils';
+import { CartItem } from '../../models';
 interface Props {
   cartItems: Partial<CartItem>[];
   onDelete: (index: string) => void;
@@ -33,81 +35,101 @@ export default function Details({ cartItems, onDelete }: Props) {
         });
 
         return (
-          <div key={key} className="space-y-6">
-            <div className="flex">
-              <div
-                className={clsx(
-                  'bg-gray-10 ',
-                  'w-[150px] h-[150px]',
-                  'overflow-hidden'
-                )}
-              >
-                <Image
-                  unoptimized
+          <AnimatePresence key={key}>
+            <motion.div
+              key={cartItems.length}
+              exit={{
+                opacity: 0,
+                x: '-100vw',
+              }}
+              transition={{
+                duration: 0.5,
+              }}
+              className="space-y-6"
+            >
+              <div className="flex">
+                <div
                   className={clsx(
-                    'object-cover object-center',
-                    'w-full h-full'
+                    'bg-gray-10 ',
+                    'w-[150px] h-[150px]',
+                    'overflow-hidden'
                   )}
-                  src={product?.images?.[0] || ''}
-                  alt="product_image"
-                  width={150}
-                  height={150}
-                />
-              </div>
+                >
+                  <Image
+                    unoptimized
+                    className={clsx(
+                      'object-cover object-center',
+                      'w-full h-full'
+                    )}
+                    src={product?.images?.[0] || ''}
+                    alt="product_image"
+                    width={150}
+                    height={150}
+                  />
+                </div>
 
-              <div className="flex-grow md:flex justify-between p-4">
-                <div className="">
-                  <div>{product?.product_name}</div>
-                  <div className="flex items-center gap-2">
-                    {/* <ProductCard.Details.Price
+                <div className="flex-grow md:flex justify-between p-4">
+                  <div className="">
+                    <div>{product?.product_name}</div>
+                    <div className="flex items-center gap-2">
+                      {/* <ProductCard.Details.Price
                     initial_price={product?.initial_price || 0}
                     discount={product?.discount || 0}
                     className="flex-col !gap-0"
                   />
                   <div className="h-[15px] bg-gray-20 w-[2px]" /> */}
-                    <div className={clsx(stockDetails.colorClassName)}>
-                      {stockDetails.message}
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      Size:{' '}
-                      <span className="font-medium">
-                        {product?.selectedSize}
-                      </span>
+                      <div className={clsx(stockDetails.colorClassName)}>
+                        {stockDetails.message}
+                      </div>
                     </div>
                     <div>
-                      Color:{' '}
-                      <span className="font-medium">
-                        {product?.selectedColor}
-                      </span>
+                      <div>
+                        Size:{' '}
+                        <span className="font-medium">
+                          {product?.selectedSize}
+                        </span>
+                      </div>
+                      <div>
+                        Color:{' '}
+                        <span className="font-medium">
+                          {product?.selectedColor}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col justify-between">
-                  <ProductCard.Details.Price
-                    initial_price={product?.initial_price || 0}
-                    discount={product?.discount || 0}
-                    className="flex-col !gap-0 !items-end"
-                  />
+                  <div className="flex flex-col justify-between items-end">
+                    <div className="flex gap-2">
+                      <ProductCard.Details.Price
+                        initial_price={product?.initial_price || 0}
+                        discount={product?.discount || 0}
+                        className="flex-col !gap-0 !items-end"
+                      />
 
-                  <Button
-                    icon="trash"
-                    variant="outline-secondary"
-                    className="text-gray-40 hover:bg-black hover:!text-white"
-                    onClick={() => {
-                      product?._id && onDelete(product._id);
-                    }}
-                  >
-                    Delete
-                  </Button>
+                      <span>x</span>
+
+                      <div className="font-medium">
+                        {product.selectedQuantity}
+                      </div>
+                    </div>
+
+                    <Button
+                      icon="trash"
+                      variant="outline-alert"
+                      className="text-red-10 hover:bg-red-40 hover:!text-white !w-fit"
+                      onClick={() => {
+                        product?._id && onDelete(product._id);
+                      }}
+                    >
+                      {/* Delete */}
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Horizontal Rule */}
-            <div className="w-full bg-gray-5 h-[1px]" />
-          </div>
+              {/* Horizontal Rule */}
+              <div className="w-full bg-gray-5 h-[1px]" />
+            </motion.div>
+          </AnimatePresence>
         );
       })}
     </div>

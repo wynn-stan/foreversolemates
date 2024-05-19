@@ -59,8 +59,9 @@ function Details({
         size: yup.number().required('Size is required'),
       })}
       initialValues={{ quantity: 0, color: '', size: 0 }}
-      onSubmit={(params) => {
+      onSubmit={(params, { resetForm }) => {
         onAdd(params);
+        resetForm();
       }}
     >
       {({ values, isValid, handleSubmit, setFieldValue, resetForm }) => (
@@ -112,7 +113,6 @@ function Details({
               <AddToCart
                 handleSubmit={() => {
                   handleSubmit();
-                  resetForm();
                 }}
                 {...{ isValid, values, setFieldValue }}
               />

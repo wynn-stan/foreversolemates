@@ -4,9 +4,11 @@ import {
   MenuIcon,
   SearchIcon,
   ShoppingBagIcon,
+  ShoppingCartIcon,
+  TruckIcon,
   UserRoundIcon,
 } from 'lucide-react';
-import { Logo } from '@fsm/ui';
+import { HoverDropdown, Logo } from '@fsm/ui';
 import Link from 'next/link';
 
 import { NavProps } from './RootNavigation';
@@ -20,7 +22,7 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   const { store } = useStore();
 
   return (
-    <div className="flex justify-between items-center py-4 px-8">
+    <div className={clsx('flex justify-between items-center py-4 px-8')}>
       <div
         className="md:hidden cursor-pointer"
         onClick={() => setShowSidebar(true)}
@@ -32,11 +34,38 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         <Logo.Full />
       </Link>
 
-      <StyledLinks className="hidden md:flex gap-4 items-center">
-        <Link href={routes.home.index}>Home</Link>
+      <div className="hidden md:flex gap-4 items-center">
+        <HoverDropdown href={routes.home.index} label="Home" />
+        <HoverDropdown href={routes.shop.all.index} label="Shop" />
+        <HoverDropdown href="#" label="About us" />
+
+        <HoverDropdown label="Cart & Orders">
+          <div
+            className={clsx(
+              'flex flex-col gap-4 px-4 min-w-[200px] text-right',
+              'font-medium '
+            )}
+          >
+            <div className="flex gap-2 justify-end items-center">
+              <Link className="hover:underline" href={routes.cart.index}>
+                My Cart
+              </Link>
+              <ShoppingBagIcon size={16} />
+            </div>
+
+            <div className="flex gap-2 justify-end items-center">
+              <Link className="hover:underline" href="#">
+                Track my order
+              </Link>
+              <TruckIcon size={16} />
+            </div>
+          </div>
+        </HoverDropdown>
+      </div>
+
+      {/* <Link href={routes.home.index}>Home</Link>
         <Link href={routes.shop.all.index}>Shop</Link>
-        <Link href="#">About us</Link>
-      </StyledLinks>
+        <Link href="#">About us</Link> */}
 
       <div className="flex gap-4 items-center">
         {/* <Link href="#">

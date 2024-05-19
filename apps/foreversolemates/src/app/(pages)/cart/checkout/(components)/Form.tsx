@@ -7,8 +7,8 @@ import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import { object } from 'yup';
 
 interface IForm {
-  personal_email: string;
-  personal_phone: string;
+  // personal_email: string;
+  // personal_phone: string;
   country: string;
   receipient_first_name: string;
   receipient_last_name: string;
@@ -29,8 +29,8 @@ export default function Form({ onSubmit }: Props) {
       enableReinitialize
       validateOnMount
       validationSchema={object({
-        personal_email: schema.requireEmail('Personal email'),
-        personal_phone: schema.requirePhoneNumber('Personal phone number'),
+        // personal_email: schema.requireEmail('Personal email'),
+        // personal_phone: schema.requirePhoneNumber('Personal phone number'),
         country: schema.requireString('Country'),
         receipient_first_name: schema.requireString("Receipient's first name"),
         receipient_last_name: schema.requireString("Receipient's last name"),
@@ -42,8 +42,8 @@ export default function Form({ onSubmit }: Props) {
         receipient_email: schema.requireString("Receipient's email"),
       })}
       initialValues={{
-        personal_email: '',
-        personal_phone: '',
+        // personal_email: '',
+        // personal_phone: '',
         country: 'Ghana',
         receipient_first_name: '',
         receipient_last_name: '',
@@ -57,10 +57,17 @@ export default function Form({ onSubmit }: Props) {
         onSubmit(params, actions);
       }}
     >
-      {({ values, isValid, isSubmitting, setFieldTouched, setFieldValue }) => (
+      {({
+        values,
+        isValid,
+        isSubmitting,
+        setFieldTouched,
+        setFieldValue,
+        errors,
+      }) => (
         <FormikForm className={clsx('space-y-6 ', 'lg:max-w-[750px]')}>
           {/* Contact */}
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <div className="text-xl font-semibold">Contact</div>
             <div className="md:flex space-y-4 md:space-y-0  gap-4">
               <Field.Group
@@ -84,7 +91,7 @@ export default function Form({ onSubmit }: Props) {
                 />
               </Field.Group>
             </div>
-          </div>
+          </div> */}
 
           {/* Delivery */}
           <div className="space-y-2">
@@ -112,7 +119,7 @@ export default function Form({ onSubmit }: Props) {
                   label="Receipient Last name"
                 >
                   <Field.Input
-                    name="last_name"
+                    name="receipient_last_name"
                     placeholder="Receipient Last name"
                   />
                 </Field.Group>
@@ -135,7 +142,10 @@ export default function Form({ onSubmit }: Props) {
                   name="receipient_city"
                   label="Receipient City"
                 >
-                  <Field.Input name="city" placeholder="Receipient City" />
+                  <Field.Input
+                    name="receipient_city"
+                    placeholder="Receipient City"
+                  />
                 </Field.Group>
 
                 <Field.Group

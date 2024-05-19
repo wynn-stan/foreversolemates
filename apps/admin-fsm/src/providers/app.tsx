@@ -1,11 +1,13 @@
 'use client';
 
-import { http } from '@foreversolemates/utils';
-import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Toaster } from 'react-hot-toast';
+import { http } from '@foreversolemates/utils';
+// import { Toaster } from 'react-toastify';
 import { SWRConfig } from 'swr';
+import dayjs from 'dayjs';
+
+import { ToastContainer, toast } from 'react-toastify';
 
 import LayoutProvider from './layout';
 
@@ -32,7 +34,7 @@ export default function AppProvider({
         value={{ fetcher, shouldRetryOnError: false, revalidateOnFocus: true }}
       >
         <LayoutProvider>{children}</LayoutProvider>
-        <Toaster position="top-right" />
+        <ToastContainer hideProgressBar />
       </SWRConfig>
     </>
   );

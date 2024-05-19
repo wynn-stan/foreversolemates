@@ -1,14 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import clsx from 'clsx';
 
+import { fadeInFromBelowVariants } from '../../../utils';
 import { useLayout, useStore } from '../../../hooks';
 import { Cart } from '../../../components/';
-import { useRouter } from 'next/navigation';
+import { CartItem } from '../../../models';
 import routes from '../../../routes';
-import { motion } from 'framer-motion';
-import { fadeInFromBelowVariants } from '../../../utils';
-import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 export default function Page() {
   //hooks
@@ -51,6 +53,7 @@ export default function Page() {
               cart: filteredCart,
             };
           });
+          toast.success('Product removed from cart');
         }}
         cartItems={store?.cart || []}
       />
@@ -62,12 +65,7 @@ export default function Page() {
           </div>
           <div className="max-w-[350px] w-full">
             <Cart.Summary
-              items={
-                store?.cart?.map((item) => ({ final_price: 12 })) || [
-                  { final_price: 0 },
-                ]
-              }
-              taxPercent={0}
+              items={(store?.cart as CartItem[]) || []}
               onCancel={() => {
                 router.push(routes.shop.all.index);
               }}

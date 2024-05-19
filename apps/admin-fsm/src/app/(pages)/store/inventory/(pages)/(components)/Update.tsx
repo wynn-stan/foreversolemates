@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { Modal } from '@fsm/ui';
 
 import { updateProductService } from '../../../../../../services/store';
