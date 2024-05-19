@@ -4,11 +4,12 @@ import { http } from '@foreversolemates/utils';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Toaster } from 'react-hot-toast';
+// import { Toaster } from 'react-toastify';
 import { SWRConfig } from 'swr';
 
 import LayoutProvider from './layout';
 import StoreProvider from '../contexts/store';
+import { ToastContainer } from 'react-toastify';
 
 export default function AppProvider({
   children,
@@ -38,7 +39,7 @@ export default function AppProvider({
           }}
         >
           <LayoutProvider>{children}</LayoutProvider>
-          <Toaster position="top-right" />
+          <ToastContainer hideProgressBar />
         </SWRConfig>
       </StoreProvider>
     </>

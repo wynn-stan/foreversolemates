@@ -30,6 +30,7 @@ export default function AddToCart({
         />
 
         <Button
+          type="submit"
           onClick={handleSubmit}
           disabled={!isValid}
           className="w-full"

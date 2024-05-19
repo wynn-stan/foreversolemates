@@ -21,7 +21,11 @@ export default function Images({ urls }: Props) {
         )}
       >
         {urls.map((link, index) => (
-          <div className="cursor-pointer" onClick={() => setCurrentImage(link)}>
+          <div
+            className="cursor-pointer"
+            key={index}
+            onClick={() => setCurrentImage(link)}
+          >
             <Image
               unoptimized
               className=""

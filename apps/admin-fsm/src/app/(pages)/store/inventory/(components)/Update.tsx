@@ -2,7 +2,7 @@ import { Modal } from '@fsm/ui';
 import { ModalProps } from '../../../../../models';
 import Form from './Form';
 import { updateCollectionService } from '../../../../../services/store';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 
 interface Props extends ModalProps {

@@ -3,7 +3,7 @@ import { Modal } from '@fsm/ui';
 import { addAdminAccountService } from '../../../../../services/user';
 import { ModalProps } from '../../../../../models';
 import Form from './Form';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 interface Props extends ModalProps {
   mutate: () => void;

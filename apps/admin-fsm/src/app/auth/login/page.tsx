@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import Link from 'next/link';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { helpers } from '@foreversolemates/utils';
 import { useRouter } from 'next/navigation';
 

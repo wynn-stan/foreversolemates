@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Button, Dropdown } from '@fsm/ui';
+import { Button, Dropdown } from '../index';
 import { ChevronDown, EyeIcon } from 'lucide-react';
 import { helpers, useWidth } from '@foreversolemates/utils';
 import styled from 'styled-components';
@@ -67,12 +67,12 @@ export default function Compact({
         className={clsx(
           'bg-gray-10 ',
           'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]',
-          'overflow-hidden'
+          'overflow-hidden rounded-lg'
         )}
       >
         <Image
           unoptimized
-          className={clsx('object-cover object-center', 'w-full h-full')}
+          className={clsx('object-cover object-center', 'w-full h-full ')}
           src={details.product_image}
           alt="product_image"
           width={150}

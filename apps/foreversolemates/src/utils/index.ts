@@ -53,3 +53,4 @@ export const getPriceAndDiscount = ({
 };
 
 export * from './animations';
+export * from './cart';

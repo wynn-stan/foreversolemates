@@ -1,34 +1,28 @@
 import { Button } from '@fsm/ui';
+import { getFormattedCartData } from '../../utils/cart';
+import { CartItem } from '../../models';
+import List from './Summary/List';
 
 interface Props {
-  items: { final_price: number }[];
-  taxPercent: number;
+  items: Partial<CartItem>[];
   onCheckout: () => void;
   onCancel: () => void;
   showActions?: boolean;
+  showList?: boolean;
 }
 
 export default function Summary({
   items,
-  taxPercent,
   onCancel,
   onCheckout,
   showActions = true,
+  showList = false,
 }: Props) {
-  //variables - subtotal
-  const subtotal = items.reduce(
-    (total, currValue) => total + currValue.final_price,
-    0
-  );
-
-  //variables - tax
-  const tax = (taxPercent / 100) * subtotal;
-
-  //variables - total
-  const total = subtotal + tax;
-
   //variables - disabled button
   const isValid = items.length;
+
+  //variables - cart summary
+  const cartSummary = getFormattedCartData({ cartItems: items });
 
   return (
     <div className="space-y-4">
@@ -36,17 +30,20 @@ export default function Summary({
         Order Summary
       </div>
 
+      {/* Item Lists */}
+      {showList && <List items={items as CartItem[]} />}
+
       {/* Subtotal */}
       <div className="space-y-4">
         <div className=" flex justify-between font-medium">
           <div>Subtotal</div>
-          <div>GH₵{subtotal}</div>
+          <div>GH₵{cartSummary.subtotal}</div>
         </div>
 
         {/* Tax */}
         <div className="text-sm text-gray-30 flex justify-between font-medium">
           <div>Tax</div>
-          <div>GH₵{tax}</div>
+          <div>GH₵{cartSummary.taxAmount}</div>
         </div>
 
         <div className="min-w-[5px] w-full h-[3px] bg-gray-5" />
@@ -54,7 +51,7 @@ export default function Summary({
         {/* Total */}
         <div className=" flex justify-between font-medium">
           <div>Total</div>
-          <div>GH₵{total}</div>
+          <div>GH₵{cartSummary.totalAmount}</div>
         </div>
       </div>
 
