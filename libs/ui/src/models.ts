@@ -1,12 +1,3 @@
-export interface CollectionModel {
-  _id: string;
-  banner_image: string;
-  collection_name: string;
-  top_tagline: string;
-  bottom_tagline: string;
-  status: string;
-}
-
 export interface ProductModel {
   _id: string;
   available_sizes: number[];
@@ -22,10 +13,6 @@ export interface ProductModel {
   collection_id: string;
   createdOn: string;
   final_price?: number;
-}
-
-export interface UserModel {
-  cart: ProductModel[];
 }
 
 export interface CartItem extends ProductModel {

@@ -1,18 +1,29 @@
-import { Button } from '@fsm/ui';
-
-import { getFormattedCartData } from '../../utils/cart';
-import { CartItem } from '../../models';
-import List from './Summary/List';
+import List from './OrderSummary/List';
+import { CartItem } from '../models';
+import { Button, Pill } from '../index';
 
 interface Props {
   items: Partial<CartItem>[];
-  onCheckout: () => void;
-  onCancel: () => void;
+  subtotal: number;
+  tax_amount: number;
+  total: number;
+  onCheckout?: () => void;
+  onCancel?: () => void;
   showActions?: boolean;
   showList?: boolean;
+  status?:
+    | 'in-production'
+    | 'ready-for-delivery'
+    | 'out-for-delivery'
+    | 'delivered'
+    | 'reversed';
 }
 
 export default function Summary({
+  status,
+  subtotal,
+  total,
+  tax_amount,
   items,
   onCancel,
   onCheckout,
@@ -22,13 +33,23 @@ export default function Summary({
   //variables - disabled button
   const isValid = items.length;
 
-  //variables - cart summary
-  const cartSummary = getFormattedCartData({ cartItems: items });
-
   return (
     <div className="space-y-4">
-      <div className=" text-lg font-medium underline text-center">
-        Order Summary
+      <div>
+        {!status && (
+          <div className=" text-lg font-medium underline text-center">
+            Order Summary
+          </div>
+        )}
+
+        {status && (
+          <div className="flex justify-between">
+            <div className=" text-lg font-medium text-center">
+              Order Summary
+            </div>
+            <Pill.OrderStatus state={status} />
+          </div>
+        )}
       </div>
 
       {/* Item Lists */}
@@ -38,13 +59,13 @@ export default function Summary({
       <div className="space-y-4">
         <div className=" flex justify-between font-medium">
           <div>Subtotal</div>
-          <div>GH₵{cartSummary.subtotal}</div>
+          <div>GH₵{subtotal}</div>
         </div>
 
         {/* Tax */}
         <div className="text-sm text-gray-30 flex justify-between font-medium">
           <div>Tax</div>
-          <div>GH₵{cartSummary.tax_amount}</div>
+          <div>GH₵{tax_amount}</div>
         </div>
 
         <div className="min-w-[5px] w-full h-[3px] bg-gray-5" />
@@ -52,7 +73,7 @@ export default function Summary({
         {/* Total */}
         <div className=" flex justify-between font-medium">
           <div>Total</div>
-          <div>GH₵{cartSummary.total}</div>
+          <div>GH₵{total}</div>
         </div>
       </div>
 

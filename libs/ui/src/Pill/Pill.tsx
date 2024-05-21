@@ -1,13 +1,14 @@
 import clsx from 'clsx';
 import { CheckIcon } from 'lucide-react';
 import { HTMLAttributes } from 'react';
+import OrderStatus from './OrderStatus';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   checked?: boolean;
   size?: 'sm' | 'md' | 'lg';
 }
 
-export default function Pill({
+function Pill({
   size = 'lg',
   checked,
   className,
@@ -48,3 +49,5 @@ export default function Pill({
     </div>
   );
 }
+
+export default Object.assign(Pill, { OrderStatus });

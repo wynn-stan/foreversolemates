@@ -9,7 +9,7 @@ import SizeOptions from './Details/SizeOptions';
 import ColorOptions from './Details/ColorOptions';
 import AddToCart from './Details/AddToCart';
 import { useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { motion } from 'framer-motion';
 
@@ -31,13 +31,16 @@ interface ProductModel {
 
 interface Props {
   details: ProductModel;
-  onAdd?: (product: ProductSpecs) => void;
+  onAdd?: (
+    product: Partial<ProductSpecs>,
+    actions: FormikHelpers<ProductSpecs>
+  ) => void;
 }
 
 interface ProductSpecs {
-  color?: string;
-  size?: number;
-  quantity?: number;
+  color: string;
+  size: number;
+  quantity: number;
 }
 
 function Details({
@@ -59,12 +62,19 @@ function Details({
         size: yup.number().required('Size is required'),
       })}
       initialValues={{ quantity: 0, color: '', size: 0 }}
-      onSubmit={(params, { resetForm }) => {
-        onAdd(params);
-        resetForm();
+      onSubmit={(params, actions) => {
+        onAdd(params, actions);
+        // resetForm();
       }}
     >
-      {({ values, isValid, handleSubmit, setFieldValue, resetForm }) => (
+      {({
+        values,
+        isValid,
+        handleSubmit,
+        setFieldValue,
+        resetForm,
+        isSubmitting,
+      }) => (
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,7 +124,7 @@ function Details({
                 handleSubmit={() => {
                   handleSubmit();
                 }}
-                {...{ isValid, values, setFieldValue }}
+                {...{ isValid, values, setFieldValue, isSubmitting }}
               />
             </div>
           </div>

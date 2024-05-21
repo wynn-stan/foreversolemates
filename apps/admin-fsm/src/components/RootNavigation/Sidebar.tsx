@@ -4,6 +4,7 @@ import {
   LogOutIcon,
   LucideIcon,
   ShoppingBagIcon,
+  TruckIcon,
   UserCogIcon,
   Users,
   X,
@@ -55,10 +56,15 @@ export default function Sidebar({ toggleSidebar }: Props) {
           slug: routes.store.inventory.index,
         },
         {
-          label: 'Customer Management',
-          icon: Users,
-          slug: routes.store.customer_management.index,
+          label: 'Order Management',
+          icon: TruckIcon,
+          slug: routes.store.order_management.index,
         },
+        // {
+        //   label: 'Customer Management',
+        //   icon: Users,
+        //   slug: routes.store.customer_management.index,
+        // },
       ],
     },
     system: {

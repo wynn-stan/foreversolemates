@@ -1,14 +1,16 @@
-import { CartItem } from '../../../models';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { ProductCard } from '@fsm/ui';
+
+import { ProductCard } from '../../index';
+import { CartItem } from '../../models';
+import { currencyFormatter } from '../../Utils';
 
 export default function List({ items }: { items: CartItem[] }) {
   return (
     <>
       {items.map((product, index) => {
         return (
-          <div key={index} className="space-y-6">
+          <div key={index} className="">
             <div className="flex">
               <div
                 className={clsx(
@@ -30,7 +32,12 @@ export default function List({ items }: { items: CartItem[] }) {
                 />
               </div>
 
-              <div className="flex-grow md:flex justify-between px-2">
+              <div
+                className={clsx(
+                  'flex flex-col lg:flex-row flex-grow justify-between p-4 gap-2'
+                )}
+              >
+                {' '}
                 <div className="">
                   <div className="truncate max-w-[100px]">
                     {product?.product_name}
@@ -50,14 +57,22 @@ export default function List({ items }: { items: CartItem[] }) {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex flex-col justify-between items-end">
-                  <div className="flex gap-2">
-                    <ProductCard.Details.Price
-                      initial_price={product?.initial_price || 0}
-                      discount={product?.discount || 0}
-                      className="flex-col !gap-0 !items-end"
-                    />
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={clsx('flex flex-col items-end tracking-tight')}
+                    >
+                      <div className="lg:text-lg font-medium ">
+                        {currencyFormatter(product?.final_price || 0)}
+                      </div>
+                      {product?.discount ? (
+                        <div className="text-sm text-gray-30 line-through">
+                          {currencyFormatter(product?.initial_price || 0)}
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </div>
 
                     <span>x</span>
 

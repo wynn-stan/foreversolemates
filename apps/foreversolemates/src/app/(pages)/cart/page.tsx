@@ -1,16 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { Order } from '@fsm/ui';
 import clsx from 'clsx';
 
-import { fadeInFromBelowVariants } from '../../../utils';
+import { fadeInFromBelowVariants, getFormattedCartData } from '../../../utils';
 import { useLayout, useStore } from '../../../hooks';
 import { Cart } from '../../../components/';
 import { CartItem } from '../../../models';
 import routes from '../../../routes';
-import { toast } from 'react-toastify';
 
 export default function Page() {
   //hooks
@@ -33,6 +34,8 @@ export default function Page() {
     // return setLayout({});
   }, []);
 
+  const cartSummary = getFormattedCartData({ cartItems: store?.cart || [] });
+
   return (
     <motion.div
       variants={fadeInFromBelowVariants}
@@ -43,11 +46,13 @@ export default function Page() {
         'flex-col-reverse md:flex-row'
       )}
     >
-      <Cart.Details
-        onDelete={(index) => {
+      <Order.Details
+        onDelete={(deleted_index) => {
           setStore((store) => {
             const filteredCart =
-              store.cart?.filter((cartItem) => cartItem?._id !== index) || [];
+              store.cart?.filter(
+                (cartItem, index) => index !== deleted_index
+              ) || [];
             return {
               ...store,
               cart: filteredCart,
@@ -64,7 +69,10 @@ export default function Page() {
             <div className="w-[2px] min-h-[5px] bg-gray-5 h-full flex-grow" />
           </div>
           <div className="max-w-[350px] w-full">
-            <Cart.Summary
+            <Order.OrderSummary
+              subtotal={cartSummary?.subtotal}
+              tax_amount={cartSummary?.tax_amount}
+              total={cartSummary?.total}
               items={(store?.cart as CartItem[]) || []}
               onCancel={() => {
                 router.push(routes.shop.all.index);
