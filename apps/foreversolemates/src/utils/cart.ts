@@ -6,28 +6,28 @@ export const getFormattedCartData = ({
   cartItems: Partial<CartItem>[];
 }) => {
   //variables - constant tax
-  const taxPercent = 0;
+  const tax_percent = 0;
 
   //variables - subtotal
   const subtotal = cartItems.reduce(
     (total, currValue) =>
       total +
       (currValue?.final_price || currValue?.initial_price || 0) *
-        (currValue?.selectedQuantity || 1),
+        (currValue?.selected_quantity || 1),
     0
   );
 
   //variables - tax
-  const taxAmount = (taxPercent / 100) * subtotal;
+  const tax_amount = (tax_percent / 100) * subtotal;
 
   //variables - total
-  const totalAmount = subtotal + taxAmount;
+  const total = subtotal + tax_amount;
 
   //variables
   const getAllProductsCombined = cartItems
     .map(
       (item, index) =>
-        `[Name:${item.product_name}-Size:${item.selectedSize}-Color:${item.selectedColor}-Quantity:${item.selectedQuantity}-ProductId:${item._id}]`
+        `[Name:${item.product_name}-Size:${item.selected_size}-Color:${item.selected_color}-Quantity:${item.selected_quantity}-ProductId:${item._id}]`
     )
     .join(',');
 
@@ -42,8 +42,8 @@ export const getFormattedCartData = ({
 
   const details = {
     subtotal,
-    taxAmount,
-    totalAmount,
+    tax_amount,
+    total,
     items: cartItems,
     custom_fields: dashboard_display,
   };

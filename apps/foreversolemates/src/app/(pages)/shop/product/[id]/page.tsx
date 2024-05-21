@@ -37,6 +37,7 @@ export default function Page({ params: { id } }: Props) {
     })}`
   );
 
+  //variables - details data
   const details = data?.data;
 
   //variables - suggested products
@@ -62,22 +63,25 @@ export default function Page({ params: { id } }: Props) {
         {details && (
           <ProductCard.Details
             details={details}
-            onAdd={({ color, quantity, size }) => {
+            onAdd={({ color, quantity, size }, setSubmitting) => {
               setStore((store) => {
                 return {
                   ...store,
                   cart: [
                     {
                       ...details,
-                      selectedSize: size,
-                      selectedQuantity: quantity,
-                      selectedColor: color,
+                      selected_size: size,
+                      selected_quantity: quantity,
+                      selected_color: color,
                     },
                     ...(store?.cart || []),
                   ],
                 };
               });
-              router.push(routes.cart.index);
+
+              setTimeout(() => {
+                router.push(routes.cart.index);
+              }, 1500);
               toast.success('Product added to cart');
             }}
           />

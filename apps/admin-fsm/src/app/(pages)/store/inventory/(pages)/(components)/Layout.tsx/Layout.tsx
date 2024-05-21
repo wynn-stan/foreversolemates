@@ -102,9 +102,12 @@ export default function CollectionLayout({
           {isLoading &&
             Array.from({ length: 5 }, (_, i) =>
               cardType === 'compact' ? (
-                <div className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"></div>
+                <div
+                  key={i}
+                  className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"
+                ></div>
               ) : (
-                <div className="flex gap-4">
+                <div key={i} className="flex gap-4">
                   <div className="w-[150px] h-[150px] bg-gray-20 animate-pulse"></div>
                   <div className="w-full max-w-[800px] h-[150px] bg-gray-20 animate-pulse"></div>
                 </div>

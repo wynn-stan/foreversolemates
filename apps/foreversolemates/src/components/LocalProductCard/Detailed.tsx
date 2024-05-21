@@ -57,7 +57,9 @@ export default function Detailed({ details }: Props) {
         <div className={clsx('flex gap-4 flex-wrap')}>
           <Button
             icon="cart"
-            onClick={() => {}}
+            onClick={() => {
+              //
+            }}
             className={clsx(
               'flex gap-2 !rounded-md',
               'py-2 px-2 text-sm',

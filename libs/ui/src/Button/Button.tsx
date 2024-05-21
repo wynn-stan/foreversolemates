@@ -10,6 +10,7 @@ import {
   ChevronDownIcon,
   EyeIcon,
   PlusIcon,
+  SearchIcon,
   ShoppingCartIcon,
   TrashIcon,
 } from 'lucide-react';
@@ -32,7 +33,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'cart'
     | 'arrow-left'
     | 'arrow-right'
-    | 'trash';
+    | 'trash'
+    | 'search';
   direction?: 'left' | 'right';
 }
 
@@ -54,7 +56,7 @@ export default function Button({
 
   //variant styles
   const variant_style: { [key: string]: string } = {
-    default: 'text-white bg-black',
+    default: 'text-white bg-gray-60',
     dark: 'text-white bg-[#262626]',
     alert: 'text-white bg-red-40',
     'outline-secondary': 'text-black border border-gray-10',
@@ -80,6 +82,8 @@ export default function Button({
         return ArrowLeftIcon;
       case 'trash':
         return TrashIcon;
+      case 'search':
+        return SearchIcon;
       default:
         return () => <></>;
     }

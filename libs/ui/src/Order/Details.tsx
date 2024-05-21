@@ -1,17 +1,21 @@
 'use client';
 
-import { Button, ProductCard, ProductImage } from '@fsm/ui';
+import { Button, ProductCard, ProductImage } from '../index';
 import { AnimatePresence } from 'framer-motion';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import clsx from 'clsx';
 
-import { getPriceAndDiscount, getStockSummary } from '../../utils';
-import { CartItem } from '../../models';
+import { CartItem } from '../models';
+import {
+  currencyFormatter,
+  getPriceAndDiscount,
+  getStockSummary,
+} from '../Utils';
+
 interface Props {
   cartItems: Partial<CartItem>[];
-  onDelete: (index: string) => void;
+  onDelete: (key: number) => void;
 }
 
 export default function Details({ cartItems, onDelete }: Props) {
@@ -29,22 +33,17 @@ export default function Details({ cartItems, onDelete }: Props) {
           low_stock_indicator: product?.alert || 0,
         });
 
-        const priceDetails = getPriceAndDiscount({
-          discount: product?.discount || 0,
-          initial_price: product?.initial_price || 0,
-        });
-
         return (
           <AnimatePresence key={key}>
             <motion.div
               key={cartItems.length}
-              exit={{
-                opacity: 0,
-                x: '-100vw',
-              }}
-              transition={{
-                duration: 0.5,
-              }}
+              // exit={{
+              //   opacity: 0,
+              //   x: '-100vw',
+              // }}
+              // transition={{
+              //   duration: 0.5,
+              // }}
               className="space-y-6"
             >
               <div className="flex">
@@ -68,16 +67,14 @@ export default function Details({ cartItems, onDelete }: Props) {
                   />
                 </div>
 
-                <div className="flex-grow md:flex justify-between p-4">
+                <div
+                  className={clsx(
+                    'flex flex-col lg:flex-row flex-grow justify-between p-4 gap-2'
+                  )}
+                >
                   <div className="">
                     <div>{product?.product_name}</div>
                     <div className="flex items-center gap-2">
-                      {/* <ProductCard.Details.Price
-                    initial_price={product?.initial_price || 0}
-                    discount={product?.discount || 0}
-                    className="flex-col !gap-0"
-                  />
-                  <div className="h-[15px] bg-gray-20 w-[2px]" /> */}
                       <div className={clsx(stockDetails.colorClassName)}>
                         {stockDetails.message}
                       </div>
@@ -98,13 +95,24 @@ export default function Details({ cartItems, onDelete }: Props) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-between items-end">
-                    <div className="flex gap-2">
-                      <ProductCard.Details.Price
-                        initial_price={product?.initial_price || 0}
-                        discount={product?.discount || 0}
-                        className="flex-col !gap-0 !items-end"
-                      />
+                  <div className="flex flex-col justify-between lg:items-end">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={clsx(
+                          'flex flex-col items-end tracking-tight'
+                        )}
+                      >
+                        <div className="lg:text-lg font-medium ">
+                          {currencyFormatter(product?.final_price || 0)}
+                        </div>
+                        {product?.discount ? (
+                          <div className="text-sm text-gray-30 line-through">
+                            {currencyFormatter(product?.initial_price || 0)}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </div>
 
                       <span>x</span>
 
@@ -116,9 +124,12 @@ export default function Details({ cartItems, onDelete }: Props) {
                     <Button
                       icon="trash"
                       variant="outline-alert"
-                      className="text-red-10 hover:bg-red-40 hover:!text-white !w-fit"
+                      className={clsx(
+                        'text-red-10 hover:bg-red-40 hover:!text-white',
+                        '!w-full lg:!w-fit'
+                      )}
                       onClick={() => {
-                        product?._id && onDelete(product._id);
+                        product?._id && onDelete(key);
                       }}
                     >
                       {/* Delete */}

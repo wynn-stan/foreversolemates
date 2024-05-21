@@ -3,19 +3,19 @@
 import { useWidth } from '@foreversolemates/utils';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Accordion } from '@fsm/ui';
+import { Accordion, Order } from '@fsm/ui';
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
+import Link from 'next/link';
 import axios from 'axios';
 import clsx from 'clsx';
 
+import {
+  fadeInFromBelowVariants,
+  getFormattedCartData,
+} from '../../../../utils';
 import { useLayout, useStore } from '../../../../hooks';
-import { fadeInFromBelowVariants } from '../../../../utils';
 import { Cart } from '../../../../components/';
-import routes from '../../../../routes';
-import Form from './(components)/Form';
-import { getFormattedCartData } from '../../../../utils';
-import { toast } from 'react-toastify';
-import Link from 'next/link';
 
 export default function Page() {
   //hooks
@@ -45,10 +45,18 @@ export default function Page() {
   //variables - items in cart
   const cartHasItems = store?.cart?.length;
 
+  // variables - payload
+  const checkoutPayload = getFormattedCartData({
+    cartItems: store?.cart || [],
+  });
+
   /**
    * Variables - cart props
    */
   const cartSummaryProps = {
+    subtotal: checkoutPayload.subtotal,
+    tax_amount: checkoutPayload.tax_amount,
+    total: checkoutPayload.total,
     items: store?.cart || [],
     onCancel: () => ({}),
     onCheckout: () => ({}),
@@ -56,10 +64,7 @@ export default function Page() {
     showList: true,
   };
 
-  // variables - payload
-  const checkoutPayload = getFormattedCartData({
-    cartItems: store?.cart || [],
-  });
+  console.log(cartSummaryProps);
 
   return (
     <>
@@ -83,29 +88,33 @@ export default function Page() {
           <></>
         )}
 
-        <Form
-          onSubmit={(params, { setSubmitting }) => {
-            axios
-              .post<never, any>(`/api/generate-checkout-link`, {
-                amount: checkoutPayload.totalAmount,
-                email: params.receipient_email,
-                callback_url:
-                  process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
-                metadata: checkoutPayload,
-              })
-              .then(({ data: { url, reference } }) => {
-                if (checkoutRef?.current) {
-                  checkoutRef.current.href = url;
-                  checkoutRef.current.click();
+        <div className="w-full max-w-[600px]">
+          <Order.DeliveryForm
+            onSubmit={(params, { setSubmitting }) => {
+              axios
+                .post<never, any>(`/api/generate-checkout-link`, {
+                  amount: checkoutPayload.total,
+                  email: params.recipient_email,
+                  callback_url:
+                    process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
+                  metadata: checkoutPayload,
+                })
+                .then(({ data: { url, reference } }) => {
+                  if (checkoutRef?.current) {
+                    checkoutRef.current.href = url;
+                    checkoutRef.current.click();
+                    setSubmitting(false);
+                  }
+                })
+                .catch(() => {
+                  toast.error(
+                    'Something unexpected happened. Please try again'
+                  );
                   setSubmitting(false);
-                }
-              })
-              .catch(() => {
-                toast.error('Something unexpected happened. Please try again');
-                setSubmitting(false);
-              });
-          }}
-        />
+                });
+            }}
+          />
+        </div>
 
         {/* Showing the order summary on large screens */}
         {cartHasItems && lg ? (
@@ -114,7 +123,7 @@ export default function Page() {
               <div className="w-[2px] min-h-[5px] bg-gray-5 h-full flex-grow" />
             </div>
             <div className="max-w-[350px] w-full">
-              <Cart.Summary {...cartSummaryProps} />
+              <Order.OrderSummary {...cartSummaryProps} />
             </div>
           </>
         ) : (

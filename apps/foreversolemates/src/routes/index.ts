@@ -20,6 +20,9 @@ const routes = {
       index: '/shop/product/[id]',
     },
   },
+  track_my_order: {
+    index: '/track-my-order',
+  },
 };
 
 export default routes;

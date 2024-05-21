@@ -24,6 +24,7 @@ interface IForm {
   images: File[];
   available_sizes: number[];
   available_colors: string[];
+  final_price: number;
 }
 
 interface Props {
@@ -61,12 +62,12 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
               field: 'image',
             })
           ),
-          available_sizes: yup
-            .array()
-            .of(schema.requireNumber('Available size')),
-          available_colors: yup
-            .array()
-            .of(schema.requireString('Available colors')),
+          // available_sizes: yup
+          //   .array()
+          //   .of(schema.requireNumber('Available size')),
+          // available_colors: yup
+          //   .array()
+          //   .of(schema.requireString('Available colors')),
         })}
         initialValues={{
           collection_id: defaultValues?.collection_id || '',
@@ -79,6 +80,10 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
           images: defaultValues?.images || ([] as File[]),
           available_sizes: defaultValues?.available_sizes || ([] as number[]),
           available_colors: defaultValues?.available_colors || ([] as string[]),
+          final_price: getFinalPrice(
+            defaultValues?.initial_price || 0,
+            defaultValues?.discount || 0
+          ),
         }}
         onSubmit={(params, actions) => onSubmit(params, actions)}
       >
@@ -86,7 +91,8 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
           <div
             className={clsx(
               'w-full h-full p-6 pb-0',
-              ' flex flex-col justify-between'
+              ' flex flex-col justify-between',
+              'overflow-auto'
             )}
           >
             <div className="space-y-6">
@@ -133,23 +139,38 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                     name="initial_price"
                     placeholder="0"
                     value={values.initial_price}
+                    onChange={(e: any) => {
+                      setFieldValue('initial_price', e?.target?.value);
+                      setFieldValue(
+                        'final_price',
+                        getFinalPrice(e?.target.value, values.discount)
+                      );
+                    }}
                   />
                 </Field.Group>
 
                 <Field.Group name="discount" label="Discount (%)">
                   <Field.Input
+                    type="number"
+                    min={0}
                     name="discount"
                     placeholder="0"
                     value={values.discount}
+                    onChange={(e: any) => {
+                      setFieldValue('discount', e?.target?.value);
+                      setFieldValue(
+                        'final_price',
+                        getFinalPrice(values.initial_price, e?.target.value)
+                      );
+                    }}
                   />
                 </Field.Group>
 
-                <Field.Group name="undefined" label="Final Price (GH₵)">
+                <Field.Group name="final_price" label="Final Price (GH₵)">
                   <Field.Input
-                    name="undefined"
+                    name="final_price"
                     className="bg-gray-10 pointer-events-none"
                     placeholder="0"
-                    value={getFinalPrice(values.initial_price, values.discount)}
                   />
                 </Field.Group>
               </div>

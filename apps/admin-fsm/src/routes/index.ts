@@ -18,6 +18,9 @@ const routes = {
         index: '/store/inventory/collection/[id]',
       },
     },
+    order_management: {
+      index: '/store/order-management',
+    },
     customer_management: {
       index: '/store/customer-management',
     },

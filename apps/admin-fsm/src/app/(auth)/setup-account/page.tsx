@@ -87,6 +87,7 @@ export default function Page() {
               </Field.Group>
 
               <Button
+                type="submit"
                 className="w-full"
                 onClick={() => handleSubmit()}
                 disabled={!isValid}

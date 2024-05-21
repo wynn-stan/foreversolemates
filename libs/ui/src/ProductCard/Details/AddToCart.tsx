@@ -11,28 +11,28 @@ interface Props {
   values: { quantity: number };
   isValid: boolean;
   setFieldValue: any;
+  isSubmitting: boolean;
 }
 
 export default function AddToCart({
+  isSubmitting,
   values,
   handleSubmit,
   isValid,
   setFieldValue,
 }: Props) {
+  console.log(isSubmitting);
+
   return (
     <Field.Group name="quantity" label="Purchase units">
       <div className="flex gap-4 flex-wrap w-full">
-        <Field.Input
-          type="number"
-          name="quantity"
-          value={values.quantity}
-          placeholder="0"
-        />
+        <Field.Input type="number" name="quantity" placeholder="0" />
 
         <Button
           type="submit"
           onClick={handleSubmit}
           disabled={!isValid}
+          isSubmitting={isSubmitting}
           className="w-full"
           icon="cart"
         >
