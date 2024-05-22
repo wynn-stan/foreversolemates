@@ -41,8 +41,7 @@ export async function POST(request: Request, response: Response) {
         },
       })
       .then((res) => {
-        console.log(data?.metadata);
-        console.log(res);
+        console.log('acknoledged');
       })
       .catch((err) => {
         throw { response: err };

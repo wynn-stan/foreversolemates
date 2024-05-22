@@ -13,11 +13,11 @@ interface Props {
   showActions?: boolean;
   showList?: boolean;
   status?:
-    | 'in-production'
-    | 'ready-for-delivery'
-    | 'out-for-delivery'
-    | 'delivered'
-    | 'reversed';
+    | 'in production'
+    | 'ready for delivery'
+    | 'out for delivery'
+    | 'order reversed'
+    | 'delivered';
   className?: string;
 }
 

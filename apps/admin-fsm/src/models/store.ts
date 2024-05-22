@@ -34,6 +34,13 @@ export interface OrderModel {
 
   delivery_details: {
     country: string;
+    recipient_first_name: string;
+    recipient_last_name: string;
+    recipient_address: string;
+    recipient_city: string;
+    recipient_postal_code: string;
+    recipient_phone: string;
+    recipient_email: string;
     _id: string;
   };
 

@@ -34,3 +34,52 @@ export interface CartItem extends ProductModel {
   selected_quantity?: number;
   selected_color?: string;
 }
+
+export interface OrderModel {
+  _id: string;
+  subtotal: number;
+  tax_amount: number;
+  total: number;
+  orderedby: string;
+  order_reference: string;
+
+  delivery_details: {
+    country: string;
+    recipient_first_name: string;
+    recipient_last_name: string;
+    recipient_address: string;
+    recipient_city: string;
+    recipient_postal_code: string;
+    recipient_phone: string;
+    recipient_email: string;
+    _id: string;
+  };
+
+  delivery_status: string;
+
+  payment_details: {
+    id: number;
+    _id: string;
+    reference: string;
+    receipt_number: string;
+    amount: number;
+    gateway_response: string;
+    paid_at: string;
+    channel: string;
+    currency: string;
+    fees: number;
+  };
+  products_bought: {
+    product_id: {
+      _id: string;
+      images: string[];
+      product_name: string;
+      initial_price: number;
+      discount: number;
+      final_price: number;
+    };
+    selected_size: number;
+    selected_color: string;
+    selected_quantity: number;
+  }[];
+}

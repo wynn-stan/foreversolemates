@@ -81,7 +81,7 @@ export default function Page({ params: { id } }: Props) {
               subtotal={data?.subtotal}
               tax_amount={data?.tax_amount}
               total={data?.total}
-              status="in-production"
+              status={data?.delivery_status as any}
               className="w-full"
             />
           </div>

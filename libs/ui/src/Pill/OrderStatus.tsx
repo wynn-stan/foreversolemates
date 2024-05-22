@@ -17,7 +17,6 @@ interface Props {
 }
 
 export default function OrderStatus({ state }: Props) {
-  console.log(state);
   //variables - styles
   const item = (() => {
     switch (state) {
