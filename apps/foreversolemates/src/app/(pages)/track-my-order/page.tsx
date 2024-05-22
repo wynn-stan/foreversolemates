@@ -16,7 +16,7 @@ export default function Page() {
   //hooks
   const { layout, setLayout } = useLayout();
   const { store } = useStore();
-  const order_reference_param = useSearchParams().get('order_reference');
+  const order_reference_param = useSearchParams().get('order-reference');
 
   //state
   const [orderReference, setOrderReference] = useState(order_reference_param);
