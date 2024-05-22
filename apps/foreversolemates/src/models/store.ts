@@ -26,6 +26,7 @@ export interface ProductModel {
 
 export interface UserModel {
   cart: ProductModel[];
+  order_reference: string;
 }
 
 export interface CartItem extends ProductModel {

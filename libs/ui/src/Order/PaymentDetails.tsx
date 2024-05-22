@@ -1,13 +1,14 @@
 import clsx from 'clsx';
 import Pill from '../Pill/Pill';
 import { currencyFormatter } from '../Utils';
+import dayjs from 'dayjs';
 
 interface Props {
   id: number | string;
   reference: string;
   receipt_number: string;
   amount: number;
-  gateway_respone: string;
+  gateway_response: string;
   paid_at: string;
   channel: string;
   currency: string;
@@ -21,7 +22,10 @@ export default function PaymentDetails(props: Props) {
     { label: 'Reference', value: props.reference },
     { label: 'Channel', value: props.channel },
     { label: 'Fees', value: currencyFormatter(props.fees) },
-    { label: 'Paid at', value: props.paid_at },
+    {
+      label: 'Paid at',
+      value: dayjs(props.paid_at).format('MMM D, YYYY h:mm A'),
+    },
   ];
 
   return (
@@ -30,7 +34,7 @@ export default function PaymentDetails(props: Props) {
     >
       <div className="text-lg font-medium">Payment Details</div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex justify-between">
           <div>
             <div className="text-sm text-gray-30">Amount</div>
@@ -45,7 +49,7 @@ export default function PaymentDetails(props: Props) {
         {list.map((item, index) => (
           <div className="flex justify-between" key={index}>
             <div className="text-gray-50">{item.label}</div>
-            <div className="">{item.value}</div>
+            <div className="font-medium">{item.value}</div>
           </div>
         ))}
       </div>

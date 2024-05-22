@@ -12,6 +12,7 @@ import clsx from 'clsx';
 
 import {
   fadeInFromBelowVariants,
+  generateID,
   getFormattedCartData,
 } from '../../../../utils';
 import { useLayout, useStore } from '../../../../hooks';
@@ -64,8 +65,6 @@ export default function Page() {
     showList: true,
   };
 
-  console.log(cartSummaryProps);
-
   return (
     <>
       <motion.div
@@ -91,15 +90,28 @@ export default function Page() {
         <div className="w-full max-w-[600px]">
           <Order.DeliveryForm
             onSubmit={(params, { setSubmitting }) => {
+              const order_reference = generateID();
+
               axios
                 .post<never, any>(`/api/generate-checkout-link`, {
                   amount: checkoutPayload.total,
                   email: params.recipient_email,
                   callback_url:
                     process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
-                  metadata: checkoutPayload,
+                  metadata: {
+                    ...checkoutPayload,
+                    delivery_details: params,
+                    order_reference,
+                    email: params.recipient_email,
+                  },
                 })
                 .then(({ data: { url, reference } }) => {
+                  setStore((store) => ({
+                    ...store,
+                    user: {
+                      order_reference,
+                    },
+                  }));
                   if (checkoutRef?.current) {
                     checkoutRef.current.href = url;
                     checkoutRef.current.click();

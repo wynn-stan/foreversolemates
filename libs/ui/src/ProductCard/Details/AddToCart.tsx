@@ -21,12 +21,10 @@ export default function AddToCart({
   isValid,
   setFieldValue,
 }: Props) {
-  console.log(isSubmitting);
-
   return (
     <Field.Group name="quantity" label="Purchase units">
       <div className="flex gap-4 flex-wrap w-full">
-        <Field.Input type="number" name="quantity" placeholder="0" />
+        <Field.Input type="number" name="quantity" min={0} placeholder="0" />
 
         <Button
           type="submit"

@@ -1,17 +1,17 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Button, Dropdown, Table } from '@fsm/ui';
 import { MoreHorizontal, PlusIcon } from 'lucide-react';
+import { helpers } from '@foreversolemates/utils';
+import { Button, Dropdown, Table } from '@fsm/ui';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useSWR from 'swr';
 
+import { SectionHeader } from '../../../../components';
 import { AdminUserModel } from '../../../../models';
 import { useStore } from '../../../../hooks';
 import routes from '../../../../routes';
 import Add from './(components)/Add';
-import { helpers } from '@foreversolemates/utils';
-import { SectionHeader } from '../../../../components';
 
 export default function Page() {
   //navigation
@@ -80,7 +80,13 @@ export default function Page() {
 
                 {/* Populated List */}
                 {users.map((user, key) => (
-                  <tr key={key} className="cursor-pointer" onClick={() => {}}>
+                  <tr
+                    key={key}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      //
+                    }}
+                  >
                     <Table.Td>{`${helpers.capitalize(
                       user?.firstName
                     )} ${helpers.capitalize(user?.lastName)}`}</Table.Td>
@@ -92,12 +98,18 @@ export default function Page() {
                           <MoreHorizontal />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item onClick={() => {}}>
+                          <Dropdown.Item
+                            onClick={() => {
+                              //
+                            }}
+                          >
                             Update User
                           </Dropdown.Item>
                           <Dropdown.Item
                             className="text-red-40"
-                            onClick={() => {}}
+                            onClick={() => {
+                              //
+                            }}
                           >
                             Remove User
                           </Dropdown.Item>

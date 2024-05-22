@@ -52,5 +52,11 @@ export const getPriceAndDiscount = ({
   };
 };
 
+export const generateID = () => {
+  const timestamp = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).substring(2, 5);
+  return `FSM-${timestamp}-${randomPart}`;
+};
+
 export * from './animations';
 export * from './cart';

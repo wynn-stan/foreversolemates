@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Button, Dropdown } from '@fsm/ui';
+import { Button, Dropdown, ProductCard } from '@fsm/ui';
 import { ChevronDown, EyeIcon } from 'lucide-react';
 import { helpers, useWidth } from '@foreversolemates/utils';
 import styled from 'styled-components';
@@ -31,101 +31,63 @@ export default function Compact({
   const isMobile = width ? width <= 1024 : undefined;
 
   return (
-    <div
+    <ProductCard.Compact
       onClick={() => onPreview(details)}
-      className="space-y-4 max-w-[150px] lg:max-w-[250px] cursor-pointer"
-    >
-      <div
-        className={clsx(
-          'bg-gray-10 ',
-          'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]'
-        )}
-      >
-        <Image
-          unoptimized
-          className={clsx(
-            'object-cover',
-            'w-[150px] h-[150px] lg:w-[250px] lg:h-[250px]'
-          )}
-          src={details.images[0]}
-          alt="product_image"
-          width={150}
-          height={150}
-        />
-      </div>
-      <div className="space-y-1">
-        <div className={clsx('font-medium truncate ', 'text-lg lg:text-xl')}>
-          {details.product_name}
-        </div>
-
+      details={{
+        discount: details.discount,
+        initial_price: details.initial_price,
+        product_image: details.images?.[0],
+        product_name: details.product_name,
+      }}
+      actions={
         <div
-          className={clsx('flex gap-2 items-baseline', ' text-sm lg:text-base')}
+          onClick={(e) => e.stopPropagation()}
+          className={clsx('flex gap-4', 'flex-col lg:flex-row')}
         >
-          {helpers.currencyFormatter(discounted_price)}
+          <Button
+            onClick={() => onPreview(details)}
+            className={clsx(
+              'flex gap-2 !rounded-md',
+              'py-2 px-2 text-sm',
+              'lg:py-3 lg:px-2 lg:text-base',
+              'hover:bg-gray-60 hover:text-white'
+            )}
+            variant="outline-tertiary"
+          >
+            <span>Preview</span>
+            <EyeIcon size={isMobile ? 16 : 20} />
+          </Button>
 
-          {details.discount ? (
-            <div
-              className={clsx(
-                'text-gray-30 line-through ',
-                'text-xs lg:text-sm'
-              )}
-            >
-              {helpers.currencyFormatter(initial_price)}
-            </div>
-          ) : (
-            ''
-          )}
+          <Dropdown>
+            <Dropdown.Toggle className="w-full">
+              <Button
+                className={clsx(
+                  'flex gap-2 !rounded-md',
+                  'py-2 px-2 text-sm',
+                  'lg:py-3 lg:px-2 lg:text-base',
+                  'w-full'
+                )}
+                variant="outline-secondary"
+              >
+                <span>More</span>
+                <ChevronDown size={isMobile ? 16 : 20} />
+              </Button>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => onUpdate(details)}>
+                Update product
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => onDelete(details)}
+                className="text-red-40"
+              >
+                Delete product
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
-      </div>
-
-      {/* Actions */}
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className={clsx('flex gap-4', 'flex-col lg:flex-row')}
-      >
-        <Button
-          onClick={() => onPreview(details)}
-          className={clsx(
-            'flex gap-2 !rounded-md',
-            'py-2 px-2 text-sm',
-            'lg:py-3 lg:px-2 lg:text-base',
-            'hover:bg-gray-60 hover:text-white'
-          )}
-          variant="outline-black"
-        >
-          <span>Preview</span>
-          <EyeIcon size={isMobile ? 16 : 20} />
-        </Button>
-
-        <Dropdown>
-          <Dropdown.Toggle className="w-full">
-            <Button
-              className={clsx(
-                'flex gap-2 !rounded-md',
-                'py-2 px-2 text-sm',
-                'lg:py-3 lg:px-2 lg:text-base',
-                'w-full'
-              )}
-              variant="outline-secondary"
-            >
-              <span>More</span>
-              <ChevronDown size={isMobile ? 16 : 20} />
-            </Button>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => onUpdate(details)}>
-              Update product
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => onDelete(details)}
-              className="text-red-40"
-            >
-              Delete product
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-    </div>
+      }
+    />
   );
 }
 

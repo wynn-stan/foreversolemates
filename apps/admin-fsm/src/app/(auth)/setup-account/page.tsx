@@ -1,7 +1,7 @@
 'use client';
 
 import { Auth, Button, Copyright, Field } from '@fsm/ui';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import Link from 'next/link';
 import axios from 'axios';
@@ -67,7 +67,7 @@ export default function Page() {
           }}
         >
           {({ values, errors, isValid, handleSubmit, isSubmitting }) => (
-            <div className="space-y-6">
+            <Form className="space-y-6">
               <Field.Group name="password" label="Password">
                 <Field.Input
                   name="password"
@@ -89,13 +89,12 @@ export default function Page() {
               <Button
                 type="submit"
                 className="w-full"
-                onClick={() => handleSubmit()}
                 disabled={!isValid}
                 {...{ isSubmitting }}
               >
                 Create Account
               </Button>
-            </div>
+            </Form>
           )}
         </Formik>
       </div>

@@ -17,6 +17,12 @@ export const getFormattedCartData = ({
     0
   );
 
+  //variables - add just id to products
+  const formattedProducts = cartItems?.map((item) => ({
+    ...item,
+    id: item?._id,
+  }));
+
   //variables - tax
   const tax_amount = (tax_percent / 100) * subtotal;
 
@@ -44,7 +50,7 @@ export const getFormattedCartData = ({
     subtotal,
     tax_amount,
     total,
-    items: cartItems,
+    products_bought: formattedProducts,
     custom_fields: dashboard_display,
   };
 

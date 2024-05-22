@@ -1,6 +1,7 @@
 import List from './OrderSummary/List';
 import { CartItem } from '../models';
 import { Button, Pill } from '../index';
+import clsx from 'clsx';
 
 interface Props {
   items: Partial<CartItem>[];
@@ -17,6 +18,7 @@ interface Props {
     | 'out-for-delivery'
     | 'delivered'
     | 'reversed';
+  className?: string;
 }
 
 export default function Summary({
@@ -29,12 +31,13 @@ export default function Summary({
   onCheckout,
   showActions = true,
   showList = false,
+  className,
 }: Props) {
   //variables - disabled button
   const isValid = items.length;
 
   return (
-    <div className="space-y-4">
+    <div className={clsx('space-y-4', className)}>
       <div>
         {!status && (
           <div className=" text-lg font-medium underline text-center">

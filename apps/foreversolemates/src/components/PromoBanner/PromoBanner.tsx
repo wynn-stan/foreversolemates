@@ -80,7 +80,7 @@ export default function PromoBanner() {
           <SubmitWrapper>
             {({ setSubmitting, isSubmitting, Spinner }) => (
               <Button
-                className="!gap-4"
+                className="!gap-4 border border-gray-40"
                 onClick={() => {
                   setSubmitting(true);
                   router.push(routes.shop.all.index);

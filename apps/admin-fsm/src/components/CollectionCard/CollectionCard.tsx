@@ -25,10 +25,10 @@ export default function LocalCollectionCard({
       onClick={onCardClick}
       className={clsx(
         ' border-[2px] border-[#f8f8f8] h-[255px]',
-        'flex-grow  xl:max-w-[550px] rounded-md',
+        'flex-grow  2xl:max-w-[550px] rounded-md',
         'px-8 py-6',
         'flex gap-6 items-center',
-        'justify-center text-center xl:justify-between xl:text-left',
+        'justify-center text-center 2xl:justify-between 2xl:text-left',
         onCardClick ? 'cursor-pointer' : ''
       )}
     >
@@ -48,7 +48,7 @@ export default function LocalCollectionCard({
         </div>
       </div>
       {bannerImage ? (
-        <StyledImage className="hidden">
+        <div className="hidden md:block">
           <Image
             unoptimized
             className="w-[150px] h-[150px] 2xl:w-[200px] 2xl:h-[200px] object-contain"
@@ -57,7 +57,7 @@ export default function LocalCollectionCard({
             alt="banner_image"
             src={bannerImage}
           />
-        </StyledImage>
+        </div>
       ) : (
         ''
       )}

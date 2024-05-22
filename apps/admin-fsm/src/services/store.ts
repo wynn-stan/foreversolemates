@@ -25,3 +25,6 @@ export const updateProductService = (id: string, payload: object) =>
 
 export const deleteProductService = (id: string) =>
   http.delete<never, any>(`/secure/delete/product/${id}`);
+
+export const updateOrderStatusService = (id: string, slug: string) =>
+  http.patch<never, any>(`/update_status/${id}`, { state: slug });
