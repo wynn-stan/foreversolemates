@@ -1,12 +1,11 @@
 'use client';
 
-import useSWR from 'swr';
 import queryString from 'query-string';
+import { useState } from 'react';
+import useSWR from 'swr';
 
 import { PaginatedData, ProductModel } from '../../../../../../models';
 import CollectionLayout from '../(components)/Layout.tsx/Layout';
-import { Paginate } from '@fsm/ui';
-import { useCallback, useState } from 'react';
 
 export default function Page() {
   //state

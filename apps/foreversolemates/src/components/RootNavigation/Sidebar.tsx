@@ -63,7 +63,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }: NavProps) {
         {
           label: 'Track my order',
           icon: TruckIcon,
-          slug: '#',
+          slug: routes.track_my_order.index,
         },
       ],
     },

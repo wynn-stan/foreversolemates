@@ -78,7 +78,7 @@ export default function Page() {
           {collections.length ? (
             <>
               <motion.div
-                className="w-full xl:max-w-[550px]"
+                className="w-full 2xl:max-w-[550px]"
                 initial={{ opacity: 0, boxShadow: 'none' }}
                 animate={{ opacity: 1 }}
                 whileHover={{
@@ -95,9 +95,11 @@ export default function Page() {
                     router.push(routes.store.inventory.all.index);
                   }}
                   actions={
-                    <Link href={routes.store.inventory.all.index}>
-                      <Button className="rounded-md">View</Button>
-                    </Link>
+                    <div className="flex justify-center">
+                      <Link href={routes.store.inventory.all.index}>
+                        <Button className="rounded-md">View</Button>
+                      </Link>
+                    </div>
                   }
                 />
               </motion.div>
@@ -105,7 +107,7 @@ export default function Page() {
               {collections.map((item, key) => (
                 <motion.div
                   key={key}
-                  className="w-full xl:max-w-[550px]"
+                  className="w-full 2xl:max-w-[550px]"
                   initial={{ opacity: 0, boxShadow: 'none' }}
                   animate={{ opacity: 1 }}
                   whileHover={{
@@ -128,7 +130,7 @@ export default function Page() {
                       )
                     }
                     actions={
-                      <div className="flex gap-2">
+                      <div className="flex justify-center gap-2">
                         <Link
                           href={routes.store.inventory.collection.index.replace(
                             '[id]',

@@ -20,6 +20,7 @@ const routes = {
     },
     order_management: {
       index: '/store/order-management',
+      details: '/store/order-management/[id]',
     },
     customer_management: {
       index: '/store/customer-management',

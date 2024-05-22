@@ -49,6 +49,11 @@ function Details({
     //
   },
 }: Props) {
+  //variables - has available colors and sizes
+  const hasColors = details?.available_colors?.length;
+  const hasSizes = details?.available_sizes?.length;
+  const hasColorsAndSizes = hasColors && hasSizes;
+
   return (
     <Formik
       enableReinitialize
@@ -58,8 +63,12 @@ function Details({
           .number()
           .min(1, 'Quantity must be at least 1')
           .required('Quantity is required'),
-        color: yup.string().required('Color is required'),
-        size: yup.number().required('Size is required'),
+        ...(hasColors
+          ? { color: yup.string().required('Color is required') }
+          : {}),
+        ...(hasSizes
+          ? { size: yup.number().required('Size is required') }
+          : {}),
       })}
       initialValues={{ quantity: 0, color: '', size: 0 }}
       onSubmit={(params, actions) => {
@@ -99,26 +108,39 @@ function Details({
               low_stock_indicator={details.alert}
             />
             <Description description={details.description} />
-            <div className="flex gap-6 flex-wrap">
-              <div className="flex-grow">
-                <SizeOptions
-                  checkedSize={values.size}
-                  onClick={(size) => {
-                    setFieldValue('size', size);
-                  }}
-                  sizes={details.available_sizes}
-                />
+            {hasColorsAndSizes ? (
+              <div className="flex gap-6 flex-wrap">
+                {details?.available_sizes?.length ? (
+                  <div className="flex-grow">
+                    <SizeOptions
+                      checkedSize={values.size}
+                      onClick={(size) => {
+                        setFieldValue('size', size);
+                      }}
+                      sizes={details.available_sizes}
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                {details?.available_colors?.length ? (
+                  <div className="flex-grow">
+                    <ColorOptions
+                      colors={details.available_colors}
+                      checkedColor={values.color}
+                      onClick={(color) => {
+                        setFieldValue('color', color);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className="flex-grow">
-                <ColorOptions
-                  colors={details.available_colors}
-                  checkedColor={values.color}
-                  onClick={(color) => {
-                    setFieldValue('color', color);
-                  }}
-                />
-              </div>
-            </div>
+            ) : (
+              <></>
+            )}
             <div className="h-full">
               <AddToCart
                 handleSubmit={() => {

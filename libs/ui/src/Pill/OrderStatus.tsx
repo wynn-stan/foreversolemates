@@ -3,37 +3,38 @@ import {
   CircleCheckIcon,
   PackageCheckIcon,
   PackageOpenIcon,
+  ShieldXIcon,
   TruckIcon,
 } from 'lucide-react';
 
 interface Props {
   state:
-    | 'in-production'
-    | 'ready-for-delivery'
-    | 'out-for-delivery'
+    | 'in production'
+    | 'ready for delivery'
+    | 'out for delivery'
     | 'delivered'
-    | 'reversed';
+    | 'order reversed';
 }
 
 export default function OrderStatus({ state }: Props) {
   //variables - styles
   const item = (() => {
     switch (state) {
-      case 'in-production':
+      case 'in production':
         return {
           label: 'In-production',
           Icon: PackageOpenIcon,
           styles: 'text-[#1F2424] bg-[#E3E4E5]',
         };
 
-      case 'ready-for-delivery':
+      case 'ready for delivery':
         return {
           label: 'Ready for Delivery',
           Icon: PackageCheckIcon,
           styles: 'bg-[#EADCB9] text-[#713E0E]',
         };
 
-      case 'out-for-delivery':
+      case 'out for delivery':
         return {
           label: 'Out for delivery',
           Icon: TruckIcon,
@@ -47,10 +48,10 @@ export default function OrderStatus({ state }: Props) {
           styles: 'bg-[#B4DBC4] text-[#045223]',
         };
 
-      case 'reversed':
+      case 'order reversed':
         return {
-          label: 'Delivered',
-          Icon: CircleCheckIcon,
+          label: 'Order Reversed',
+          Icon: ShieldXIcon,
           styles: 'bg-[#E2B8B5] text-[#5F0C07]',
         };
 

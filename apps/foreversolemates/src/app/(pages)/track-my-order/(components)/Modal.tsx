@@ -1,12 +1,20 @@
 'use client';
 
-import { Button, Field, Modal } from '@fsm/ui';
-import { ModalProps } from '../../../../models';
-import { Formik } from 'formik';
-import { object, string } from 'yup';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { schema } from '@foreversolemates/utils';
+import { Button, Field, Modal } from '@fsm/ui';
+import { object, string } from 'yup';
 
-export default function LocalModal({ show, onHide }: ModalProps) {
+import { ModalProps } from '../../../../models';
+
+type IForm = {
+  order_reference: string;
+};
+interface Props extends ModalProps {
+  onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
+}
+
+export default function LocalModal({ show, onHide, onSubmit }: Props) {
   return (
     <Modal className="max-w-[500px]" {...{ show, onHide }}>
       <Formik
@@ -16,12 +24,12 @@ export default function LocalModal({ show, onHide }: ModalProps) {
           order_reference: schema.requireString('Order reference'),
         })}
         initialValues={{ order_reference: '' }}
-        onSubmit={() => {
-          //
+        onSubmit={(params, actions) => {
+          onSubmit(params, actions);
         }}
       >
         {({ values, isValid, isSubmitting, setSubmitting, handleSubmit }) => (
-          <div className="space-y-6">
+          <Form className="space-y-6">
             <div className="text-lg font-semibold text-center">
               Track your order
             </div>
@@ -37,15 +45,15 @@ export default function LocalModal({ show, onHide }: ModalProps) {
               <Button
                 type="submit"
                 disabled={!isValid}
-                onClick={() => handleSubmit()}
                 className="w-full"
                 direction="left"
                 icon="search"
+                {...{ isSubmitting }}
               >
                 Search
               </Button>
             </div>
-          </div>
+          </Form>
         )}
       </Formik>
     </Modal>

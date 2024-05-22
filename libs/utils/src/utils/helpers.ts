@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  CircleCheckIcon,
+  LucideIcon,
+  PackageCheckIcon,
+  PackageOpenIcon,
+  ShieldXIcon,
+  TruckIcon,
+} from 'lucide-react';
+
 // import { toast } from 'react-toastify';
 // import showdown from 'showdown';
 
@@ -75,4 +84,66 @@ export const getFilesFromImageUrls = async (urls: string[]) => {
   });
 
   return image_files;
+};
+
+export const getOrderStatuses = () => {
+  return {
+    in_production: {
+      label: 'In-production',
+      slug: 'in production',
+      Icon: PackageOpenIcon,
+      darkColor: '#1F2424',
+      lightColor: '#E3E4E5',
+    },
+    ready_for_delivery: {
+      slug: 'ready for delivery',
+      label: 'Ready for Delivery',
+      Icon: PackageCheckIcon,
+      darkColor: '#713E0E',
+      lightColor: '#EADCB9',
+    },
+    out_for_delivery: {
+      slug: 'out for delivery',
+      label: 'Out for Delivery',
+      Icon: TruckIcon,
+      darkColor: '#803300',
+      lightColor: '#FFD1B3',
+    },
+    delivered: {
+      slug: 'delivered',
+      label: 'Delivered',
+      Icon: CircleCheckIcon,
+      darkColor: '#045223',
+      lightColor: '#B4DBC4',
+    },
+    order_reversed: {
+      slug: 'order reversed',
+      label: 'Order Reversed',
+      Icon: ShieldXIcon,
+      darkColor: '#5F0C07',
+      lightColor: '#E2B8B5',
+    },
+  };
+};
+
+export const getPaginationInfo = ({
+  page,
+  totalCount,
+  size,
+}: {
+  totalCount: number;
+  page: number;
+  size: number;
+}) => {
+  const to = (() => {
+    //the last item is the current size * current page
+    //if the result is greater than the total items(everything not just this request), then we've passed the last item , thus return totalItems.
+    const last = size * page;
+    if (last > totalCount) return totalCount;
+    return last;
+  })();
+
+  const from = page * size - size;
+
+  return { to, from };
 };

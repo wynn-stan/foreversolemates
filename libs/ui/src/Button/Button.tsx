@@ -91,7 +91,7 @@ export default function Button({
 
   return (
     <button
-      className={twMerge(
+      className={clsx(
         'flex items-center justify-center gap-2',
         'py-3 px-4',
         'rounded-sm',
