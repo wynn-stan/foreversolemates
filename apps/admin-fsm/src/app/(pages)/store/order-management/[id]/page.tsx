@@ -60,11 +60,16 @@ export default function Page({ params: { id } }: Props) {
   return (
     <>
       {data && (
-        <div className={clsx('flex flex-col xl:flex-row gap-4 lg:gap-5')}>
+        <div
+          className={clsx(
+            'max-w-[1152px] w-full mx-auto',
+            'flex flex-col xl:flex-row  gap-4 lg:gap-5'
+          )}
+        >
           <div
             className={clsx(
               'flex flex-col md:flex-row xl:flex-col gap-[40px]',
-              'xl:max-w-[450px] w-full'
+              'w-full'
             )}
           >
             <Order.PaymentDetails

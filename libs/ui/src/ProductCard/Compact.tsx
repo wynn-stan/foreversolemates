@@ -80,7 +80,12 @@ export default function Compact({
         />
       </div>
       <div className="space-y-0">
-        <div className={clsx('font-medium truncate ', 'text-lg lg:text-xl')}>
+        <div
+          className={clsx(
+            'font-medium truncate max-w-[150px] md:max-w-[250px] ',
+            'text-lg lg:text-xl'
+          )}
+        >
           {details.product_name}
         </div>
 
