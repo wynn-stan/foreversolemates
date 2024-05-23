@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       };
     } = await axios.post<never, any>(
       `${process?.env?.NEXT_BASE_PAYSTACK_API}/transaction/initialize`,
-      { ...body, amount: body.amount * 100 },
+      { ...body, amount: (body.amount * 100).toFixed(0) },
       {
         headers: {
           Authorization: `Bearer ${process?.env?.['NEXT_PAYSTACK_SECRET_KEY']}`,
