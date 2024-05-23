@@ -18,13 +18,15 @@ export default function Page() {
   const { store } = useStore();
   const order_reference_param = useSearchParams().get('order-reference');
 
-  //state
-  const [orderReference, setOrderReference] = useState(order_reference_param);
-  const [showModal, setShowModal] = useState(
-    order_reference_param ? false : true
-  );
+  const store_reference = store?.user?.order_reference;
 
-  console.log(order_reference_param, showModal);
+  //state
+  const [orderReference, setOrderReference] = useState(
+    order_reference_param || store_reference
+  );
+  const [showModal, setShowModal] = useState(
+    order_reference_param || store_reference ? false : true
+  );
 
   //api
   const {
