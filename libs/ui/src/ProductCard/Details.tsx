@@ -52,7 +52,7 @@ function Details({
   //variables - has available colors and sizes
   const hasColors = details?.available_colors?.length;
   const hasSizes = details?.available_sizes?.length;
-  const hasColorsAndSizes = hasColors && hasSizes;
+  const hasColorsOrSizes = hasColors || hasSizes;
 
   return (
     <Formik
@@ -108,7 +108,7 @@ function Details({
               low_stock_indicator={details.alert}
             />
             <Description description={details.description} />
-            {hasColorsAndSizes ? (
+            {hasColorsOrSizes ? (
               <div className="flex gap-6 flex-wrap">
                 {details?.available_sizes?.length ? (
                   <div className="flex-grow">

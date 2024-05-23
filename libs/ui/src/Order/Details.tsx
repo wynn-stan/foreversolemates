@@ -80,18 +80,22 @@ export default function Details({ cartItems, onDelete }: Props) {
                       </div>
                     </div>
                     <div>
-                      <div>
-                        Size:{' '}
-                        <span className="font-medium">
-                          {product?.selected_size}
-                        </span>
-                      </div>
-                      <div>
-                        Color:{' '}
-                        <span className="font-medium">
-                          {product?.selected_color}
-                        </span>
-                      </div>
+                      {product?.selected_size && (
+                        <div>
+                          Size:{' '}
+                          <span className="font-medium">
+                            {product?.selected_size}
+                          </span>
+                        </div>
+                      )}
+                      {product?.selected_color && (
+                        <div>
+                          Color:{' '}
+                          <span className="font-medium">
+                            {product?.selected_color}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 

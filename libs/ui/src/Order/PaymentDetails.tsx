@@ -21,7 +21,7 @@ export default function PaymentDetails(props: Props) {
   const list = [
     { label: 'Reference', value: props.reference },
     { label: 'Channel', value: props.channel },
-    { label: 'Fees', value: currencyFormatter(props.fees) },
+    { label: 'Fees', value: currencyFormatter(props.fees / 100) },
     {
       label: 'Paid at',
       value: dayjs(props.paid_at).format('MMM D, YYYY h:mm A'),
@@ -38,7 +38,9 @@ export default function PaymentDetails(props: Props) {
         <div className="flex justify-between">
           <div>
             <div className="text-sm text-gray-30">Amount</div>
-            <div className="font-medium">{currencyFormatter(props.amount)}</div>
+            <div className="font-medium">
+              {currencyFormatter(props.amount / 100)}
+            </div>
           </div>
 
           <Pill size="md" className="text-green-50 bg-green-10">
