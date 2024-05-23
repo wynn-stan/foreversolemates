@@ -41,7 +41,7 @@ export default function Page() {
   //effect
   useEffect(() => {
     const banner = {
-      title: 'Track my order',
+      title: `Track my order${orderReference ? ` [${orderReference}]` : ''}`,
       top_tagline: '',
       imageSrc: '',
     };
@@ -51,7 +51,7 @@ export default function Page() {
     });
 
     // return setLayout({});
-  }, []);
+  }, [orderReference]);
 
   const data = apiData?.data?.[0];
 
@@ -123,6 +123,7 @@ export default function Page() {
                 tax_amount={data.tax_amount}
                 total={data.total}
                 status={data?.delivery_status as any}
+                order_reference={store?.user?.order_reference}
               />
 
               <Order.PaymentDetails {...data.payment_details} />

@@ -19,9 +19,11 @@ interface Props {
     | 'order reversed'
     | 'delivered';
   className?: string;
+  order_reference?: string;
 }
 
 export default function Summary({
+  order_reference,
   status,
   subtotal,
   total,
@@ -39,21 +41,34 @@ export default function Summary({
   return (
     <div className={clsx('space-y-4', className)}>
       <div>
-        {!status && (
+        {!status ? (
           <div className=" text-lg font-medium underline text-center">
             Order Summary
           </div>
+        ) : (
+          ''
         )}
 
-        {status && (
+        {status ? (
           <div className="flex justify-between">
             <div className=" text-lg font-medium text-center">
               Order Summary
             </div>
             <Pill.OrderStatus state={status} />
           </div>
+        ) : (
+          ''
         )}
       </div>
+
+      {order_reference ? (
+        <div className="flex justify-between">
+          <div className="text-gray-40">Order reference</div>
+          <div className="font-medium text-[#004682]">{order_reference}</div>
+        </div>
+      ) : (
+        ''
+      )}
 
       {/* Item Lists */}
       {showList && <List items={items as CartItem[]} />}

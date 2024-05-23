@@ -37,19 +37,17 @@ export default function Page({ params: { id } }: Props) {
   } = useSWR<{ data: OrderModel }>(`/view/order/${id}`);
 
   //variables
-  //   const orders = data?.data || [];
+  const data = apiData?.data;
 
   // effect
   useEffect(() => {
     setLayout({
       back: () => router.push(routes.store.order_management.index),
-      backComponent: <span>Order</span>,
+      backComponent: <span>Order {data?.order_reference}</span>,
     });
 
     return () => setLayout({});
-  }, []);
-
-  const data = apiData?.data;
+  }, [data]);
 
   const products_bought =
     data?.products_bought?.map((item) => {
@@ -88,6 +86,7 @@ export default function Page({ params: { id } }: Props) {
               total={data?.total}
               status={data?.delivery_status as any}
               className="w-full"
+              order_reference={data?.order_reference}
             />
           </div>
 
