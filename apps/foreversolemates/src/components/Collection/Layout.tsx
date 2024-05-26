@@ -1,13 +1,13 @@
 'use client';
 
-import { Collection, Paginate } from '@fsm/ui';
+import { Collection, Field, Filters, Paginate } from '@fsm/ui';
 import styled from 'styled-components';
 import { useState } from 'react';
 import clsx from 'clsx';
 
-import { options } from '../../hooks';
 import { LocalProductCard as ProductCard } from '../../components';
 import { PaginatedData, ProductModel } from '../../models';
+import { options } from '../../hooks';
 
 interface Props {
   data: PaginatedData<ProductModel> | undefined;
@@ -17,6 +17,8 @@ interface Props {
   cardType: 'compact' | 'detailed';
   page: number;
   setPage: any;
+  filters: any;
+  setFilters: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export default function Layout({
@@ -27,6 +29,8 @@ export default function Layout({
   mutate,
   header,
   cardType,
+  filters,
+  setFilters,
 }: Props) {
   //hooks
   const { collections } = options.useGetCollections();
@@ -60,9 +64,22 @@ export default function Layout({
     <>
       <div className="space-y-8 ">
         <div className="flex gap-4">
-          <div className="flex gap-4 px-4 sm:px-0 ">
+          <div className="flex gap-4 px-4 sm:px-0 flex-grow ">
             <Collection.SideModalToggle collections={collections} />
             {header && <div className="font-medium text-4xl">{header}</div>}
+            {/* <div className="flex gap-4 w-full">
+              <Field.Search
+                wrapperClassName="max-w-[300px]"
+                placeholder="Name..."
+                onSearch={(search) => {
+                  //
+                }}
+              />
+
+              <div>
+                <Filters.Price {...{ filters, setFilters }} />
+              </div>
+            </div> */}
           </div>
 
           {/* <div className="flex items-center justify-between">

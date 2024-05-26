@@ -72,7 +72,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="max-w-[1152px] mx-auto p-4 lg:p-6 space-y-10">
+      <div className="max-w-[1152px] space-y-10">
         <Formik
           enableReinitialize
           validateOnMount
@@ -110,7 +110,8 @@ export default function Page() {
           )}
         </Formik>
 
-        {!data && <div>Nothing found</div>}
+        {!data && !isLoading && <div>Nothing found</div>}
+        {isLoading && <div>Loading...</div>}
 
         {data && (
           <div className={clsx('flex flex-col lg:flex-row gap-4 lg:gap-5')}>

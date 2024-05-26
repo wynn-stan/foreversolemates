@@ -15,6 +15,7 @@ export default function Page() {
 
   //state
   const [page, setPage] = useState(0);
+  const [filters, setFilters] = useState({});
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
@@ -39,7 +40,7 @@ export default function Page() {
     <>
       <Collection.Layout
         cardType="compact"
-        {...{ data, isLoading, mutate, page, setPage }}
+        {...{ data, isLoading, mutate, page, setPage, filters, setFilters }}
         header=""
       />
     </>

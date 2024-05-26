@@ -1,14 +1,19 @@
 'use client';
 
 import {
+  CircleUserIcon,
+  ClipboardPenLineIcon,
+  ContactIcon,
+  HistoryIcon,
   MenuIcon,
+  ScanFaceIcon,
   SearchIcon,
   ShoppingBagIcon,
   ShoppingCartIcon,
   TruckIcon,
   UserRoundIcon,
 } from 'lucide-react';
-import { HoverDropdown, Logo } from '@fsm/ui';
+import { Dropdown, HoverDropdown, Logo } from '@fsm/ui';
 import Link from 'next/link';
 
 import { NavProps } from './RootNavigation';
@@ -81,9 +86,7 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         {/* <Link href="#">
           <SearchIcon />
         </Link> */}
-        {/* <Link href="#">
-            <UserRoundIcon />
-          </Link> */}
+
         <Link className="relative" href={routes.cart.index}>
           <ShoppingBagIcon />
           <div
@@ -96,14 +99,51 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
             {store?.cart?.length || 0}
           </div>
         </Link>
+
+        <Dropdown>
+          <Dropdown.Toggle>
+            <CircleUserIcon />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="font-medium px-2 py-4 shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]">
+            <DropdownItem>
+              <Link className="flex gap-2 items-center" href="/login">
+                <ScanFaceIcon size={20} />
+                <span>Log in</span>
+              </Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link className="flex gap-2 items-center" href="/sign-up">
+                <ClipboardPenLineIcon size={20} />
+                <span>Sign up</span>
+              </Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link className="flex gap-2 items-center" href="/profile">
+                <ContactIcon size={20} />
+                <span>My Profile</span>
+              </Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link
+                className="flex gap-2 items-center"
+                href="/purchase-history"
+              >
+                <HistoryIcon size={20} />
+                <span>Purchase History</span>
+              </Link>
+            </DropdownItem>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     </div>
   );
 }
 
-const StyledLinks = styled.div`
-  & a:hover {
-    text-decoration: underline;
-    font-weight: 500;
+const DropdownItem = styled(Dropdown.Item)`
+  padding: 12px 8px;
+  border-radius: 8px;
+  &:hover {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
   }
 `;
