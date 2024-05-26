@@ -6,7 +6,12 @@ interface Props {
 
 export default function EmptyFormik({ children }: Props) {
   return (
-    <Formik initialValues={{}} onSubmit={() => {}}>
+    <Formik
+      initialValues={{}}
+      onSubmit={() => {
+        //
+      }}
+    >
       {() => <>{children}</>}
     </Formik>
   );

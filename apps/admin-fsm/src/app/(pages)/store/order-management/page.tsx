@@ -15,6 +15,7 @@ import { useLayout, useStore } from '../../../../hooks';
 import { PaginatedData } from '../../../../models';
 import routes from '../../../../routes';
 import queryString from 'query-string';
+import Filters from './(components)/Filters';
 
 export default function Page() {
   //hooks
@@ -27,6 +28,7 @@ export default function Page() {
   //state
   const [showAdd, setShowAdd] = useState(false);
   const [page, setPage] = useState(0);
+  const [filters, setFilters] = useState({});
 
   //api
   const { data, isLoading, error, mutate } = useSWR<
@@ -85,6 +87,10 @@ export default function Page() {
 
   return (
     <div>
+      <div className="mb-4">
+        <Filters {...{ filters, setFilters }} />
+      </div>
+
       <Table>
         <thead>
           <Table.Th>Amount</Table.Th>

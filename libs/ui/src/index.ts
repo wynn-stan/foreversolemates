@@ -14,6 +14,7 @@ export { default as Paginate } from './Paginate/Paginate';
 export { default as Animated } from './Animated/Animated';
 export { default as Spinner } from './Spinner/Spinner';
 export { default as Loaders } from './Loaders/Loaders';
+export { default as Filters } from './Filters/Filters';
 export { default as Button } from './Button/Button';
 export { default as Field } from './Field/Field';
 export { default as Table } from './Table/Table';

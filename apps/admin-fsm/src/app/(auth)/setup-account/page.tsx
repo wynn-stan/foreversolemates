@@ -60,8 +60,10 @@ export default function Page() {
                 toast.success('Account created successfully');
                 router.push('/auth/login');
               })
-              .catch(() => {
-                toast.error('Unable to create account. Please try again');
+              .catch((error: { message?: string }) => {
+                toast.error(
+                  error?.message || 'Unable to create account. Please try again'
+                );
                 setSubmitting(false);
               });
           }}
