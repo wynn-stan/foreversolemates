@@ -4,7 +4,10 @@ import StoreProvider from '../contexts/store';
 import AppProvider from '../providers/app';
 
 export const metadata = {
-  title: 'Admin ForeverSoleMates',
+  title: {
+    template: '%s |  Admin ForeverSoleMates',
+    default: 'ForeverSoleMates',
+  },
   description: '',
 };
 

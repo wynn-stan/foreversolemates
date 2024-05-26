@@ -111,7 +111,10 @@ export default function NavbarDropdown({
               )}
             >
               <div
-                onClick={() => setToggle(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setToggle(false);
+                }}
                 className={clsx(
                   'px-2 py-4 rounded-md ',
                   'bg-white shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]',

@@ -4,7 +4,10 @@ import { Layout } from '../components';
 import AppProvider from '../providers/app';
 
 export const metadata = {
-  title: 'ForeverSoleMates',
+  title: {
+    template: '%s | ForeverSoleMates',
+    default: 'ForeverSoleMates',
+  },
   description: '',
 };
 
