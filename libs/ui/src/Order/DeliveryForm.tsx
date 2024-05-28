@@ -1,15 +1,19 @@
 'use client';
 
 import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
-import { schema } from '@foreversolemates/utils';
+import { http, schema } from '@foreversolemates/utils';
+import { components } from 'react-select';
+import { debounce, set } from 'lodash';
+import { useState } from 'react';
 import { object } from 'yup';
+import * as yup from 'yup';
+import useSWR from 'swr';
 import clsx from 'clsx';
 
-import { Button, Field } from '../index';
-import useSWR from 'swr';
-import { PaginatedData } from '../models';
+import ZoneOption from './DeliveryForm/ZoneOption';
 import { currencyFormatter } from '../Utils';
-import { useState } from 'react';
+import { PaginatedData } from '../models';
+import { Button, Field } from '../index';
 
 interface IForm {
   // personal_email: string;
@@ -22,48 +26,66 @@ interface IForm {
   recipient_postal_code: string;
   recipient_phone: string;
   recipient_email: string;
+  shipping_method: {
+    label: string;
+    value: string;
+    cost: number;
+  };
 }
 
 interface Props {
   onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
   defaultValues?: IForm;
   disabled?: boolean;
+  onZoneSelect: (cost: number) => void;
 }
 
 export default function DeliveryForm({
   onSubmit,
   disabled,
   defaultValues,
+  onZoneSelect,
 }: Props) {
   //state
-  const [search, setSearch] = useState('');
-
-  // api
-  const { data, isLoading } = useSWR<
-    PaginatedData<{
-      cost: number;
-      name: string;
-      _id: string;
-    }>
-  >(`/locations?name=${search}`);
+  const [zoneOption, setZoneOption] = useState<{
+    value: string;
+    label: string;
+    cost: number;
+  } | null>();
 
   /**
-   * Variables - options
+   * function
    */
-  const options =
-    data?.data?.map((item) => ({
-      value: item._id,
-      label: `${item.name} - ${currencyFormatter(item.cost)}`,
-      cost: item.cost,
-    })) || [];
+  const handleZoneSearch = debounce((value, callback) => {
+    http
+      .get<
+        never,
+        PaginatedData<{
+          cost: number;
+          name: string;
+          _id: string;
+        }>
+      >(`/locations?name=${value}&size=${5}`)
+      .then((res) => {
+        /**
+         * Variables - options
+         */
+        const options =
+          res.data?.map((item) => ({
+            value: item._id,
+            label: item.name,
+            cost: item.cost,
+          })) || [];
+
+        callback(options);
+      });
+  }, 500);
 
   return (
     <Formik
       enableReinitialize
       validateOnMount
       validationSchema={object({
-        // personal_email: schema.requireEmail('Personal email'),
-        // personal_phone: schema.requirePhoneNumber('Personal phone number'),
         country: schema.requireString('Country'),
         recipient_first_name: schema.requireString("recipient's first name"),
         recipient_last_name: schema.requireString("recipient's last name"),
@@ -71,10 +93,13 @@ export default function DeliveryForm({
         recipient_city: schema.requireString("recipient's city"),
         recipient_phone: schema.requirePhoneNumber("recipient's phone number"),
         recipient_email: schema.requireString("recipient's email"),
+        shipping_method: yup.object({
+          label: yup.string().required(''),
+          cost: yup.number().required(''),
+          value: yup.string().required(''),
+        }),
       })}
       initialValues={{
-        // personal_email: '',
-        // personal_phone: '',
         country: 'Ghana',
         recipient_first_name: defaultValues?.recipient_first_name || '',
         recipient_last_name: defaultValues?.recipient_last_name || '',
@@ -83,6 +108,7 @@ export default function DeliveryForm({
         recipient_postal_code: defaultValues?.recipient_postal_code || '',
         recipient_phone: defaultValues?.recipient_phone || '',
         recipient_email: defaultValues?.recipient_email || '',
+        shipping_method: {} as any,
       }}
       onSubmit={(params, actions) => {
         onSubmit(params, actions);
@@ -218,7 +244,7 @@ export default function DeliveryForm({
                   <Field.Phone
                     name="recipient_phone"
                     placeholder="Recipient Phone number"
-                    value={''}
+                    value={values.recipient_phone}
                     defaultCountry="GH"
                     onlyCountries={['GH']}
                     {...{ setFieldValue, setFieldTouched }}
@@ -226,27 +252,66 @@ export default function DeliveryForm({
                 </Field.Group>
               </div>
 
-              {/* <Field.Group name="name" label="Delivery Zone">
-                <Field.Select
-                  className="w-full border-gra"
-                  placeholder="Select Delivery Zone"
-                  value={''}
-                  onChange={(option) => {
-                    console.log(option);
-                  }}
-                  options={options}
-                  onInputChange={(value) => {
-                    setSearch(value);
-                  }}
-                />
-              </Field.Group> */}
+              <Field.Group name="name" label="Delivery Zone">
+                <div className="flex flex-col gap-2 w-full">
+                  {!disabled && !zoneOption?.label && (
+                    <Field.Select
+                      isAsync
+                      cacheOptions
+                      defaultOptions
+                      className="w-full border-gra"
+                      placeholder={`Search Delivery zones`}
+                      value={''}
+                      onChange={(option) => {
+                        if (option) {
+                          setZoneOption(option as any);
+                          setFieldValue('shipping_method', option);
+                          onZoneSelect(option?.cost);
+                        }
+                      }}
+                      loadOptions={(inputValue, callback) => {
+                        handleZoneSearch(inputValue, callback);
+                      }}
+                      components={{
+                        Option: (props: any) => {
+                          return (
+                            <components.Option {...props}>
+                              <ZoneOption
+                                name={props?.data?.label}
+                                amount={props?.data?.cost}
+                                checked={false}
+                              />
+                            </components.Option>
+                          );
+                        },
+                      }}
+                    />
+                  )}
+
+                  {!zoneOption?.label && disabled && <div>--</div>}
+
+                  {zoneOption?.label && (
+                    <ZoneOption
+                      className="hover:bg-gray-5 border border-gray-10 "
+                      name={zoneOption.label}
+                      amount={zoneOption.cost}
+                      checked={true}
+                      onClick={() => {
+                        setZoneOption(null);
+                        setFieldValue('shipping_method', {} as any);
+                        onZoneSelect(0);
+                      }}
+                    />
+                  )}
+                </div>
+              </Field.Group>
 
               {!disabled && (
                 <Button
                   type="submit"
                   disabled={!isValid}
                   {...{ isSubmitting }}
-                  className="w-full"
+                  className="w-full mt-2"
                 >
                   Checkout
                 </Button>

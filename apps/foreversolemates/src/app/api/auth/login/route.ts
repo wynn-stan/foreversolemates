@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   } = await request.json();
 
   try {
-    const response: {
+    const loginResponse: {
       data: {
         token: string;
         email: boolean;
@@ -17,23 +17,39 @@ export async function POST(request: Request) {
         status: number;
         firstName: string;
         lastName: string;
+        is_secure: boolean;
       };
     } = await axios.post<never, any>(
       `${process?.env?.NEXT_PUBLIC_BASE_API}/login`,
       { ...body }
     );
 
-    const data = response?.data;
+    const loginData = loginResponse?.data;
 
-    console.log(response);
-
-    if (data?.status === 400) {
-      throw { response };
+    if (loginData?.status === 400 || loginData?.is_secure) {
+      throw {
+        response: {
+          data: {
+            message: 'invalid account',
+          },
+        },
+      };
     }
+
+    const userResponse: { data: { data: UserModel } } = await axios.get<
+      never,
+      any
+    >(`${process?.env?.NEXT_PUBLIC_BASE_API}/get_current_user`, {
+      headers: {
+        Authorization: `Bearer ${loginData.token}`,
+      },
+    });
+
+    const userData: UserModel = JSON.parse(userResponse?.data?.data as any);
 
     cookies().set({
       name: 'token',
-      value: data?.token,
+      value: loginData?.token,
       httpOnly: true,
       path: '/',
       sameSite: 'strict',
@@ -42,13 +58,15 @@ export async function POST(request: Request) {
 
     return new Response(
       JSON.stringify({
-        firstName: data?.firstName,
-        lastName: data?.lastName,
-        email: data?.email,
+        firstName: userData?.firstName,
+        lastName: userData?.lastName,
+        email: userData?.email,
+        mobileNo: userData?.mobileNo,
+        delivery_details: userData?.delivery_details,
       }),
       {
         status: 200,
-        headers: { 'Set-Cookie': `token=${data?.token}` },
+        headers: { 'Set-Cookie': `token=${loginData?.token}` },
       }
     );
   } catch (error: any) {

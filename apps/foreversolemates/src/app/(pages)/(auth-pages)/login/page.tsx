@@ -9,7 +9,8 @@ import Link from 'next/link';
 import * as yup from 'yup';
 import axios from 'axios';
 
-import { useBanner } from '../../../../hooks';
+import { useBanner, useStore } from '../../../../hooks';
+import { UserModel } from '../../../../models';
 
 export default function Page() {
   // hooks
@@ -19,6 +20,7 @@ export default function Page() {
 
   //hooks
   const router = useRouter();
+  const { store, setStore } = useStore();
 
   return (
     <Formik
@@ -37,21 +39,13 @@ export default function Page() {
             email,
             password,
           })
-          .then(
-            (response: {
-              data: { email: string; firstName: string; lastName: string };
-            }) => {
-              // setStore((store) => ({
-              //   ...store,
-              //   user: {
-              //     email: response?.data?.email,
-              //     firstName: response?.data?.firstName,
-              //     lastName: response?.data?.lastName,
-              //   },
-              // }));
-              // router.back();
-            }
-          )
+          .then((response: { data: UserModel }) => {
+            setStore((store) => ({
+              ...store,
+              user: response?.data,
+            }));
+            router.push('/shop/all');
+          })
           .catch(
             (err: {
               response: { data: { message: string }; status: number };
@@ -84,7 +78,7 @@ export default function Page() {
             </Field.Group>
 
             <Field.Group name="password" label="Password">
-              <Field.Input name="password" placeholder="Password" />
+              <Field.Password name="password" placeholder="Password" />
             </Field.Group>
 
             <Button

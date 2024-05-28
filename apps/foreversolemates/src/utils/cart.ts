@@ -2,7 +2,9 @@ import { CartItem } from '../models';
 
 export const getFormattedCartData = ({
   cartItems,
+  shipping_cost = 0,
 }: {
+  shipping_cost?: number;
   cartItems: Partial<CartItem>[];
 }) => {
   //variables - constant tax
@@ -27,7 +29,7 @@ export const getFormattedCartData = ({
   const tax_amount = (tax_percent / 100) * subtotal;
 
   //variables - total
-  const total = subtotal + tax_amount;
+  const total = subtotal + tax_amount + shipping_cost;
 
   //variables
   const getAllProductsCombined = cartItems
@@ -52,6 +54,7 @@ export const getFormattedCartData = ({
     total,
     products_bought: formattedProducts,
     custom_fields: dashboard_display,
+    shipping_cost,
   };
 
   return details;

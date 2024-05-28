@@ -9,8 +9,20 @@ import Input from './Input/Input';
 import Group from './Group/Group';
 import Date from './Date/Date';
 import GPS from './GPS/GPS';
+import Password from './Password/Password';
 
 export default Object.assign(
   {},
-  { Input, Group, ImageUpload, Select, Checkbox, Date, GPS, Phone, Search }
+  {
+    Input,
+    Group,
+    ImageUpload,
+    Select,
+    Checkbox,
+    Date,
+    GPS,
+    Phone,
+    Search,
+    Password,
+  }
 );

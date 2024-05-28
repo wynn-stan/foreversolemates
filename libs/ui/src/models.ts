@@ -42,3 +42,9 @@ export interface FiltersModel {
     | 'delivered'
     | 'order reversed';
 }
+
+export interface LocationModel {
+  cost: number;
+  name: string;
+  _id: string;
+}

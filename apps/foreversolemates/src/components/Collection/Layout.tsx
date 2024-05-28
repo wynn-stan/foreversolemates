@@ -73,25 +73,24 @@ export default function Layout({
           )}
         >
           {/* Filters and Toggle */}
-          <div
-            className={clsx(
-              'col-span-full',
-              ' flex gap-4 px-4 sm:px-0 flex-grow '
-            )}
-          >
-            <Collection.SideModalToggle collections={collections} />
-            {header && <div className="font-medium text-4xl">{header}</div>}
-            <div className="flex gap-4 justify-between w-full">
-              <Field.Search
-                wrapperClassName="min-w-[200px] max-w-[300px]"
-                placeholder="Name..."
-                onSearch={(search) => {
-                  setFilters((filters) => ({ ...filters, name: search }));
-                }}
-              />
-
-              <div className="min-w-fit">
-                <Filters.Price {...{ filters, setFilters }} />
+          <div className={clsx('col-span-full')}>
+            <div className="lg:hidden  min-w-fit mb-4">
+              <Filters.Price {...{ filters, setFilters }} />
+            </div>
+            <div className={clsx('flex gap-4 flex-grow')}>
+              <Collection.SideModalToggle collections={collections} />
+              {header && <div className="font-medium text-4xl">{header}</div>}
+              <div className="flex gap-4 justify-between w-full">
+                <Field.Search
+                  wrapperClassName="min-w-[200px] max-w-[300px]"
+                  placeholder="Name..."
+                  onSearch={(search) => {
+                    setFilters((filters) => ({ ...filters, name: search }));
+                  }}
+                />
+                <div className="hidden lg:block  min-w-fit">
+                  <Filters.Price {...{ filters, setFilters }} />
+                </div>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Customer management',
+  title: 'Confirm Account',
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -3,7 +3,7 @@
 import { MoreHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Dropdown, Order, Table } from '@fsm/ui';
+import { Dropdown, Order, Spinner, Table } from '@fsm/ui';
 import useSWR from 'swr';
 
 import { useLayout, useStore } from '../../../../../hooks';
@@ -57,6 +57,20 @@ export default function Page({ params: { id } }: Props) {
 
   return (
     <>
+      {/* Loading */}
+      {!isLoading && error && (
+        <div className="w-full text-center text-red-40">
+          Unable to retrieve details
+        </div>
+      )}
+
+      {/* Loading */}
+      {isLoading && (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
+      )}
+
       {data && (
         <div
           className={clsx(
@@ -96,7 +110,10 @@ export default function Page({ params: { id } }: Props) {
 
           <Order.DeliveryForm
             disabled
-            defaultValues={data?.delivery_details}
+            defaultValues={data?.delivery_details as any}
+            onZoneSelect={() => {
+              //
+            }}
             onSubmit={() => {
               //
             }}

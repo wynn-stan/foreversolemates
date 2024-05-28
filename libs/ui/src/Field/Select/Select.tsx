@@ -1,6 +1,7 @@
-import { FieldAttributes } from 'formik';
-import Select from 'react-select';
+import { SelectComponents } from 'react-select/dist/declarations/src/components';
+import Select, { GroupBase } from 'react-select';
 import AsyncSelect from 'react-select/async';
+import { FieldAttributes } from 'formik';
 
 interface Option {
   label: string;
@@ -22,6 +23,11 @@ interface Props {
     inputValue: string,
     callback: (options: Option[]) => void
   ) => void;
+  components?:
+    | Partial<SelectComponents<Option, false, GroupBase<Option>>>
+    | undefined;
+  isLoading?: boolean;
+  [key: string]: any;
 }
 
 export default function ({
@@ -35,6 +41,9 @@ export default function ({
   onInputChange,
   loadOptions,
   isAsync,
+  components,
+  isLoading,
+  ...props
 }: Props) {
   //component
   const Component = isAsync ? AsyncSelect : Select;
@@ -53,6 +62,9 @@ export default function ({
       onChange={onChange}
       onInputChange={onInputChange}
       loadOptions={loadOptions}
+      components={components}
+      isLoading={isLoading}
+      {...props}
     />
   );
 }

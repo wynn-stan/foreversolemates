@@ -59,41 +59,28 @@ function NavbarDropdown({ children, href, label, labelClassName }: Props) {
   };
 
   return (
-    <div>
-      <Dropdown>
-        <Dropdown.Toggle
+    <Dropdown>
+      <Dropdown.Toggle
+        className={clsx(
+          'px-2 py-2 flex gap-2 items-center',
+          'cursor-pointer transition hover:bg-gray-60 hover:text-gray-5 rounded-md'
+        )}
+      >
+        <Link href={href || ''}>{label}</Link>
+        {children && <ChevronDownIcon size={16} />}
+      </Dropdown.Toggle>
+      {children && (
+        <Dropdown.Menu
           className={clsx(
-            'px-2 py-2 flex gap-2 items-center',
-            'cursor-pointer transition hover:bg-gray-60 hover:text-gray-5 rounded-md'
+            'px-2 py-4 rounded-md ',
+            'bg-white shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]',
+            'text-black'
           )}
         >
-          <Link
-            href={href || ''}
-            onClick={
-              !href
-                ? () => {
-                    cycleDropdownAnimation();
-                  }
-                : undefined
-            }
-          >
-            {label}
-          </Link>
-          {children && <ChevronDownIcon size={16} />}
-        </Dropdown.Toggle>
-        {children && (
-          <Dropdown.Menu
-            className={clsx(
-              'px-2 py-4 rounded-md ',
-              'bg-white shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]',
-              'text-black'
-            )}
-          >
-            {children}
-          </Dropdown.Menu>
-        )}
-      </Dropdown>
-    </div>
+          {children}
+        </Dropdown.Menu>
+      )}
+    </Dropdown>
   );
 }
 

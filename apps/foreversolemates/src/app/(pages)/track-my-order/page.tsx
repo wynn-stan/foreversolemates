@@ -136,7 +136,10 @@ export default function Page() {
 
             <Order.DeliveryForm
               disabled
-              defaultValues={data?.delivery_details}
+              onZoneSelect={() => {
+                //
+              }}
+              defaultValues={data?.delivery_details as any}
               onSubmit={() => {
                 //
               }}

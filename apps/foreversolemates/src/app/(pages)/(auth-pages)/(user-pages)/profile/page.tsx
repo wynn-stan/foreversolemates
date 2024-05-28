@@ -6,7 +6,7 @@ import { Button, Field } from '@fsm/ui';
 import { object } from 'yup';
 import clsx from 'clsx';
 
-import { useBanner } from '../../../../../hooks';
+import { useBanner, useStore } from '../../../../../hooks';
 import { ContactIcon } from 'lucide-react';
 import styled from 'styled-components';
 
@@ -26,11 +26,16 @@ interface Props {
   disabled?: boolean;
 }
 
-export default function Page({ onSubmit, disabled, defaultValues }: Props) {
+export default function Page() {
   // hooks
   useBanner({
     title: 'My Profile',
   });
+
+  //store
+  const { store } = useStore();
+  const defaultValues = store?.user;
+  const delivery_details = store?.user?.delivery_details;
 
   return (
     <Formik
@@ -45,16 +50,16 @@ export default function Page({ onSubmit, disabled, defaultValues }: Props) {
         email: schema.requireString('email'),
       })}
       initialValues={{
-        first_name: defaultValues?.first_name || '',
-        last_name: defaultValues?.last_name || '',
-        address: defaultValues?.address || '',
-        city: defaultValues?.city || '',
-        postal_code: defaultValues?.postal_code || '',
-        phone: defaultValues?.phone || '',
+        first_name: defaultValues?.firstName || '',
+        last_name: defaultValues?.lastName || '',
+        address: defaultValues?.delivery_details?.recipient_address || '',
+        city: delivery_details?.recipient_city || '',
+        postal_code: '',
+        phone: defaultValues?.mobileNo || '',
         email: defaultValues?.email || '',
       }}
       onSubmit={(params, actions) => {
-        onSubmit(params, actions);
+        // onSubmit(params, actions);
       }}
     >
       {({
@@ -149,7 +154,7 @@ export default function Page({ onSubmit, disabled, defaultValues }: Props) {
                 <Field.Phone
                   name="phone"
                   placeholder="Phone number"
-                  value={''}
+                  value={values.phone}
                   defaultCountry="GH"
                   onlyCountries={['GH']}
                   {...{ setFieldValue, setFieldTouched }}
@@ -160,7 +165,7 @@ export default function Page({ onSubmit, disabled, defaultValues }: Props) {
 
           <Button
             type="submit"
-            disabled={!isValid}
+            disabled={true}
             {...{ isSubmitting }}
             className="w-full"
           >

@@ -5,6 +5,7 @@ import {
   ClipboardPenLineIcon,
   ContactIcon,
   HistoryIcon,
+  LogOut,
   MenuIcon,
   ScanFaceIcon,
   SearchIcon,
@@ -14,17 +15,19 @@ import {
   UserRoundIcon,
 } from 'lucide-react';
 import { Dropdown, HoverDropdown, Logo } from '@fsm/ui';
+import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 import { NavProps } from './RootNavigation';
-import routes from '../../routes';
 import { useStore } from '../../hooks';
-import clsx from 'clsx';
-import styled from 'styled-components';
+import routes from '../../routes';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   //hooks
   const { store } = useStore();
+  const router = useRouter();
 
   return (
     <div className={clsx('flex justify-between items-center py-4 px-8')}>
@@ -90,33 +93,58 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
             <CircleUserIcon />
           </Dropdown.Toggle>
           <Dropdown.Menu className="font-medium px-2 py-4 shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]">
-            <DropdownItem>
-              <Link className="flex gap-2 items-center" href="/login">
-                <ScanFaceIcon size={20} />
-                <span>Log in</span>
-              </Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link className="flex gap-2 items-center" href="/sign-up">
-                <ClipboardPenLineIcon size={20} />
-                <span>Sign up</span>
-              </Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link className="flex gap-2 items-center" href="/profile">
-                <ContactIcon size={20} />
-                <span>My Profile</span>
-              </Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link
-                className="flex gap-2 items-center"
-                href="/purchase-history"
-              >
-                <HistoryIcon size={20} />
-                <span>Purchase History</span>
-              </Link>
-            </DropdownItem>
+            {!store?.user?.email ? (
+              <>
+                <Link href="/login">
+                  <DropdownItem>
+                    <ScanFaceIcon size={20} />
+                    <span>Log in</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link className="" href="/sign-up">
+                  <DropdownItem>
+                    <ClipboardPenLineIcon size={20} />
+                    <span>Sign up</span>
+                  </DropdownItem>
+                </Link>
+              </>
+            ) : (
+              ''
+            )}
+
+            {store?.user?.email ? (
+              <>
+                <Link href="/profile">
+                  <DropdownItem>
+                    <ContactIcon size={20} />
+                    <span>My Profile</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link href="/purchase-history">
+                  <DropdownItem>
+                    <HistoryIcon size={20} />
+                    <span>Purchase History</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link
+                  onClick={() => {
+                    store?.logout?.();
+                    router.push('/');
+                  }}
+                  href=""
+                >
+                  <DropdownItem>
+                    <LogOut size={20} />
+                    <span>Log out</span>
+                  </DropdownItem>
+                </Link>
+              </>
+            ) : (
+              ''
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -131,4 +159,8 @@ const DropdownItem = styled(Dropdown.Item)`
     background-color: #1e1e1e;
     color: #f0f0f0;
   }
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
 `;
