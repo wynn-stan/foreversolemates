@@ -1,8 +1,8 @@
-import { Field, Filters } from '@fsm/ui';
+import { Field, Filters, Models } from '@fsm/ui';
 
 interface Props {
-  filters: any;
-  setFilters: React.Dispatch<React.SetStateAction<any>>;
+  filters: Models.FiltersModel;
+  setFilters: React.Dispatch<React.SetStateAction<Models.FiltersModel>>;
 }
 
 export default function LocalFilters({ filters, setFilters }: Props) {
@@ -12,8 +12,8 @@ export default function LocalFilters({ filters, setFilters }: Props) {
         <Field.Search
           wrapperClassName="w-full"
           placeholder="Order reference"
-          onSearch={() => {
-            //
+          onSearch={(search) => {
+            setFilters((filters) => ({ ...filters, order_reference: search }));
           }}
         />
       </div>

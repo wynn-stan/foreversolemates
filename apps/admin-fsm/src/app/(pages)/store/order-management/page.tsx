@@ -1,7 +1,7 @@
 'use client';
 
 import { helpers } from '@foreversolemates/utils';
-import { Dropdown, Paginate, Pill, Table } from '@fsm/ui';
+import { Dropdown, Models, Paginate, Pill, Table } from '@fsm/ui';
 import { MoreHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -28,7 +28,7 @@ export default function Page() {
   //state
   const [showAdd, setShowAdd] = useState(false);
   const [page, setPage] = useState(0);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<Models.FiltersModel>({});
 
   //api
   const { data, isLoading, error, mutate } = useSWR<
@@ -46,6 +46,7 @@ export default function Page() {
     `/orders?${queryString.stringify({
       page: page + 1,
       size: 10,
+      ...filters,
     })}`
   );
 

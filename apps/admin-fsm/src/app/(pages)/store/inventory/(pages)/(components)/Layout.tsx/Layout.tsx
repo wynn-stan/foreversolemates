@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Collection, Paginate } from '@fsm/ui';
+import { Button, Collection, Field, Filters, Models, Paginate } from '@fsm/ui';
 import { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import useSWR from 'swr';
@@ -24,6 +24,8 @@ interface Props {
   cardType: 'compact' | 'detailed';
   page: number;
   setPage: any;
+  filters: Models.FiltersModel;
+  setFilters: React.Dispatch<React.SetStateAction<Models.FiltersModel>>;
 }
 
 export default function CollectionLayout({
@@ -34,6 +36,8 @@ export default function CollectionLayout({
   mutate,
   header,
   cardType,
+  filters,
+  setFilters,
 }: Props) {
   //hooks
   const { collections } = options.useGetCollections();
@@ -70,17 +74,10 @@ export default function CollectionLayout({
   return (
     <>
       <div className="space-y-8 w-full">
-        <div className="flex gap-4">
-          <Collection.SideModalToggle collections={collections} />
+        <div className="flex gap-4 justify-between">
           <div className="font-medium text-4xl">{header}</div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="text-xs">
-            Showing {from + 1 || '--'} to {to} of {data?.totalCount || '--'}{' '}
-            total
-          </div>
           <Button
+            className="w-fit"
             direction="left"
             onClick={() => setShowAdd(true)}
             variant="dark"
@@ -88,6 +85,24 @@ export default function CollectionLayout({
           >
             Add Product
           </Button>
+        </div>
+
+        <div className="w-full flex gap-2">
+          <Collection.SideModalToggle collections={collections} />
+
+          <div className="flex gap-4 justify-between w-full">
+            <Field.Search
+              wrapperClassName="min-w-[200px] max-w-[300px]"
+              placeholder="Name..."
+              onSearch={(search) => {
+                setFilters((filters) => ({ ...filters, name: search }));
+              }}
+            />
+
+            <div className="min-w-fit">
+              <Filters.Price {...{ filters, setFilters }} />
+            </div>
+          </div>
         </div>
 
         <div

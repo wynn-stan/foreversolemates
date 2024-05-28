@@ -6,6 +6,10 @@ import { object } from 'yup';
 import clsx from 'clsx';
 
 import { Button, Field } from '../index';
+import useSWR from 'swr';
+import { PaginatedData } from '../models';
+import { currencyFormatter } from '../Utils';
+import { useState } from 'react';
 
 interface IForm {
   // personal_email: string;
@@ -31,6 +35,28 @@ export default function DeliveryForm({
   disabled,
   defaultValues,
 }: Props) {
+  //state
+  const [search, setSearch] = useState('');
+
+  // api
+  const { data, isLoading } = useSWR<
+    PaginatedData<{
+      cost: number;
+      name: string;
+      _id: string;
+    }>
+  >(`/locations?name=${search}`);
+
+  /**
+   * Variables - options
+   */
+  const options =
+    data?.data?.map((item) => ({
+      value: item._id,
+      label: `${item.name} - ${currencyFormatter(item.cost)}`,
+      cost: item.cost,
+    })) || [];
+
   return (
     <Formik
       enableReinitialize
@@ -199,6 +225,21 @@ export default function DeliveryForm({
                   />
                 </Field.Group>
               </div>
+
+              {/* <Field.Group name="name" label="Delivery Zone">
+                <Field.Select
+                  className="w-full border-gra"
+                  placeholder="Select Delivery Zone"
+                  value={''}
+                  onChange={(option) => {
+                    console.log(option);
+                  }}
+                  options={options}
+                  onInputChange={(value) => {
+                    setSearch(value);
+                  }}
+                />
+              </Field.Group> */}
 
               {!disabled && (
                 <Button

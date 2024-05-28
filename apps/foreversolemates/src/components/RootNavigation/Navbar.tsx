@@ -45,36 +45,21 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         <HoverDropdown href="#" label="About us" />
 
         <HoverDropdown label="Cart & Orders">
-          <div
-            className={clsx(
-              'flex flex-col gap-2 px-4 min-w-[200px] text-right',
-              'font-medium '
-            )}
-          >
-            <div
-              className={clsx(
-                'flex gap-2 justify-end items-center p-2 rounded-md',
-                'hover:bg-gray-60 hover:text-gray-5'
-              )}
-            >
-              <Link className="" href={routes.cart.index}>
-                My Cart
-              </Link>
-              <ShoppingBagIcon size={16} />
-            </div>
+          <HoverDropdown.DropdownItem>
+            <ShoppingBagIcon size={16} />
 
-            <div
-              className={clsx(
-                'flex gap-2 justify-end items-center p-2 rounded-md',
-                'hover:bg-gray-60 hover:text-gray-5'
-              )}
-            >
-              <Link className="" href={routes.track_my_order.index}>
-                Track my order
-              </Link>
-              <TruckIcon size={16} />
-            </div>
-          </div>
+            <Link className="" href={routes.cart.index}>
+              My Cart
+            </Link>
+          </HoverDropdown.DropdownItem>
+
+          <HoverDropdown.DropdownItem>
+            <TruckIcon size={16} />
+
+            <Link className="" href={routes.track_my_order.index}>
+              Track my order
+            </Link>
+          </HoverDropdown.DropdownItem>
         </HoverDropdown>
       </div>
 

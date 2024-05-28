@@ -20,3 +20,25 @@ export interface CartItem extends ProductModel {
   selected_quantity?: number;
   selected_color?: string;
 }
+
+export interface PaginatedData<T> {
+  data: T[];
+  page: number;
+  size: number;
+  totalCount: number;
+  totalPages: number;
+}
+
+export interface FiltersModel {
+  price?: 'low_to_high' | 'high_to_low';
+  name?: string;
+  order_reference?: string;
+  amount_paid?: 'low_to_high' | 'high_to_low';
+  channel?: 'card' | 'mobile_money';
+  delivery_status?:
+    | 'in production'
+    | 'ready for delivery'
+    | 'out for delivery'
+    | 'delivered'
+    | 'order reversed';
+}
