@@ -103,7 +103,7 @@ export default function Page() {
               axios
                 .post<never, any>(`/api/generate-checkout-link`, {
                   amount: checkoutPayload.total,
-                  email: params.recipient_email,
+                  email: store?.user?.email || params.recipient_email,
                   callback_url:
                     process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
                   metadata: {
@@ -117,6 +117,7 @@ export default function Page() {
                   setStore((store) => ({
                     ...store,
                     user: {
+                      ...store?.user,
                       order_reference,
                     },
                   }));

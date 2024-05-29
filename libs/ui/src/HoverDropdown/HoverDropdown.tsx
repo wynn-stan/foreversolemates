@@ -62,12 +62,16 @@ function NavbarDropdown({ children, href, label, labelClassName }: Props) {
     <Dropdown>
       <Dropdown.Toggle
         className={clsx(
-          'px-2 py-2 flex gap-2 items-center',
           'cursor-pointer transition hover:bg-gray-60 hover:text-gray-5 rounded-md'
         )}
       >
-        <Link href={href || ''}>{label}</Link>
-        {children && <ChevronDownIcon size={16} />}
+        <Link
+          className={clsx('px-2 py-2 flex gap-2 items-center')}
+          href={href || ''}
+        >
+          <span>{label}</span>
+          {children && <ChevronDownIcon size={16} />}
+        </Link>
       </Dropdown.Toggle>
       {children && (
         <Dropdown.Menu
