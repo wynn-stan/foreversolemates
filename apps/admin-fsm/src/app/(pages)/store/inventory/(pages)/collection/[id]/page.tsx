@@ -8,6 +8,7 @@ import CollectionLayout from '../../(components)/Layout.tsx/Layout';
 import { usePathname } from 'next/navigation';
 import { options } from '../../../../../../../hooks';
 import { useState } from 'react';
+import { Models } from '@fsm/ui';
 
 export default function Page() {
   //navigation
@@ -16,12 +17,14 @@ export default function Page() {
 
   //state
   const [page, setPage] = useState(0);
+  const [filters, setFilters] = useState<Models.FiltersModel>({});
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/secure/products/${id}?${queryString.stringify({
       page: 1,
       size: 10,
+      ...filters,
     })}`
   );
 
@@ -33,7 +36,7 @@ export default function Page() {
   return (
     <CollectionLayout
       cardType="compact"
-      {...{ data, isLoading, mutate, page, setPage }}
+      {...{ data, isLoading, mutate, page, setPage, filters, setFilters }}
       header={collectionName}
     />
   );

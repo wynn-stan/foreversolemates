@@ -1,10 +1,10 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { useWidth } from '@foreversolemates/utils';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { Accordion, Order } from '@fsm/ui';
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import axios from 'axios';
@@ -24,6 +24,9 @@ export default function Page() {
   const { store, setStore } = useStore();
   const router = useRouter();
   const { lg } = useWidth();
+
+  //state
+  const [shippingCost, setShippingCost] = useState(0);
 
   //ref
   const checkoutRef = useRef<HTMLAnchorElement>(null);
@@ -49,6 +52,7 @@ export default function Page() {
   // variables - payload
   const checkoutPayload = getFormattedCartData({
     cartItems: store?.cart || [],
+    shipping_cost: shippingCost,
   });
 
   /**
@@ -58,6 +62,7 @@ export default function Page() {
     subtotal: checkoutPayload.subtotal,
     tax_amount: checkoutPayload.tax_amount,
     total: checkoutPayload.total,
+    shipping_cost: shippingCost,
     items: store?.cart || [],
     onCancel: () => ({}),
     onCheckout: () => ({}),
@@ -89,26 +94,30 @@ export default function Page() {
 
         <div className="w-full max-w-[600px]">
           <Order.DeliveryForm
+            onZoneSelect={(cost) => {
+              setShippingCost(cost);
+            }}
             onSubmit={(params, { setSubmitting }) => {
               const order_reference = generateID();
 
               axios
                 .post<never, any>(`/api/generate-checkout-link`, {
                   amount: checkoutPayload.total,
-                  email: params.recipient_email,
+                  email: store?.user?.email || params.recipient_email,
                   callback_url:
                     process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
                   metadata: {
                     ...checkoutPayload,
                     delivery_details: params,
-                    order_reference,
                     email: params.recipient_email,
+                    order_reference,
                   },
                 })
                 .then(({ data: { url, reference } }) => {
                   setStore((store) => ({
                     ...store,
                     user: {
+                      ...store?.user,
                       order_reference,
                     },
                   }));

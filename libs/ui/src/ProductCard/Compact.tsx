@@ -59,7 +59,7 @@ export default function Compact({
       // href={href}
       onClick={onClick}
       className={clsx(
-        'flex flex-col gap-2 cursor-pointer',
+        'flex flex-col gap-2 cursor-pointer h-full',
         'border-[2px] border-gray-5 rounded-2xl p-3 '
       )}
     >
@@ -91,7 +91,7 @@ export default function Compact({
 
         <div
           className={clsx(
-            'flex flex-wrap gap-2 items-baseline',
+            'flex flex-col xl:flex-row flex-wrap gap-2 items-baseline',
             ' text-sm lg:text-base'
           )}
         >

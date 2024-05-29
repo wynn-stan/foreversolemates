@@ -7,8 +7,8 @@ export default function Price({ filters, setFilters }: FiltersProps) {
    * Variables
    */
   const options = [
-    { label: '₵ High to Low', value: 'high-to-low' },
-    { label: '₵ Low to High', value: 'low-to-high' },
+    { label: '₵ High to Low', value: 'high_to_low' },
+    { label: '₵ Low to High', value: 'low_to_high' },
   ];
 
   const filterIsActive = filters?.price_label;
@@ -16,7 +16,7 @@ export default function Price({ filters, setFilters }: FiltersProps) {
   return (
     <Dropdown>
       <Toggle filterIsActive={filterIsActive}>
-        {filterIsActive ? filters?.price_label : 'Any Price'}
+        {filterIsActive ? filters?.price_label : '₵ Any Price'}
       </Toggle>
       <Menu>
         {options.map((item, key) => (

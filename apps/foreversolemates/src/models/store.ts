@@ -25,6 +25,22 @@ export interface ProductModel {
 }
 
 export interface UserModel {
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobileNo: string;
+  delivery_details: {
+    country?: string;
+    location?: string;
+    cost?: number;
+    recipient_first_name?: string;
+    recipient_last_name?: string;
+    recipient_address?: string;
+    recipient_city?: string;
+    recipient_phone?: string;
+    recipient_email?: string;
+    _id: string;
+  };
   cart: ProductModel[];
   order_reference: string;
 }

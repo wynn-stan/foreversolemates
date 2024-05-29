@@ -1,13 +1,14 @@
 'use client';
 
-import { Collection, Paginate } from '@fsm/ui';
+import { Collection, Field, Filters, Models, Paginate } from '@fsm/ui';
 import styled from 'styled-components';
 import { useState } from 'react';
 import clsx from 'clsx';
 
-import { options } from '../../hooks';
 import { LocalProductCard as ProductCard } from '../../components';
 import { PaginatedData, ProductModel } from '../../models';
+import { options } from '../../hooks';
+import { debounce } from 'lodash';
 
 interface Props {
   data: PaginatedData<ProductModel> | undefined;
@@ -17,6 +18,8 @@ interface Props {
   cardType: 'compact' | 'detailed';
   page: number;
   setPage: any;
+  filters: Models.FiltersModel;
+  setFilters: React.Dispatch<React.SetStateAction<Models.FiltersModel>>;
 }
 
 export default function Layout({
@@ -27,6 +30,8 @@ export default function Layout({
   mutate,
   header,
   cardType,
+  filters,
+  setFilters,
 }: Props) {
   //hooks
   const { collections } = options.useGetCollections();
@@ -58,29 +63,38 @@ export default function Layout({
 
   return (
     <>
-      <div className="space-y-8 ">
-        <div className="flex gap-4">
-          <div className="flex gap-4 px-4 sm:px-0 ">
-            <Collection.SideModalToggle collections={collections} />
-            {header && <div className="font-medium text-4xl">{header}</div>}
-          </div>
-
-          {/* <div className="flex items-center justify-between">
-            <div className="text-xs">
-              Showing {from + 1 || '--'} to {to} of {data?.totalCount || '--'}{' '}
-              total
-            </div>
-          </div> */}
-        </div>
-
+      <div className=" ">
         <div
           className={clsx(
-            'flex',
+            'grid grid-cols-[min-content_min-content] xl:grid-cols-[min-content_min-content_min-content]',
             cardType === 'compact'
               ? 'justify-center gap-4 flex-wrap '
               : 'justify-start flex-col gap-8 2xl:flex-row 2xl:flex-wrap'
           )}
         >
+          {/* Filters and Toggle */}
+          <div className={clsx('col-span-full')}>
+            <div className="lg:hidden  min-w-fit mb-4">
+              <Filters.Price {...{ filters, setFilters }} />
+            </div>
+            <div className={clsx('flex gap-4 flex-grow')}>
+              <Collection.SideModalToggle collections={collections} />
+              {header && <div className="font-medium text-4xl">{header}</div>}
+              <div className="flex gap-4 justify-between w-full">
+                <Field.Search
+                  wrapperClassName="min-w-[200px] max-w-[300px]"
+                  placeholder="Name..."
+                  onSearch={(search) => {
+                    setFilters((filters) => ({ ...filters, name: search }));
+                  }}
+                />
+                <div className="hidden lg:block  min-w-fit">
+                  <Filters.Price {...{ filters, setFilters }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* loading */}
           {isLoading &&
             Array.from({ length: 5 }, (_, i) =>

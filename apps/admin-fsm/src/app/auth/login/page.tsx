@@ -32,8 +32,8 @@ export default function Page() {
         <Formik
           validateOnMount
           validationSchema={yup.object({
-            email: yup.string().email().required('Error'),
-            password: yup.string().required('Error'),
+            email: yup.string().email().required('Email is required'),
+            password: yup.string().required('Password is required'),
           })}
           initialValues={{
             email: '',

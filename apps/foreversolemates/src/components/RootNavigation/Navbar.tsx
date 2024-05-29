@@ -1,25 +1,33 @@
 'use client';
 
 import {
+  CircleUserIcon,
+  ClipboardPenLineIcon,
+  ContactIcon,
+  HistoryIcon,
+  LogOut,
   MenuIcon,
+  ScanFaceIcon,
   SearchIcon,
   ShoppingBagIcon,
   ShoppingCartIcon,
   TruckIcon,
   UserRoundIcon,
 } from 'lucide-react';
-import { HoverDropdown, Logo } from '@fsm/ui';
+import { Dropdown, HoverDropdown, Logo } from '@fsm/ui';
+import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 import { NavProps } from './RootNavigation';
-import routes from '../../routes';
 import { useStore } from '../../hooks';
-import clsx from 'clsx';
-import styled from 'styled-components';
+import routes from '../../routes';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   //hooks
   const { store } = useStore();
+  const router = useRouter();
 
   return (
     <div className={clsx('flex justify-between items-center py-4 px-8')}>
@@ -40,36 +48,21 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         <HoverDropdown href="#" label="About us" />
 
         <HoverDropdown label="Cart & Orders">
-          <div
-            className={clsx(
-              'flex flex-col gap-2 px-4 min-w-[200px] text-right',
-              'font-medium '
-            )}
-          >
-            <div
-              className={clsx(
-                'flex gap-2 justify-end items-center p-2 rounded-md',
-                'hover:bg-gray-60 hover:text-gray-5'
-              )}
-            >
-              <Link className="" href={routes.cart.index}>
-                My Cart
-              </Link>
-              <ShoppingBagIcon size={16} />
-            </div>
+          <HoverDropdown.DropdownItem>
+            <ShoppingBagIcon size={16} />
 
-            <div
-              className={clsx(
-                'flex gap-2 justify-end items-center p-2 rounded-md',
-                'hover:bg-gray-60 hover:text-gray-5'
-              )}
-            >
-              <Link className="" href={routes.track_my_order.index}>
-                Track my order
-              </Link>
-              <TruckIcon size={16} />
-            </div>
-          </div>
+            <Link className="" href={routes.cart.index}>
+              My Cart
+            </Link>
+          </HoverDropdown.DropdownItem>
+
+          <HoverDropdown.DropdownItem>
+            <TruckIcon size={16} />
+
+            <Link className="" href={routes.track_my_order.index}>
+              Track my order
+            </Link>
+          </HoverDropdown.DropdownItem>
         </HoverDropdown>
       </div>
 
@@ -81,9 +74,7 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
         {/* <Link href="#">
           <SearchIcon />
         </Link> */}
-        {/* <Link href="#">
-            <UserRoundIcon />
-          </Link> */}
+
         <Link className="relative" href={routes.cart.index}>
           <ShoppingBagIcon />
           <div
@@ -96,14 +87,80 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
             {store?.cart?.length || 0}
           </div>
         </Link>
+
+        <Dropdown>
+          <Dropdown.Toggle>
+            <CircleUserIcon />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="font-medium px-2 py-4 shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]">
+            {!store?.user?.email ? (
+              <>
+                <Link href="/login">
+                  <DropdownItem>
+                    <ScanFaceIcon size={20} />
+                    <span>Log in</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link className="" href="/sign-up">
+                  <DropdownItem>
+                    <ClipboardPenLineIcon size={20} />
+                    <span>Sign up</span>
+                  </DropdownItem>
+                </Link>
+              </>
+            ) : (
+              ''
+            )}
+
+            {store?.user?.email ? (
+              <>
+                <Link href="/profile">
+                  <DropdownItem>
+                    <ContactIcon size={20} />
+                    <span>My Profile</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link href="/purchase-history">
+                  <DropdownItem>
+                    <HistoryIcon size={20} />
+                    <span>Purchase History</span>
+                  </DropdownItem>
+                </Link>
+
+                <Link
+                  onClick={() => {
+                    store?.logout?.();
+                    router.push('/');
+                  }}
+                  href=""
+                >
+                  <DropdownItem>
+                    <LogOut size={20} />
+                    <span>Log out</span>
+                  </DropdownItem>
+                </Link>
+              </>
+            ) : (
+              ''
+            )}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     </div>
   );
 }
 
-const StyledLinks = styled.div`
-  & a:hover {
-    text-decoration: underline;
-    font-weight: 500;
+const DropdownItem = styled(Dropdown.Item)`
+  padding: 12px 8px;
+  border-radius: 8px;
+  &:hover {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
   }
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
 `;

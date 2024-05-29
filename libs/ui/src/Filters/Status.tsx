@@ -11,7 +11,7 @@ export default function Status({ filters, setFilters }: FiltersProps) {
   const options = [
     { label: 'In-Production', value: 'in production' },
     { label: 'Ready for delivery', value: 'ready for delivery' },
-    { label: 'Out for delivery', value: 'out of delivery' },
+    { label: 'Out for delivery', value: 'out for delivery' },
     { label: 'Delivered', value: 'delivered' },
     { label: 'Order Reversed', value: 'order reversed' },
   ];

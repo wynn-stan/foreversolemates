@@ -9,18 +9,24 @@ import { Collection } from '../../../../components';
 import { useCallback, useEffect, useState } from 'react';
 import { useLayout } from '../../../../hooks';
 
+import { Models } from '@fsm/ui';
+
+type IFilters = Models.FiltersModel;
+
 export default function Page() {
   //hooks
   const { layout, setLayout } = useLayout();
 
   //state
   const [page, setPage] = useState(0);
+  const [filters, setFilters] = useState<IFilters>({});
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/products?${queryString.stringify({
       page: page + 1,
       size: 10,
+      ...filters,
     })}`
   );
 
@@ -39,7 +45,7 @@ export default function Page() {
     <>
       <Collection.Layout
         cardType="compact"
-        {...{ data, isLoading, mutate, page, setPage }}
+        {...{ data, isLoading, mutate, page, setPage, filters, setFilters }}
         header=""
       />
     </>

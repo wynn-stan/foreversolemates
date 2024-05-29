@@ -10,6 +10,7 @@ interface Props {
   onCancel: () => void;
   showActions?: boolean;
   showList?: boolean;
+  shipping_cost?: number;
 }
 
 export default function Summary({
@@ -18,6 +19,7 @@ export default function Summary({
   onCheckout,
   showActions = true,
   showList = false,
+  shipping_cost,
 }: Props) {
   //variables - disabled button
   const isValid = items.length;
@@ -39,6 +41,12 @@ export default function Summary({
         <div className=" flex justify-between font-medium">
           <div>Subtotal</div>
           <div>GH₵{cartSummary.subtotal}</div>
+        </div>
+
+        {/* Shipping Cost */}
+        <div className="text-sm text-gray-60 flex justify-between font-medium">
+          <div>Shipping </div>
+          <div>{shipping_cost ? `GH₵${shipping_cost}` : '--'}</div>
         </div>
 
         {/* Tax */}
