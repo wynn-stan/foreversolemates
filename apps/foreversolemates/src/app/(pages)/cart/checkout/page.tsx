@@ -107,10 +107,10 @@ export default function Page() {
                   callback_url:
                     process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
                   metadata: {
-                    ...checkoutPayload,
                     delivery_details: params,
-                    email: params.recipient_email,
+                    email: store?.user?.email || params.recipient_email,
                     order_reference,
+                    ...checkoutPayload,
                   },
                 })
                 .then(({ data: { url, reference } }) => {
