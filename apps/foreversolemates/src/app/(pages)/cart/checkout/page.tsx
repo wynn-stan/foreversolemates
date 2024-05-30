@@ -109,7 +109,7 @@ export default function Page() {
                   metadata: {
                     ...checkoutPayload,
                     delivery_details: params,
-                    email: params.recipient_email,
+                    email: store?.user?.email || params.recipient_email,
                     order_reference,
                   },
                 })
