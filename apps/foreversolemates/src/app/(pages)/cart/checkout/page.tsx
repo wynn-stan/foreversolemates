@@ -77,7 +77,7 @@ export default function Page() {
         initial="hidden"
         animate="visible"
         className={clsx(
-          'py-12 px-6 flex gap-6 justify-center',
+          'py-12 flex gap-6 justify-center',
           'flex-col lg:flex-row'
         )}
       >
@@ -143,7 +143,7 @@ export default function Page() {
             <div className="flex flex-col">
               <div className="w-[2px] min-h-[5px] bg-gray-5 h-full flex-grow" />
             </div>
-            <div className="max-w-[350px] w-full">
+            <div className="max-w-[350px] w-full mx-auto">
               <Order.OrderSummary {...cartSummaryProps} />
             </div>
           </>

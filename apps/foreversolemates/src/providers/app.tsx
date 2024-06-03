@@ -1,15 +1,16 @@
 'use client';
 
 import { http } from '@foreversolemates/utils';
-import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { ToastContainer } from 'react-toastify';
 // import { Toaster } from 'react-toastify';
 import { SWRConfig } from 'swr';
+import dayjs from 'dayjs';
 
 import LayoutProvider from './layout';
 import StoreProvider from '../contexts/store';
-import { ToastContainer } from 'react-toastify';
+import AuthProvider from './auth';
 
 export default function AppProvider({
   children,
@@ -38,8 +39,10 @@ export default function AppProvider({
             revalidateOnFocus: true,
           }}
         >
-          <LayoutProvider>{children}</LayoutProvider>
-          <ToastContainer hideProgressBar />
+          <AuthProvider>
+            <LayoutProvider>{children}</LayoutProvider>
+            <ToastContainer hideProgressBar />
+          </AuthProvider>
         </SWRConfig>
       </StoreProvider>
     </>

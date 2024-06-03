@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {...layout.banner}
         />
       )}
-      <div className="py-10 px-2 md:px-6 mx-auto max-w-7xl">{children}</div>
+      <div className="py-10 px-6 mx-auto max-w-7xl">{children}</div>
     </div>
   );
 }

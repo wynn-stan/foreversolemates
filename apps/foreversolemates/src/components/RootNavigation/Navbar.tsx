@@ -23,6 +23,9 @@ import clsx from 'clsx';
 import { NavProps } from './RootNavigation';
 import { useStore } from '../../hooks';
 import routes from '../../routes';
+import { useEffect } from 'react';
+import { getAvatarImage } from '../../utils';
+import Image from 'next/image';
 
 export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
   //hooks
@@ -90,7 +93,20 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
 
         <Dropdown>
           <Dropdown.Toggle>
-            <CircleUserIcon />
+            {store?.user?.email ? (
+              <Image
+                unoptimized
+                width={32}
+                height={32}
+                alt="img"
+                src={getAvatarImage({
+                  name: `${store?.user?.firstName} ${store.user.lastName}`,
+                  radius: 50,
+                })}
+              />
+            ) : (
+              <CircleUserIcon size={28} />
+            )}
           </Dropdown.Toggle>
           <Dropdown.Menu className="font-medium px-2 py-4 shadow-[2px_2px_8px_0px_rgba(0,0,0,0.9)]">
             {!store?.user?.email ? (
