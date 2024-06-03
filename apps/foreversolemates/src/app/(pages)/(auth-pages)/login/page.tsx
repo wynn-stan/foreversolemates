@@ -40,6 +40,7 @@ export default function Page() {
             password,
           })
           .then((response: { data: UserModel }) => {
+            toast.success('Login successful.');
             setStore((store) => ({
               ...store,
               user: response?.data,

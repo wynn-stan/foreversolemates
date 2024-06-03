@@ -104,7 +104,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }: NavProps) {
 
                   return (
                     <Link
-                      // onClick={() => onHide()}
+                      onClick={() => onHide()}
                       className={clsx(
                         'flex gap-2 py-2 px-2 ',
                         'rounded-md',

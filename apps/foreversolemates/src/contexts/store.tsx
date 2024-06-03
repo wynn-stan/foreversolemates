@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { CartItem, UserModel } from '../models';
 import routes from '../routes';
+import Cookies from 'js-cookie';
 
 export interface StoreInterface {
   cart: Partial<CartItem>[];
@@ -63,7 +64,7 @@ const StoreProvider = ({ children }: { children: any }) => {
 
       axios.get(`/api/auth/logout`).then(() => {
         // router.push(routes.auth.login.index);
-        router.push('');
+        router.push('/');
       });
     }
   }, [mutate, router]);
@@ -81,6 +82,27 @@ const StoreProvider = ({ children }: { children: any }) => {
 
     http.injectLogout(logout);
   }, [store, logout]);
+
+  /**
+   * Effect
+   */
+  useEffect(() => {
+    store &&
+      router &&
+      http.interceptors.response.use(
+        (response: any) => response,
+        (error: string) => {
+          if (error?.toLowerCase() === 'unauthorized') {
+            localStorage.clear();
+            setStore((store) => {
+              return { cart: store?.cart };
+            });
+            router.refresh();
+          }
+          return error;
+        }
+      );
+  }, [store, router]);
 
   return (
     <StoreContext.Provider value={{ store: { ...store, logout }, setStore }}>

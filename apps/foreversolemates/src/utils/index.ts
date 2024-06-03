@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 interface GetStockSummaryProps {
   low_stock_indicator: number;
   available_units: number;
@@ -57,6 +59,21 @@ export const generateID = () => {
   const randomPart = Math.random().toString(36).substring(2, 5);
   return `FSM-${timestamp}-${randomPart}`;
 };
+
+export const getAvatarImage = ({
+  name,
+  radius,
+  size,
+}: {
+  name?: string;
+  radius?: number;
+  size?: number;
+}) =>
+  `https://api.dicebear.com/8.x/initials/svg?${queryString.stringify({
+    seed: name,
+    radius,
+    size,
+  })}`;
 
 export * from './animations';
 export * from './cart';

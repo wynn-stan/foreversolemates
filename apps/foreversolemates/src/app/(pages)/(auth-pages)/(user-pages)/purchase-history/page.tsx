@@ -102,7 +102,7 @@ export default function Page() {
               total={item.total}
               onClick={() =>
                 router.push(
-                  `${routes.track_my_order.index}?order-reference=FSM-lwjfu4oy-kmc`
+                  `${routes.track_my_order.index}?order-reference=${item.order_reference}`
                 )
               }
               key={i}
