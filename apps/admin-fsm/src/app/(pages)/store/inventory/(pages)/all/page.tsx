@@ -1,7 +1,7 @@
 'use client';
 
 import queryString from 'query-string';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { PaginatedData, ProductModel } from '../../../../../../models';
@@ -11,16 +11,23 @@ import { Models } from '@fsm/ui';
 export default function Page() {
   //state
   const [page, setPage] = useState(0);
-  const [filters, setFilters] = useState<Models.FiltersModel>({});
+  const [filters, setFilters] = useState<
+    Models.FiltersModel & { page?: number }
+  >({});
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/secure/products?${queryString.stringify({
-      page: page + 1,
-      size: 10,
       ...filters,
+      page: (filters?.page || 0) + 1,
+      size: 10,
     })}`
   );
+
+  //effect on page
+  useEffect(() => {
+    setFilters((filters) => ({ ...filters, page }));
+  }, [page, setFilters]);
 
   return (
     <>

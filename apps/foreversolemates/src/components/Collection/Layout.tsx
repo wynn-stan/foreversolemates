@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 import { LocalProductCard as ProductCard } from '../../components';
 import { PaginatedData, ProductModel } from '../../models';
-import { options } from '../../hooks';
+import { options, useFilters } from '../../hooks';
 import { debounce } from 'lodash';
 
 interface Props {

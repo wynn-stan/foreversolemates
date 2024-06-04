@@ -13,7 +13,11 @@ export default function LocalFilters({ filters, setFilters }: Props) {
           wrapperClassName="w-full"
           placeholder="Order reference"
           onSearch={(search) => {
-            setFilters((filters) => ({ ...filters, order_reference: search }));
+            setFilters((filters) => ({
+              ...filters,
+              page: 0,
+              order_reference: search,
+            }));
           }}
         />
       </div>

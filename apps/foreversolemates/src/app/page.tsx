@@ -22,7 +22,7 @@ interface CollectionsData extends CollectionModel {
 export default function Index() {
   //api
   const {
-    api: { apiCollections },
+    api: { apiCollections, isLoading: collectionsLoading },
   } = options.useGetCollections();
 
   const [coll1, coll2] = [apiCollections?.[0], apiCollections?.[1]];
@@ -75,6 +75,16 @@ export default function Index() {
               }
             />
           </div>
+
+          {collectionsLoading
+            ? Array.from({ length: 3 }, (_, index) => (
+                <div
+                  key={index}
+                  className="min-w-[550px] min-h-[255px] animate-pulse bg-gray-10"
+                ></div>
+              ))
+            : ''}
+
           {apiCollections.map((item, key) => (
             <div key={key}>
               <CollectionCard

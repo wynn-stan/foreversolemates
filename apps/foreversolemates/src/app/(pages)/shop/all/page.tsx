@@ -7,26 +7,35 @@ import useSWR from 'swr';
 import { PaginatedData, ProductModel } from '../../../../models';
 import { Collection } from '../../../../components';
 import { useCallback, useEffect, useState } from 'react';
-import { useLayout } from '../../../../hooks';
+import { useFilters, useLayout } from '../../../../hooks';
 
 import { Models } from '@fsm/ui';
 
 type IFilters = Models.FiltersModel;
 
 export default function Page() {
+  //const
+  const collectionName = 'All';
+
   //hooks
   const { layout, setLayout } = useLayout();
+  const { filters, setFilters } = useFilters();
 
   //state
-  const [page, setPage] = useState(0);
-  const [filters, setFilters] = useState<IFilters>({});
+  const [page, setPage] = useState(
+    (() => {
+      return filters?.collectionName === collectionName
+        ? filters?.page || 0
+        : 0;
+    })()
+  );
 
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/products?${queryString.stringify({
-      page: page + 1,
-      size: 10,
       ...filters,
+      page: (filters?.page || 0) + 1,
+      size: 10,
     })}`
   );
 
@@ -40,6 +49,11 @@ export default function Page() {
       },
     });
   }, []);
+
+  //effect on page
+  useEffect(() => {
+    setFilters((filters) => ({ ...filters, page, collectionName }));
+  }, [page, setFilters]);
 
   return (
     <>

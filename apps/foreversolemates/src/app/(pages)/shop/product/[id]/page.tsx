@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { ProductCard } from '@fsm/ui';
 import useSWR from 'swr';
 
-import { options, useLayout, useStore } from '../../../../../hooks';
+import { options, useFilters, useLayout, useStore } from '../../../../../hooks';
 import { PaginatedData, ProductModel } from '../../../../../models';
 import Explore from '../../../../(components)/Explore';
 import routes from '../../../../../routes';
@@ -22,6 +22,7 @@ export default function Page({ params: { id } }: Props) {
   //hooks
   const { layout, setLayout } = useLayout();
   const { store, setStore } = useStore();
+  const { filters, setFilters } = useFilters();
   const router = useRouter();
 
   //api

@@ -29,12 +29,14 @@ export default function AmountPaid({ filters, setFilters }: FiltersProps) {
                 if (filters?.amount_paid === item.value) {
                   return {
                     ...filters,
+                    page: 0,
                     amount_paid: '',
                     amount_label: '',
                   };
                 } else {
                   return {
                     ...filters,
+                    page: 0,
                     amount_paid: item.value,
                     amount_label: item.label,
                   };

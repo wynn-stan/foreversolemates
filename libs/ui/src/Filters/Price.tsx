@@ -29,12 +29,16 @@ export default function Price({ filters, setFilters }: FiltersProps) {
                 if (filters?.price === item.value) {
                   return {
                     ...filters,
+                    page: 0,
+
                     price: '',
                     price_label: '',
                   };
                 } else {
                   return {
                     ...filters,
+                    page: 0,
+
                     price: item.value,
                     price_label: item.label,
                   };

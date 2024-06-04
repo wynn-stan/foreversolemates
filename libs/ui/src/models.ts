@@ -41,6 +41,7 @@ export interface FiltersModel {
     | 'out for delivery'
     | 'delivered'
     | 'order reversed';
+  page?: number;
 }
 
 export interface LocationModel {

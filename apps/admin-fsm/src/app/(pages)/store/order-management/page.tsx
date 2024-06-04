@@ -16,6 +16,7 @@ import { PaginatedData } from '../../../../models';
 import routes from '../../../../routes';
 import queryString from 'query-string';
 import Filters from './(components)/Filters';
+import { useFilters } from '../../../../hooks';
 
 export default function Page() {
   //hooks
@@ -26,9 +27,8 @@ export default function Page() {
   const { store } = useStore();
 
   //state
-  const [showAdd, setShowAdd] = useState(false);
-  const [page, setPage] = useState(0);
-  const [filters, setFilters] = useState<Models.FiltersModel>({});
+  const { filters, setFilters } = useFilters();
+  const [page, setPage] = useState(filters?.page || 0);
 
   //api
   const { data, isLoading, error, mutate } = useSWR<
@@ -44,9 +44,9 @@ export default function Page() {
     }>
   >(
     `/orders?${queryString.stringify({
-      page: page + 1,
-      size: 10,
       ...filters,
+      page: (filters?.page || 0) + 1,
+      size: 10,
     })}`
   );
 
@@ -73,6 +73,11 @@ export default function Page() {
 
     return () => setLayout({});
   }, []);
+
+  //effect on page
+  useEffect(() => {
+    setFilters((filters) => ({ ...filters, page }));
+  }, [page, setFilters]);
 
   //function - handle status update
   const handleStatusUpdate = (id: string, slug: string) => {

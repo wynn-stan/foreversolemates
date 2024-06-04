@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import dayjs from 'dayjs';
 
 interface Props {
   details: {
@@ -13,6 +14,7 @@ interface Props {
     discount: number;
     product_image: string;
     product_name: string;
+    createdOn?: string;
   };
   onClick?: () => void;
   href?: string;
@@ -38,6 +40,9 @@ export default function Compact({
   //variables - component
   // const Component = href ? Link : 'div';
 
+  //variables - item is new
+  const isNew = dayjs().diff(details?.createdOn || '', 'day') > 2;
+
   return (
     <motion.div
       initial={{
@@ -59,6 +64,7 @@ export default function Compact({
       // href={href}
       onClick={onClick}
       className={clsx(
+        'relative',
         'flex flex-col gap-2 cursor-pointer h-full',
         'border-[2px] border-gray-5 rounded-2xl p-3 '
       )}
@@ -70,6 +76,45 @@ export default function Compact({
           'overflow-hidden rounded-lg'
         )}
       >
+        {details?.discount || isNew ? (
+          <div
+            className={clsx(
+              'absolute top-2 left-2',
+              'text-xs lg:text-sm font-medium'
+            )}
+          >
+            {/* {isNew ? (
+              <div
+                className={clsx(
+                  'mb-2 bg-white',
+                  'px-4 py-2',
+                  ' shadow-lg border border-gray-10  rounded-md'
+                )}
+              >
+                New
+              </div>
+            ) : (
+              ''
+            )} */}
+
+            {details?.discount ? (
+              <div
+                className={clsx(
+                  'text-red-50 bg-white',
+                  'px-4 py-2',
+                  ' shadow-lg border border-gray-10  rounded-md'
+                )}
+              >
+                {`${details.discount}% OFF`}
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
+        ) : (
+          ''
+        )}
+
         <Image
           unoptimized
           className={clsx('object-cover object-center', 'w-full h-full ')}

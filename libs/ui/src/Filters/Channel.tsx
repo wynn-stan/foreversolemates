@@ -33,12 +33,15 @@ export default function Channel({ filters, setFilters }: FiltersProps) {
                 if (filters?.channel === item.value) {
                   return {
                     ...filters,
+                    page: 0,
                     channel: '',
                     channel_label: '',
                   };
                 } else {
                   return {
                     ...filters,
+                    page: 0,
+
                     channel: item.value,
                     channel_label: item.label,
                   };

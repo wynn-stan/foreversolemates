@@ -111,7 +111,13 @@ export default function Page() {
         </Formik>
 
         {!data && !isLoading && <div>Nothing found</div>}
-        {isLoading && <div>Loading...</div>}
+
+        {isLoading && (
+          <div className="flex flex-col md:flex-row  justify-center gap-6">
+            <div className="min-w-[300px] min-h-[350px] w-full animate-pulse bg-gray-10"></div>
+            <div className="min-w-[300px] min-h-[350px] w-full animate-pulse bg-gray-10"></div>
+          </div>
+        )}
 
         {data && (
           <div className={clsx('flex flex-col lg:flex-row gap-4 lg:gap-5')}>

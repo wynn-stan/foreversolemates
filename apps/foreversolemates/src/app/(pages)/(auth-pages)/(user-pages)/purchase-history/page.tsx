@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Button, Field } from '@fsm/ui';
+import { Button, Field, Paginate, Spinner } from '@fsm/ui';
 import queryString from 'query-string';
 import { Form, Formik } from 'formik';
 import { object, string } from 'yup';
@@ -13,6 +13,7 @@ import { OrderHistoryItem } from '../../../../../components';
 import { PaginatedData } from '../../../../../models';
 import { useBanner } from '../../../../../hooks';
 import routes from '../../../../../routes';
+import { helpers } from '@foreversolemates/utils';
 
 export default function Page() {
   //state
@@ -49,8 +50,17 @@ export default function Page() {
    */
   const products = data?.data || [];
 
+  //variables - paginated data
+  const paginationInfo =
+    data &&
+    helpers.getPaginationInfo({
+      page: data?.page,
+      size: data?.size,
+      totalCount: data?.totalCount,
+    });
+
   return (
-    <div>
+    <div className="space-y-4">
       <Formik
         enableReinitialize
         validateOnMount
@@ -90,7 +100,13 @@ export default function Page() {
 
       {!isLoading && !data?.data?.length && <div>Nothing found</div>}
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div className="flex flex-col justify-center gap-6">
+          <div className="min-w-[300px] min-h-[100px] w-full animate-pulse bg-gray-10"></div>
+          <div className="min-w-[300px] min-h-[100px] w-full animate-pulse bg-gray-10"></div>
+          <div className="min-w-[300px] min-h-[100px] w-full animate-pulse bg-gray-10"></div>
+        </div>
+      )}
 
       {data && (
         <div className="space-y-4">
@@ -108,6 +124,18 @@ export default function Page() {
               key={i}
             />
           ))}
+
+          {data && paginationInfo && (
+            <div className="flex justify-end py-8 px-4 sm:px-0 ">
+              <Paginate
+                to={paginationInfo?.to}
+                from={paginationInfo?.from + 1}
+                total={data?.totalCount}
+                pageCount={data?.totalPages || 0}
+                {...{ page, setPage }}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
