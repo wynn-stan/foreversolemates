@@ -2,6 +2,7 @@
 
 import { Collection } from '@fsm/ui';
 
+import FiltersProvider from '../../../providers/filters';
 import { options, useLayout } from '../../../hooks';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -10,9 +11,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <Collection.SidebarLayout collections={collections}>
-        {children}
-      </Collection.SidebarLayout>
+      <FiltersProvider>
+        <Collection.SidebarLayout collections={collections}>
+          {children}
+        </Collection.SidebarLayout>
+      </FiltersProvider>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { PaginatedData, ProductModel } from '../../../../../../../models';
 import CollectionLayout from '../../(components)/Layout.tsx/Layout';
 import { usePathname } from 'next/navigation';
 import { options } from '../../../../../../../hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Models } from '@fsm/ui';
 
 export default function Page() {
@@ -22,9 +22,9 @@ export default function Page() {
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/secure/products/${id}?${queryString.stringify({
-      page: 1,
-      size: 10,
       ...filters,
+      page: (filters?.page || 0) + 1,
+      size: 10,
     })}`
   );
 
@@ -32,6 +32,11 @@ export default function Page() {
   const { collectionOptions } = options.useGetCollections();
   const collectionName =
     collectionOptions.find((item) => item.value === id)?.label || 'Products';
+
+  //effect on page
+  useEffect(() => {
+    setFilters((filters) => ({ ...filters, page }));
+  }, [page, setFilters]);
 
   return (
     <CollectionLayout

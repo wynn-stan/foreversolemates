@@ -37,12 +37,16 @@ export default function Status({ filters, setFilters }: FiltersProps) {
                 if (filters?.status === item.value) {
                   return {
                     ...filters,
+                    page: 0,
+
                     status: '',
                     status_label: '',
                   };
                 } else {
                   return {
                     ...filters,
+                    page: 0,
+
                     status: item.value,
                     status_label: item.label,
                   };

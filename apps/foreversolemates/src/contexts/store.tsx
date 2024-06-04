@@ -7,8 +7,6 @@ import { http } from '@foreversolemates/utils';
 import axios from 'axios';
 
 import { CartItem, UserModel } from '../models';
-import routes from '../routes';
-import Cookies from 'js-cookie';
 
 export interface StoreInterface {
   cart: Partial<CartItem>[];

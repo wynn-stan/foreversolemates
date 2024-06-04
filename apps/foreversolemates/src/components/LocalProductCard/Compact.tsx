@@ -25,6 +25,7 @@ export default function Compact({ details }: Props) {
         initial_price: details.initial_price,
         product_image: details.images?.[0],
         product_name: details.product_name,
+        createdOn: details.createdOn,
       }}
       actions={
         <>

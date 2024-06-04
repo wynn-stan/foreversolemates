@@ -95,7 +95,11 @@ export default function CollectionLayout({
               wrapperClassName="min-w-[200px] max-w-[300px]"
               placeholder="Name..."
               onSearch={(search) => {
-                setFilters((filters) => ({ ...filters, name: search }));
+                setFilters((filters) => ({
+                  ...filters,
+                  page: 0,
+                  name: search,
+                }));
               }}
             />
 

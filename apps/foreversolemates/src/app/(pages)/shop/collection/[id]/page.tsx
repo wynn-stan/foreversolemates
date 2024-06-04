@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import { PaginatedData, ProductModel } from '../../../../../models';
 import { Collection } from '../../../../../components';
 import { useCallback, useEffect, useState } from 'react';
-import { options } from '../../../../../hooks';
+import { options, useFilters } from '../../../../../hooks';
 import { useLayout } from '../../../../../hooks';
 
 interface Props {
@@ -24,13 +24,18 @@ export default function Page({ params: { id } }: Props) {
   } = options.useGetCollections();
 
   //state
-  const [page, setPage] = useState(0);
-  const [filters, setFilters] = useState({});
-
+  const { filters, setFilters } = useFilters();
+  //state
+  const [page, setPage] = useState(
+    (() => {
+      return filters?.collectionName === id ? filters?.page || 0 : 0;
+    })()
+  );
   //api
   const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
     `/products/${id}?${queryString.stringify({
-      page: page + 1,
+      ...filters,
+      page: (filters?.page || 0) + 1,
       size: 10,
     })}`
   );
@@ -52,6 +57,11 @@ export default function Page({ params: { id } }: Props) {
 
     // return setLayout({});
   }, []);
+
+  //effect on page
+  useEffect(() => {
+    setFilters((filters) => ({ ...filters, page, collectionName: id }));
+  }, [page, setFilters]);
 
   return (
     <>
