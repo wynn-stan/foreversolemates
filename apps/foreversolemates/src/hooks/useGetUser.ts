@@ -22,20 +22,33 @@ const useGetUser = () => {
    */
   useEffect(() => {
     router &&
-      http.get('/get_current_user').then((res: any) => {
-        const userData = JSON.parse(res?.data || '');
-        setStore((store) => ({
-          ...store,
-          user: {
-            firstName: userData?.firstName,
-            lastName: userData?.lastName,
-            email: userData?.email,
-            mobileNo: userData?.mobileNo,
-            delivery_details: userData?.delivery_details,
-          },
-        }));
-      });
-  }, [router]);
+      setStore &&
+      http
+        .get('/get_current_user')
+        .then((res: any) => {
+          const userData = JSON.parse(res?.data || '');
+          setStore((store) => ({
+            ...store,
+            user: {
+              firstName: userData?.firstName,
+              lastName: userData?.lastName,
+              email: userData?.email,
+              mobileNo: userData?.mobileNo,
+              delivery_details: userData?.delivery_details,
+            },
+          }));
+        })
+        .catch((error: string) => {
+          if (error?.toLowerCase() === 'unauthorized') {
+            localStorage.clear();
+            setStore((store) => {
+              return { cart: store?.cart };
+            });
+            router.refresh();
+          }
+          return error;
+        });
+  }, [router, setStore]);
 
   return;
 };
