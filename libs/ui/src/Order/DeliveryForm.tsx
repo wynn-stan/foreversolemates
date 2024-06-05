@@ -14,6 +14,7 @@ import ZoneOption from './DeliveryForm/ZoneOption';
 import { currencyFormatter } from '../Utils';
 import { PaginatedData } from '../models';
 import { Button, Field } from '../index';
+import Checkbox from '../Checkbox/Checkbox';
 
 interface IForm {
   // personal_email: string;
@@ -35,16 +36,22 @@ interface IForm {
 
 interface Props {
   onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
-  defaultValues?: IForm;
+  defaultValues?: Partial<IForm>;
   disabled?: boolean;
   onZoneSelect: (cost: number) => void;
+  onLogin?: () => void;
+  onUseDetails?: () => void;
+  isUsingUserDetails?: boolean;
 }
 
 export default function DeliveryForm({
+  onLogin,
   onSubmit,
   disabled,
   defaultValues,
   onZoneSelect,
+  onUseDetails,
+  isUsingUserDetails = false,
 }: Props) {
   //state
   const [zoneOption, setZoneOption] = useState<{
@@ -83,8 +90,8 @@ export default function DeliveryForm({
 
   return (
     <Formik
-      enableReinitialize
       validateOnMount
+      enableReinitialize
       validationSchema={object({
         country: schema.requireString('Country'),
         recipient_first_name: schema.requireString("recipient's first name"),
@@ -123,36 +130,46 @@ export default function DeliveryForm({
         errors,
       }) => (
         <FormikForm className={clsx('space-y-6 w-full')}>
-          {/* Contact */}
-          {/* <div className="space-y-2">
-            <div className="text-xl font-semibold">Contact</div>
-            <div className="md:flex space-y-4 md:space-y-0  gap-4">
-              <Field.Group
-                wrapperClassName="w-full"
-                name="personal_email"
-                label="Your email"
-              >
-                <Field.Input name="personal_email" placeholder="Your email" />
-              </Field.Group>
-
-              <Field.Group
-                wrapperClassName="w-full"
-                name="personal_phone"
-                label="Your phone number"
-              >
-                <Field.Phone
-                  name="personal_phone"
-                  placeholder="Your phone number"
-                  value={values.personal_phone}
-                  {...{ setFieldTouched, setFieldValue }}
-                />
-              </Field.Group>
-            </div>
-          </div> */}
-
           {/* Delivery */}
           <div className="space-y-2">
-            <div className="text-xl font-semibold">Delivery Details</div>
+            <div className="flex justify-between gap-4">
+              <div className="cursor-pointer flex flex-col gap-2">
+                <div className="text-xl font-semibold">Delivery Details</div>
+                {!disabled ? (
+                  <div className="mb-2">
+                    <Checkbox
+                      onClick={onUseDetails}
+                      size={16}
+                      checked={isUsingUserDetails}
+                    >
+                      <span
+                        className={clsx(
+                          'text-sm ',
+                          onUseDetails ? 'text-gray-50' : 'text-gray-30'
+                        )}
+                      >
+                        Use my details
+                      </span>
+                    </Checkbox>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+              {onLogin ? (
+                <Button
+                  type="button"
+                  onClick={onLogin}
+                  className="!rounded-lg !px-4 !py-2 !h-fit hover:!bg-gray-60 hover:!text-gray-5"
+                  variant="outline-secondary"
+                >
+                  Login
+                </Button>
+              ) : (
+                ''
+              )}
+            </div>
+
             <div className="space-y-4">
               <Field.Group disabled name="country" label="Country">
                 <Field.Input name="country" placeholder="" value="Ghana" />
