@@ -4,19 +4,22 @@ import { HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   checked: boolean;
+  size?: number;
 }
 
 export default function Checkbox({
   checked,
   children,
   className,
+  size = 20,
+  onClick,
   ...props
 }: Props) {
   return (
-    <div className="flex gap-2">
+    <div onClick={onClick} className="flex gap-2 items-center">
       <div
         className={clsx(
-          'rounded-md flex items-center justify-center w-[20px] h-[20px]',
+          `rounded-md flex items-center justify-center w-[${size}px] h-[${size}px]`,
           checked
             ? 'text-white bg-gray-60'
             : 'border  border-gray-20 text-gray-20',
@@ -24,7 +27,7 @@ export default function Checkbox({
         )}
         {...props}
       >
-        <CheckIcon size={16} />
+        <CheckIcon size={size - 4} />
       </div>
       <div>{children}</div>
     </div>

@@ -3,5 +3,9 @@
 import { Animated } from '@fsm/ui';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Animated.FadeInFromBelow>{children}</Animated.FadeInFromBelow>;
+  return (
+    <Animated.FadeInFromBelow className="px-4">
+      {children}
+    </Animated.FadeInFromBelow>
+  );
 }

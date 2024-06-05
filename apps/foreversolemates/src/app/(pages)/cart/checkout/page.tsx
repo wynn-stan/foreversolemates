@@ -16,7 +16,9 @@ import {
   getFormattedCartData,
 } from '../../../../utils';
 import { useLayout, useStore } from '../../../../hooks';
+import { UserModel } from '../../../../models';
 import { Cart } from '../../../../components/';
+import routes from '../../../../routes';
 
 export default function Page() {
   //hooks
@@ -27,6 +29,7 @@ export default function Page() {
 
   //state
   const [shippingCost, setShippingCost] = useState(0);
+  const [useUserDetails, setUseUserDetails] = useState(false);
 
   //ref
   const checkoutRef = useRef<HTMLAnchorElement>(null);
@@ -70,6 +73,12 @@ export default function Page() {
     showList: true,
   };
 
+  /**
+   * User
+   */
+  const user = store?.user;
+  const delivery_details = store?.user?.delivery_details;
+
   return (
     <>
       <motion.div
@@ -77,7 +86,7 @@ export default function Page() {
         initial="hidden"
         animate="visible"
         className={clsx(
-          'py-12 flex gap-6 justify-center',
+          'py-12 px-4 flex gap-6 justify-center',
           'flex-col lg:flex-row'
         )}
       >
@@ -92,50 +101,76 @@ export default function Page() {
           <></>
         )}
 
-        <div className="w-full max-w-[600px]">
-          <Order.DeliveryForm
-            onZoneSelect={(cost) => {
-              setShippingCost(cost);
-            }}
-            onSubmit={(params, { setSubmitting }) => {
-              const order_reference = generateID();
+        <Order.DeliveryForm
+          //on login
+          {...(store?.user?.email
+            ? {}
+            : {
+                onLogin: () => {
+                  router.push(routes.login);
+                },
+              })}
+          //on zone selection
+          onZoneSelect={(cost) => {
+            setShippingCost(cost);
+          }}
+          // using user details
+          onUseDetails={
+            user?.email ? () => setUseUserDetails(!useUserDetails) : undefined
+          }
+          isUsingUserDetails={useUserDetails}
+          //default values
+          defaultValues={
+            useUserDetails
+              ? {
+                  country: delivery_details?.country,
+                  recipient_address: delivery_details?.recipient_address,
+                  recipient_city: delivery_details?.recipient_city,
+                  recipient_email: user?.email,
+                  recipient_first_name: user?.firstName,
+                  recipient_last_name: user?.firstName,
+                  recipient_phone: user?.mobileNo,
+                  recipient_postal_code: '',
+                }
+              : {}
+          }
+          // on submit
+          onSubmit={(params, { setSubmitting }) => {
+            const order_reference = generateID();
 
-              axios
-                .post<never, any>(`/api/generate-checkout-link`, {
-                  amount: checkoutPayload.total,
+            axios
+              .post<never, any>(`/api/generate-checkout-link`, {
+                amount: checkoutPayload.total,
+                email: store?.user?.email || params.recipient_email,
+                callback_url:
+                  process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
+                metadata: {
+                  ...checkoutPayload,
+                  delivery_details: params,
                   email: store?.user?.email || params.recipient_email,
-                  callback_url:
-                    process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
-                  metadata: {
-                    ...checkoutPayload,
-                    delivery_details: params,
-                    email: store?.user?.email || params.recipient_email,
+                  order_reference,
+                },
+              })
+              .then(({ data: { url, reference } }) => {
+                setStore((store) => ({
+                  ...store,
+                  user: {
+                    ...store?.user,
                     order_reference,
                   },
-                })
-                .then(({ data: { url, reference } }) => {
-                  setStore((store) => ({
-                    ...store,
-                    user: {
-                      ...store?.user,
-                      order_reference,
-                    },
-                  }));
-                  if (checkoutRef?.current) {
-                    checkoutRef.current.href = url;
-                    checkoutRef.current.click();
-                    setSubmitting(false);
-                  }
-                })
-                .catch(() => {
-                  toast.error(
-                    'Something unexpected happened. Please try again'
-                  );
+                }));
+                if (checkoutRef?.current) {
+                  checkoutRef.current.href = url;
+                  checkoutRef.current.click();
                   setSubmitting(false);
-                });
-            }}
-          />
-        </div>
+                }
+              })
+              .catch(() => {
+                toast.error('Something unexpected happened. Please try again');
+                setSubmitting(false);
+              });
+          }}
+        />
 
         {/* Showing the order summary on large screens */}
         {cartHasItems && lg ? (

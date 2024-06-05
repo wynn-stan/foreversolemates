@@ -15,6 +15,7 @@ interface Props {
     product_image: string;
     product_name: string;
     createdOn?: string;
+    available_units?: number;
   };
   onClick?: () => void;
   href?: string;
@@ -76,7 +77,24 @@ export default function Compact({
           'overflow-hidden rounded-lg'
         )}
       >
-        {details?.discount || isNew ? (
+        {(details?.available_units || 0) <= 0 ? (
+          <div
+            className={clsx(
+              'absolute top-2 left-2',
+              'text-xs lg:text-sm font-medium'
+            )}
+          >
+            <div
+              className={clsx(
+                'text-red-50 bg-white',
+                'px-4 py-2',
+                ' shadow-lg border border-gray-10  rounded-md'
+              )}
+            >
+              {`Out of stock`}
+            </div>
+          </div>
+        ) : details?.discount || isNew ? (
           <div
             className={clsx(
               'absolute top-2 left-2',

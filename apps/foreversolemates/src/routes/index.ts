@@ -1,4 +1,7 @@
 const routes = {
+  login: '/login',
+  signup: '/signup',
+
   home: {
     index: '/',
   },
