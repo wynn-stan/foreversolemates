@@ -25,16 +25,13 @@ export default function AppProvider({
   http.defaults.baseURL = process?.env?.['NEXT_PUBLIC_BASE_API'];
   http.injectLogout();
 
-  //functions (swr fetcher)
-  const fetcher = (url: any) =>
-    http.get<never, any>(url).then((response) => response);
-
   return (
     <>
       <StoreProvider>
         <SWRConfig
           value={{
-            fetcher,
+            fetcher: (url: any) =>
+              http.get<never, any>(url).then((response) => response),
             shouldRetryOnError: false,
             revalidateOnFocus: true,
           }}
