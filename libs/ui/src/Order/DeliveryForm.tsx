@@ -36,7 +36,7 @@ interface IForm {
 
 interface Props {
   onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
-  defaultValues?: Partial<IForm>;
+  defaultValues?: Partial<IForm> & { cost?: number; location?: string };
   disabled?: boolean;
   onZoneSelect: (cost: number) => void;
   onLogin?: () => void;
@@ -58,7 +58,11 @@ export default function DeliveryForm({
     value: string;
     label: string;
     cost: number;
-  } | null>();
+  } | null>({
+    label: defaultValues?.location || '',
+    value: defaultValues?.location || '',
+    cost: defaultValues?.cost || 0,
+  });
 
   /**
    * function
@@ -309,7 +313,10 @@ export default function DeliveryForm({
 
                   {zoneOption?.label && (
                     <ZoneOption
-                      className="hover:bg-gray-5 border border-gray-10 "
+                      className={clsx(
+                        'hover:bg-gray-5 border border-gray-10 ',
+                        disabled && 'pointer-events-none'
+                      )}
                       name={zoneOption.label}
                       amount={zoneOption.cost}
                       checked={true}

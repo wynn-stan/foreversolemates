@@ -146,7 +146,11 @@ export default function Page() {
                   process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
                 metadata: {
                   ...checkoutPayload,
-                  delivery_details: params,
+                  delivery_details: {
+                    ...params,
+                    cost: params.shipping_method.cost,
+                    location: params.shipping_method.label,
+                  },
                   email: store?.user?.email || params.recipient_email,
                   order_reference,
                 },
