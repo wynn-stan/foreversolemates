@@ -95,7 +95,6 @@ const StoreProvider = ({ children }: { children: any }) => {
             setStore((store) => {
               return { cart: store?.cart };
             });
-            router.refresh();
           }
           return error;
         }

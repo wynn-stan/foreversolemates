@@ -44,7 +44,6 @@ const useGetUser = () => {
             setStore((store) => {
               return { cart: store?.cart };
             });
-            router.refresh();
           }
           return error;
         });

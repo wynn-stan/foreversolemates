@@ -69,6 +69,8 @@ export interface OrderModel {
     recipient_phone: string;
     recipient_email: string;
     _id: string;
+    cost?: number;
+    location?: string;
   };
 
   delivery_status: string;
