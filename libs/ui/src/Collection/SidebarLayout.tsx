@@ -1,20 +1,23 @@
 import clsx from 'clsx';
 import Sidebar, { Collection } from './Sidebar';
+import { HTMLAttributes } from 'react';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   collections: Collection[];
 }
 
-export default function SidebarLayout({ children, collections }: Props) {
+export default function SidebarLayout({
+  children,
+  collections,
+  className,
+  ...props
+}: Props) {
   return (
-    <div className="flex gap-10 h-full">
-      <div className="hidden md:block">
+    <div className={clsx('flex gap-10 h-full', className)} {...props}>
+      <div className="hidden xl:block">
         <Sidebar collections={collections} />
       </div>
-      <div
-        className={clsx('h-full w-[1px] bg-gray-10', 'hidden md:block')}
-      ></div>
       <div className="flex-grow">{children}</div>
     </div>
   );

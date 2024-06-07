@@ -38,6 +38,7 @@ export default function Compact({
         initial_price: details.initial_price,
         product_image: details.images?.[0],
         product_name: details.product_name,
+        available_units: details.available_units,
       }}
       actions={
         <div
