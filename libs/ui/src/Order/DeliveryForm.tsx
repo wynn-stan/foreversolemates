@@ -140,21 +140,20 @@ export default function DeliveryForm({
               <div className="cursor-pointer flex flex-col gap-2">
                 <div className="text-xl font-semibold">Delivery Details</div>
                 {!disabled ? (
-                  <div className="mb-2">
-                    <Checkbox
-                      onClick={onUseDetails}
-                      size={16}
-                      checked={isUsingUserDetails}
+                  <div
+                    onClick={onUseDetails}
+                    className="mb-2 flex bg-gray-5 px-3 py-2 rounded-md"
+                  >
+                    <Checkbox size={20} checked={isUsingUserDetails} />
+
+                    <span
+                      className={clsx(
+                        'text-sm ',
+                        onUseDetails ? 'text-gray-50' : 'text-gray-30'
+                      )}
                     >
-                      <span
-                        className={clsx(
-                          'text-sm ',
-                          onUseDetails ? 'text-gray-50' : 'text-gray-30'
-                        )}
-                      >
-                        Use my details
-                      </span>
-                    </Checkbox>
+                      Use my details
+                    </span>
                   </div>
                 ) : (
                   ''
@@ -164,8 +163,8 @@ export default function DeliveryForm({
                 <Button
                   type="button"
                   onClick={onLogin}
-                  className="!rounded-lg !px-4 !py-2 !h-fit hover:!bg-gray-60 hover:!text-gray-5"
-                  variant="outline-secondary"
+                  className="!rounded-lg !px-4 !py-2 !h-fit"
+                  variant="dark"
                 >
                   Login
                 </Button>

@@ -22,7 +22,7 @@ export default function Checkbox({
           `rounded-md flex items-center justify-center w-[${size}px] h-[${size}px]`,
           checked
             ? 'text-white bg-gray-60'
-            : 'border  border-gray-20 text-gray-20',
+            : 'border  border-gray-20 text-gray-20 bg-white',
           className
         )}
         {...props}

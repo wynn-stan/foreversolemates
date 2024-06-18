@@ -53,6 +53,7 @@ function Details({
   const hasColors = details?.available_colors?.length;
   const hasSizes = details?.available_sizes?.length;
   const hasColorsOrSizes = hasColors || hasSizes;
+  const maxQuantity = details.available_units > 0 ? details.available_units : 0;
 
   return (
     <Formik
@@ -62,6 +63,7 @@ function Details({
         quantity: yup
           .number()
           .min(1, 'Quantity must be at least 1')
+          .max(maxQuantity, `Max quantity is ${maxQuantity}`)
           .required('Quantity is required'),
         ...(hasColors
           ? { color: yup.string().required('Color is required') }
@@ -143,6 +145,7 @@ function Details({
             )}
             <div className="h-full">
               <AddToCart
+                maxQuantity={maxQuantity}
                 handleSubmit={() => {
                   handleSubmit();
                 }}
