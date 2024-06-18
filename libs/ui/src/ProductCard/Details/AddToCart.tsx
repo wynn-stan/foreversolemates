@@ -12,6 +12,7 @@ interface Props {
   isValid: boolean;
   setFieldValue: any;
   isSubmitting: boolean;
+  maxQuantity: number;
 }
 
 export default function AddToCart({
@@ -20,11 +21,18 @@ export default function AddToCart({
   handleSubmit,
   isValid,
   setFieldValue,
+  maxQuantity,
 }: Props) {
   return (
     <Field.Group name="quantity" label="Purchase units">
       <div className="flex gap-4 flex-wrap w-full">
-        <Field.Input type="number" name="quantity" min={0} placeholder="0" />
+        <Field.Input
+          type="number"
+          name="quantity"
+          min={0}
+          max={maxQuantity}
+          placeholder="0"
+        />
 
         <Button
           type="submit"
