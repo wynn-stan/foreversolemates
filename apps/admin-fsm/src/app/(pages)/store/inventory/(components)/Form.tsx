@@ -59,18 +59,27 @@ export default function Form({ defaultValues, onSubmit, onCancel }: Props) {
               name="image"
               label="Banner Image"
             >
-              {values.image?.name ? (
-                <Field.ImageUpload.Preview
-                  file={values.image}
-                  onClose={() => setFieldValue('image', {} as File)}
-                />
-              ) : (
-                <Field.ImageUpload
-                  onChange={(files) => {
-                    setFieldValue('image', files[0]);
-                  }}
-                />
-              )}
+              <div>
+                {values.image?.name ? (
+                  <Field.ImageUpload.Preview
+                    file={values.image}
+                    onClose={() => setFieldValue('image', {} as File)}
+                  />
+                ) : (
+                  <Field.ImageUpload
+                    onChange={(files) => {
+                      setFieldValue('image', files[0]);
+                    }}
+                  />
+                )}
+                {String(errors.image)?.includes('large') ? (
+                  <p className="text-red-40 text-xs pt-3">
+                    {String(errors.image)}
+                  </p>
+                ) : (
+                  ''
+                )}
+              </div>
             </Field.Group>
 
             <Field.Group name="name" label="Collection Name">

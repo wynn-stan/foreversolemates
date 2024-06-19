@@ -87,7 +87,14 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
         }}
         onSubmit={(params, actions) => onSubmit(params, actions)}
       >
-        {({ values, handleSubmit, isSubmitting, isValid, setFieldValue }) => (
+        {({
+          values,
+          handleSubmit,
+          isSubmitting,
+          isValid,
+          setFieldValue,
+          errors,
+        }) => (
           <div
             className={clsx(
               'w-full h-full p-6 pb-0',
@@ -104,6 +111,14 @@ export default function Form({ onSubmit, defaultValues, actionType }: Props) {
                   setFieldValue('images', [...values.images, file])
                 }
               />
+
+              <p>
+                {errors.images?.includes('image size is too large') ? (
+                  <p className="text-red-40 text-xs">Image size is too large</p>
+                ) : (
+                  ''
+                )}
+              </p>
 
               <Field.Group name="collection_id" label="Collection">
                 <Field.Select
