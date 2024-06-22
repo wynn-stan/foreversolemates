@@ -4,8 +4,10 @@ import AllCollections from './AllCollections';
 import styled from 'styled-components';
 import { HTMLAttributes } from 'react';
 import LoadingCard from './LoadingCard';
+import GlassCollectionCard from './Glass/Glass';
+import LoadingGlassCollectionCard from './Glass/Loading';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+export interface Props extends HTMLAttributes<HTMLDivElement> {
   topTagline?: string;
   bottomTagline?: string;
   bannerImage?: string;
@@ -58,4 +60,9 @@ function CollectionCard({
   );
 }
 
-export default Object.assign(CollectionCard, { AllCollections, LoadingCard });
+export default Object.assign(CollectionCard, {
+  AllCollections,
+  LoadingCard,
+  GlassCollectionCard,
+  LoadingGlassCollectionCard,
+});
