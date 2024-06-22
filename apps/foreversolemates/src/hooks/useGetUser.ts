@@ -39,7 +39,7 @@ const useGetUser = () => {
           }));
         })
         .catch((error: string) => {
-          if (error?.toLowerCase() === 'unauthorized') {
+          if (error?.toLowerCase?.() === 'unauthorized') {
             localStorage.clear();
             setStore((store) => {
               return { cart: store?.cart };

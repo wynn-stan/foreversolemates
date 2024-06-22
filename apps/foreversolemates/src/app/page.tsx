@@ -1,19 +1,23 @@
 'use client';
 
-import { PromoBanner } from '../components';
+import { Collection, LocalProductCard, PromoBanner } from '../components';
 import { Modal as RestartModal } from '@restart/ui';
 import { Button, CollectionCard, Modal } from '@fsm/ui';
 import Explore from './(components)/Explore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { CollectionModel, PaginatedData, ProductModel } from '../models';
-import { options } from '../hooks';
+import { options, useFilters } from '../hooks';
 import Link from 'next/link';
 import routes from '../routes';
 import clsx from 'clsx';
 import axios from 'axios';
 import queryString from 'query-string';
 import { http } from '@foreversolemates/utils';
+import Image from 'next/image';
+import { ArrowRightIcon, MoveRightIcon } from 'lucide-react';
+import Header from './(components)/Explore/Header';
+import styled from 'styled-components';
 
 interface CollectionsData extends CollectionModel {
   products: ProductModel[];
@@ -25,45 +29,36 @@ export default function Index() {
     api: { apiCollections, isLoading: collectionsLoading },
   } = options.useGetCollections();
 
-  const [coll1, coll2] = [apiCollections?.[0], apiCollections?.[1]];
-
-  //variables - collections data
-  const { data: firstProducts, isLoading } = useSWR<
-    PaginatedData<ProductModel>
-  >(
-    coll1 &&
-      `/products/${coll1?._id}?${queryString.stringify({
-        page: 1,
-        size: 4,
-      })}`
+  //api
+  const { data, isLoading, mutate } = useSWR<PaginatedData<ProductModel>>(
+    `/products?${queryString.stringify({
+      page: 1,
+      size: 6,
+    })}`
   );
 
-  const { data: secondProducts, isLoading: secondLoading } = useSWR<
-    PaginatedData<ProductModel>
-  >(
-    coll2 &&
-      `/products/${coll2?._id}?${queryString.stringify({
-        page: 1,
-        size: 4,
-      })}`
-  );
+  //variables
+  const products = data?.data || [];
 
   return (
     <div className="space-y-6">
       <PromoBanner />
-      <div className="px-4 overflow-hidden flex justify-center">
-        <div
-          className={clsx(
-            'flex overflow-y-auto gap-4 no-scrollbar'
-            // 'max-w-7xl'
-          )}
-        >
-          <div className="">
-            <CollectionCard
+      <div>
+        <Header title="Explore Our Collections" />
+        <div className="px-4 overflow-hidden flex justify-center">
+          <div
+            className={clsx(
+              'py-2',
+              'flex overflow-y-auto gap-4 no-scrollbar'
+              // 'max-w-7xl'
+            )}
+          >
+            <CollectionCard.GlassCollectionCard
               topTagline={'Ease and elegance for your feet'}
               bottomTagline={'Delve into our curated collections'}
-              bannerImage={'/assets/all-collections.png'}
+              bannerImage={'/assets/images/homepage/all-collections-prod.png'}
               collectionName={'All Products'}
+              href={routes.shop.all.index}
               actions={
                 <>
                   <Link href={routes.shop.all.index}>
@@ -74,21 +69,18 @@ export default function Index() {
                 </>
               }
             />
-          </div>
 
-          {collectionsLoading
-            ? Array.from({ length: 3 }, (_, index) => (
-                <div
-                  key={index}
-                  className="min-w-[550px] min-h-[255px] animate-pulse bg-gray-10"
-                ></div>
-              ))
-            : ''}
+            {collectionsLoading
+              ? Array.from({ length: 3 }, (_, index) => (
+                  <CollectionCard.LoadingGlassCollectionCard key={index} />
+                ))
+              : ''}
 
-          {apiCollections.map((item, key) => (
-            <div key={key}>
-              <CollectionCard
+            {apiCollections.map((item, key) => (
+              <CollectionCard.GlassCollectionCard
+                key={key}
                 topTagline={item.top_tagline}
+                href={routes.shop.collection.index.replace('[id]', item._id)}
                 actions={
                   <>
                     <Link
@@ -107,26 +99,48 @@ export default function Index() {
                 bannerImage={item.banner_image}
                 bottomTagline={item.bottom_tagline}
               />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="space-y-8">
-        {coll1 && firstProducts && (
-          <Explore
-            header={coll1?.collection_name}
-            products={firstProducts?.data}
-          />
-        )}
+      <div>
+        <Header title="Browse Our Products" />
+        <div className=" ">
+          <div
+            className={clsx(
+              'grid grid-cols-[min-content_min-content] xl:grid-cols-[min-content_min-content_min-content]',
+              'justify-center gap-4 flex-wrap '
+            )}
+          >
+            {/* loading */}
+            {isLoading &&
+              Array.from({ length: 6 }, (_, i) => (
+                <div
+                  key={i}
+                  className="w-[150px] lg:w-[250px] h-[300px] lg:h-[388px]  bg-gray-20 animate-pulse"
+                ></div>
+              ))}
 
-        {coll2 && secondProducts && (
-          <Explore
-            header={coll2?.collection_name}
-            products={secondProducts?.data}
-          />
-        )}
+            {!isLoading && products?.length ? (
+              products.map((item, key) => (
+                <StyledCard key={key}>
+                  <LocalProductCard.Compact details={item} />
+                </StyledCard>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+
+const StyledCard = styled.div`
+  &:hover .hover-btn {
+    background: #262626;
+    color: white;
+  }
+`;
