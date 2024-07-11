@@ -16,6 +16,7 @@ import Update from './(components)/Update';
 import routes from '../../../../routes';
 import Add from './(components)/Add';
 import { useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
 export default function Page() {
   //hooks
@@ -42,13 +43,31 @@ export default function Page() {
 
   //effect
   useEffect(() => {
-    setLayout({});
+    setLayout({
+      menuText: 'Inventory',
+    });
   }, []);
 
   return (
     <>
       <div className="space-y-6">
-        <SectionHeader
+        <SectionHeader.WithLine
+          title="Collections"
+          actions={
+            <>
+              <Button
+                variant="outline-secondary"
+                className="flex gap-2"
+                icon="plus"
+                direction="left"
+                onClick={() => setShowAdd(true)}
+              >
+                <span>Add</span>
+              </Button>
+            </>
+          }
+        />
+        {/* <SectionHeader
           header="Inventory"
           actions={
             <>
@@ -62,30 +81,26 @@ export default function Page() {
               </Button>
             </>
           }
-        />
+        /> */}
 
         {/* Collection Cards */}
-        <div className="flex gap-10 flex-wrap">
-          {/* Loading state */}
-          {isLoading && (
-            <>
-              {Array.from({ length: 3 }, (_, i) => (
-                <CollectionCard.LoadingCard key={i} />
-              ))}
-            </>
-          )}
+        <div className="flex justify-center">
+          <div
+            className={clsx(
+              'grid grid-cols-1 2xl:grid-cols-[550px_550px] w-fit gap-10 justify-items-center'
+            )}
+          >
+            {/* Loading state */}
+            {isLoading && (
+              <>
+                {Array.from({ length: 3 }, (_, i) => (
+                  <CollectionCard.LoadingCard key={i} />
+                ))}
+              </>
+            )}
 
-          {collections.length ? (
-            <>
-              <motion.div
-                className="w-full 2xl:max-w-[550px]"
-                initial={{ opacity: 0, boxShadow: 'none' }}
-                animate={{ opacity: 1 }}
-                whileHover={{
-                  boxShadow:
-                    '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-                }}
-              >
+            {collections.length ? (
+              <>
                 <LocalCollectionCard
                   topTagline={'Ease and elegance for your feet'}
                   bottomTagline={'Delve into our curated collections'}
@@ -95,26 +110,15 @@ export default function Page() {
                     router.push(routes.store.inventory.all.index);
                   }}
                   actions={
-                    <div className="flex justify-center">
+                    <div className="">
                       <Link href={routes.store.inventory.all.index}>
-                        <Button className="rounded-md">View</Button>
+                        <Button className="!rounded-md">View</Button>
                       </Link>
                     </div>
                   }
                 />
-              </motion.div>
 
-              {collections.map((item, key) => (
-                <motion.div
-                  key={key}
-                  className="w-full 2xl:max-w-[550px]"
-                  initial={{ opacity: 0, boxShadow: 'none' }}
-                  animate={{ opacity: 1 }}
-                  whileHover={{
-                    boxShadow:
-                      '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-                  }}
-                >
+                {collections.map((item, key) => (
                   <LocalCollectionCard
                     key={key}
                     topTagline={item.top_tagline}
@@ -130,20 +134,20 @@ export default function Page() {
                       )
                     }
                     actions={
-                      <div className="flex justify-center gap-2">
+                      <div className="flex gap-2">
                         <Link
                           href={routes.store.inventory.collection.index.replace(
                             '[id]',
                             item._id
                           )}
                         >
-                          <Button className="rounded-md">View</Button>
+                          <Button className="!rounded-md">View</Button>
                         </Link>{' '}
                         <Dropdown>
                           <Dropdown.Toggle>
                             <Button
                               variant="outline-tertiary"
-                              className="rounded-md flex gap-1"
+                              className="!rounded-md flex gap-1"
                             >
                               <span>More</span>
                               <ChevronDownIcon size={20} />
@@ -172,12 +176,12 @@ export default function Page() {
                       </div>
                     }
                   />
-                </motion.div>
-              ))}
-            </>
-          ) : (
-            <></>
-          )}
+                ))}
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
       {/* Add Collection Modal */}

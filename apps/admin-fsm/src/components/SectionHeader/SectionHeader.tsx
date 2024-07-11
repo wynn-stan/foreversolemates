@@ -1,9 +1,11 @@
+import WithLine from './WithLine';
+
 interface Props {
   header: string;
   actions: React.ReactNode;
 }
 
-export default function SectionHeader({ header, actions }: Props) {
+function SectionHeader({ header, actions }: Props) {
   return (
     <div className="flex items-center justify-between">
       <div className="text-2xl font-semibold">{header}</div>
@@ -11,3 +13,5 @@ export default function SectionHeader({ header, actions }: Props) {
     </div>
   );
 }
+
+export default Object.assign(SectionHeader, { WithLine });

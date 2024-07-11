@@ -85,7 +85,7 @@ export default function Page() {
               </Field.Group>
 
               <Field.Group name="password" label="Password">
-                <Field.Input
+                <Field.Password
                   name="password"
                   value={values.password}
                   type="password"

@@ -25,16 +25,21 @@ export default function Sidebar({ collections }: Props) {
   const path = usePathname();
 
   return (
-    <div className="space-y-6 w-[225px]">
+    <div className="space-y-2 w-[260px]">
       {collections?.map((item, key) => (
         <div key={key}>
           <div>
             <div
               className={clsx(
-                'font-medium  text-sm',
+                'font-medium text-sm',
                 'hover:text-gray-50',
-                'space-y-4',
-                path.includes(item.slug || '') ? 'text-black' : 'text-gray-30'
+                'px-3 py-3',
+                'space-y-2',
+                'rounded-md',
+                !item.sub_collections?.length && 'hover:bg-gray-5',
+                path.includes(item.slug || '') && !item.sub_collections?.length
+                  ? 'text-gray-50 bg-gray-5  '
+                  : 'text-gray-30'
               )}
             >
               <Link href={item.slug || ''}>
@@ -49,30 +54,34 @@ export default function Sidebar({ collections }: Props) {
                   )}
                 </div>
               </Link>
-              <div className="pl-4 space-y-4">
-                {item.sub_collections?.map((sub_item, key) => {
-                  return (
-                    <div key={key}>
-                      <Link
-                        onClick={(e) => e.stopPropagation()}
-                        href={sub_item.slug || ''}
-                      >
-                        <div
-                          className={clsx(
-                            'font-medium text-sm',
-                            'hover:text-gray-50',
-                            path.includes(sub_item.id)
-                              ? '!text-black'
-                              : '!text-gray-30'
-                          )}
+              {!!item.sub_collections?.length && (
+                <div className="pl-6 space-y-1">
+                  {item.sub_collections?.map((sub_item, key) => {
+                    return (
+                      <div key={key}>
+                        <Link
+                          onClick={(e) => e.stopPropagation()}
+                          href={sub_item.slug || ''}
                         >
-                          <div>{sub_item.collection_name}</div>
-                        </div>
-                      </Link>
-                    </div>
-                  );
-                })}
-              </div>
+                          <div
+                            className={clsx(
+                              'font-medium',
+                              'hover:text-gray-50 hover:bg-gray-5',
+                              'px-3 py-3',
+                              'rounded-md',
+                              path.includes(sub_item.id)
+                                ? 'text-gray-50 bg-gray-5 '
+                                : '!text-gray-30'
+                            )}
+                          >
+                            <div>{sub_item.collection_name}</div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>

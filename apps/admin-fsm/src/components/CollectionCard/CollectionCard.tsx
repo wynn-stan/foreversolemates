@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   topTagline?: string;
@@ -21,25 +22,41 @@ export default function LocalCollectionCard({
   onCardClick,
 }: Props) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, boxShadow: 'none' }}
+      animate={{ opacity: 1 }}
+      whileHover={{
+        boxShadow:
+          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      }}
       onClick={onCardClick}
       className={clsx(
-        ' border-[2px] border-[#f8f8f8] h-[255px]',
-        'flex-grow  2xl:max-w-[550px] rounded-md',
-        'px-8 py-6',
+        'border-[1px] border-gray-10',
+        'w-full max-w-[550px] rounded-xl',
+        'text-center md:text-left',
+        'py-5 px-5 sm:pr-3 sm:pl-6 sm:py-3',
         'flex gap-6 items-center',
-        'justify-center text-center 2xl:justify-between 2xl:text-left',
+        'justify-between',
         onCardClick ? 'cursor-pointer' : ''
       )}
     >
-      <div>
-        <div className="text-gray-50 font-semibold">{topTagline}</div>
-        <div className="font-bold text-3xl">{collectionName}</div>
-        <div className="my-6 text-sm font-medium text-gray-40">
-          {bottomTagline}
+      <div className="space-y-10 w-full">
+        <div>
+          <div className="font-bold text-3xl">{collectionName}</div>
+          <div
+            className={clsx(
+              'text-gray-50 font-semibold',
+              ' w-full md:max-w-[250px]'
+            )}
+          >
+            {topTagline}
+          </div>
         </div>
+        {/* <div className="my-6 text-sm font-medium text-gray-40">
+          {bottomTagline}
+        </div> */}
         <div
-          className="flex justify-center xl:block"
+          className="flex justify-center md:block"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -51,9 +68,9 @@ export default function LocalCollectionCard({
         <div className="hidden md:block">
           <Image
             unoptimized
-            className="w-[150px] h-[150px] 2xl:w-[200px] 2xl:h-[200px] object-contain"
-            width={150}
-            height={150}
+            className="w-[200px] h-[250px] 2xl:w-[200px] 2xl:h-[200px] object-cover rounded-xl"
+            width={200}
+            height={250}
             alt="banner_image"
             src={bannerImage}
           />
@@ -61,7 +78,7 @@ export default function LocalCollectionCard({
       ) : (
         ''
       )}
-    </div>
+    </motion.div>
   );
 }
 

@@ -32,9 +32,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="hidden md:block">
         <Collection.Sidebar collections={collections} />
       </div>
-      <div
+      {/* <div
         className={clsx('h-full w-[1px] bg-gray-10', 'hidden md:block')}
-      ></div>
+      ></div> */}
       <div className="flex-grow">{children}</div>
     </div>
   );
