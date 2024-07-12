@@ -144,7 +144,7 @@ export default function Page() {
             height={200}
           >
             <source src="/assets/about-us/foot-affair.mp4" type="video/mp4" />
-            This browser does not support video tag.
+            This browser does not support video tags.
           </video>
         </div>
       </div>
