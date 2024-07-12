@@ -48,7 +48,7 @@ export default function Navbar({ setShowSidebar, showSidebar }: NavProps) {
       <div className="hidden md:flex gap-4 items-center">
         <HoverDropdown href={routes.home.index} label="Home" />
         <HoverDropdown href={routes.shop.all.index} label="Shop" />
-        <HoverDropdown href="#" label="About us" />
+        <HoverDropdown href={routes.about_us} label="About us" />
 
         <HoverDropdown label="Cart & Orders">
           <HoverDropdown.DropdownItem>
