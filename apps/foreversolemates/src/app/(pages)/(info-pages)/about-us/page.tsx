@@ -6,6 +6,7 @@ import { useLayout } from '../../../../hooks';
 import Image from 'next/image';
 import { Icons } from '@fsm/ui';
 import clsx from 'clsx';
+import EventHighlights from './(components)/eventHighlights';
 
 export default function Page() {
   //hooks
@@ -30,15 +31,26 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-20 items-center">
+    <div
+      className={clsx(
+        'flex flex-col gap-20 items-center',
+        'max-w-[1024px] mx-auto'
+      )}
+    >
       <div className="flex gap-10">
         <div className="hidden sm:block">
-          <Image src={'/assets/logo.jpg'} height={200} width={200} alt="logo" />
+          <Image
+            src={'/assets/logo.jpg'}
+            className="min-w-[200px] min-h-[200px]"
+            height={200}
+            width={200}
+            alt="logo"
+          />
         </div>
         <div
           className={clsx('bg-gray-20 w-[1px] h-[200px]', 'hidden sm:block')}
         />
-        <div className="max-w-[450px] text-center space-y-4">
+        <div className=" text-center space-y-4">
           <div className={clsx('font-semibold text-4xl', 'hidden sm:block')}>
             Forever Sole Mates
           </div>
@@ -60,20 +72,15 @@ export default function Page() {
       <Icons.Line />
 
       <div className="flex gap-10">
-        <div
-          className={clsx(
-            'max-w-[450px] text-center',
-            'space-y-6 sm:space-y-4'
-          )}
-        >
+        <div className={clsx(' text-center', 'space-y-6 sm:space-y-4')}>
           <div className="font-semibold text-4xl">Meet our SheEO ✨</div>
           <div className={clsx('sm:hidden', 'flex justify-center')}>
             <Image
               src={'/assets/about-us/fsm-ceo.png'}
-              className="rounded-lg"
+              className="rounded-lg min-w-[200px] min-h-[250px]"
               height={250}
               width={200}
-              alt="denise"
+              alt="profile"
             />
           </div>
           <div className="text-justify">
@@ -91,7 +98,7 @@ export default function Page() {
         <div className={clsx('hidden sm:block')}>
           <Image
             src={'/assets/about-us/fsm-ceo.png'}
-            className="rounded-lg"
+            className="rounded-lg min-w-[200px] min-h-[250px]"
             height={250}
             width={200}
             alt="denise"
@@ -99,55 +106,7 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="flex flex-col items-center gap-6">
-        <div className="font-medium text-2xl">Event Highlights</div>
-        <Icons.Line />
-      </div>
-
-      <div
-        className={clsx(
-          'rounded-2xl flex items-center gap-5 border border-gray-20 p-5',
-          'flex flex-col-reverse',
-          'sm:flex-row'
-        )}
-      >
-        <div className="max-w-[500px]">
-          <div className="text-3xl font-semibold">Foot Affair</div>
-          <div className={clsx('hidden sm:block')}>
-            Foot Affair was a blast! 💃🎉 We had an amazing time and it wouldn’t
-            have been the same without each and every one of you! ❤ As we
-            reminisce the fun moments in the incredible video, we can’t help but
-            feel grateful for your support. 📸🎥 🚀❤️
-            <br />
-            Remember to tag us in your amazing photos and stories, and spread
-            the word about our fabulous products and services.
-          </div>
-        </div>
-        <div className="">
-          <video
-            ref={videoRef}
-            onClick={() => {
-              if (videoRef.current) {
-                if (videoRef.current.paused) {
-                  videoRef.current.play();
-                } else {
-                  videoRef.current.pause();
-                }
-              }
-            }}
-            className={clsx(
-              'rounded-xl cursor-pointer',
-              'w-[300px] h-[530px] sm:w-[170px] sm:h-[200px]'
-            )}
-            width={170}
-            height={200}
-          >
-            <source src="/assets/about-us/foot-affair.mp4" type="video/mp4" />
-            This browser does not support video tags.
-          </video>
-        </div>
-      </div>
+      <EventHighlights />
     </div>
   );
 }

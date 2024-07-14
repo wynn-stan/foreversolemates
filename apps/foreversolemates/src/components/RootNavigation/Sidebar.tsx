@@ -2,6 +2,8 @@
 
 import { Logo, Modal } from '@fsm/ui';
 import {
+  BookOpenTextIcon,
+  CircleHelpIcon,
   HomeIcon,
   ShoppingBag,
   ShoppingBagIcon,
@@ -67,69 +69,160 @@ export default function Sidebar({ showSidebar, setShowSidebar }: NavProps) {
         },
       ],
     },
+    brand: {
+      label: 'Brand',
+      sub_items: [
+        { label: 'About us', icon: BookOpenTextIcon, slug: routes.about_us },
+      ],
+    },
+  };
+
+  //footer links
+  const FooterLinks: NavLinks = {
+    policies: {
+      label: 'Policies',
+      sub_items: [
+        {
+          label: 'Privacy Policy',
+          icon: CircleHelpIcon,
+          slug: routes.policies.privacy_policy,
+        },
+        {
+          label: 'Payments & Deliveries',
+          icon: CircleHelpIcon,
+          slug: routes.policies.payments_and_deliveries,
+        },
+        {
+          label: 'Returns & Warranties',
+          icon: CircleHelpIcon,
+          slug: routes.policies.returns_and_warranties,
+        },
+        {
+          label: 'Terms of Service',
+          icon: CircleHelpIcon,
+          slug: routes.policies.terms_of_service,
+        },
+      ],
+    },
   };
 
   return (
     <Modal.Side direction="left" show={showSidebar} onHide={onHide}>
       <div
         className={clsx(
-          'py-4 px-4 min-w-[300px] bg-gray-60 text-gray-5',
-          'h-full',
-          'space-y-10'
+          'py-4 px-4 min-w-[300px] bg-gray-60 text-gray-5 ',
+          'flex flex-col justify-between',
+          'h-full'
         )}
       >
-        <div className="flex justify-between items-center">
-          <Logo.Full variant="dark" />
+        <div className="space-y-10">
+          <div className="flex justify-between items-center">
+            <Logo.Full variant="dark" />
 
-          <div
-            className=" opacity-70 hover:opacity-100 hover:cursor-pointer"
-            onClick={onHide}
-          >
-            <X size={24} />
+            <div
+              className=" opacity-70 hover:opacity-100 hover:cursor-pointer"
+              onClick={onHide}
+            >
+              <X size={24} />
+            </div>
+          </div>
+
+          {/* Handling Nav Links */}
+          <div className={clsx('space-y-6')}>
+            {Object.keys(NavLinks).map((key, index) => {
+              const { label, sub_items } = NavLinks[key];
+
+              return (
+                <div key={index} className="space-y-3">
+                  <div className="text-sm font-medium text-gray-40">
+                    {label}
+                  </div>
+                  {sub_items.map((item, key) => {
+                    //variables
+                    const { icon: Icon, label, slug } = item;
+                    const activeRoute =
+                      slug === '/' ? path === '/' : path.includes(slug);
+
+                    return (
+                      <Link
+                        onClick={() => onHide()}
+                        className={clsx(
+                          'flex gap-2 py-2 px-2 ',
+                          'rounded-md',
+                          'cursor-pointer',
+                          'text-gray-40',
+                          'hover:text-black hover:bg-gray-10 hover:font-medium',
+                          activeRoute
+                            ? '!text-black font-medium bg-gray-10'
+                            : ''
+                        )}
+                        href={slug}
+                        key={key}
+                      >
+                        <span>
+                          <Icon
+                            width={20}
+                            height={20}
+                            variant={activeRoute ? 'solid' : 'line'}
+                          />
+                        </span>
+                        <div>{label}</div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
+        <div>
+          {/* Handling Footer Links */}
+          <div className={clsx('space-y-6')}>
+            {Object.keys(FooterLinks).map((key, index) => {
+              const { label, sub_items } = FooterLinks[key];
 
-        <div className={clsx('space-y-6')}>
-          {Object.keys(NavLinks).map((key, index) => {
-            const { label, sub_items } = NavLinks[key];
+              return (
+                <div key={index} className="space-y-3">
+                  <div className="text-sm font-medium text-gray-40">
+                    {label}
+                  </div>
+                  {sub_items.map((item, key) => {
+                    //variables
+                    const { icon: Icon, label, slug } = item;
+                    const activeRoute =
+                      slug === '/' ? path === '/' : path.includes(slug);
 
-            return (
-              <div key={index} className="space-y-3">
-                <div className="text-sm font-medium text-gray-40">{label}</div>
-                {sub_items.map((item, key) => {
-                  //variables
-                  const { icon: Icon, label, slug } = item;
-                  const activeRoute =
-                    slug === '/' ? path === '/' : path.includes(slug);
-
-                  return (
-                    <Link
-                      onClick={() => onHide()}
-                      className={clsx(
-                        'flex gap-2 py-2 px-2 ',
-                        'rounded-md',
-                        'cursor-pointer',
-                        'text-gray-40',
-                        'hover:text-black hover:bg-gray-10 hover:font-medium',
-                        activeRoute ? '!text-black font-medium bg-gray-10' : ''
-                      )}
-                      href={slug}
-                      key={key}
-                    >
-                      <span>
-                        <Icon
-                          width={20}
-                          height={20}
-                          variant={activeRoute ? 'solid' : 'line'}
-                        />
-                      </span>
-                      <div>{label}</div>
-                    </Link>
-                  );
-                })}
-              </div>
-            );
-          })}
+                    return (
+                      <Link
+                        onClick={() => onHide()}
+                        className={clsx(
+                          'flex gap-2 py-2 px-2 items-center ',
+                          'rounded-md',
+                          'cursor-pointer',
+                          'text-gray-40',
+                          'hover:text-black hover:bg-gray-10 hover:font-medium',
+                          activeRoute
+                            ? '!text-black font-medium bg-gray-10'
+                            : ''
+                        )}
+                        href={slug}
+                        key={key}
+                      >
+                        <span>
+                          <Icon
+                            width={16}
+                            height={16}
+                            variant={activeRoute ? 'solid' : 'line'}
+                          />
+                        </span>
+                        <div>{label}</div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </Modal.Side>

@@ -142,7 +142,10 @@ export default function DeliveryForm({
                 {!disabled ? (
                   <div
                     onClick={onUseDetails}
-                    className="mb-2 flex bg-gray-5 px-3 py-2 rounded-md"
+                    className={clsx(
+                      'mb-2 flex  px-3 py-2 rounded-md',
+                      onUseDetails ? 'border border-gray-10' : 'bg-gray-5'
+                    )}
                   >
                     <Checkbox size={20} checked={isUsingUserDetails} />
 

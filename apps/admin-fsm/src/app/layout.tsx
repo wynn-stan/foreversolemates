@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/react';
+
 import './styles.scss';
 import { StyledComponentsRegistry } from './registry';
 import StoreProvider from '../contexts/store';
@@ -24,6 +26,7 @@ export default function RootLayout({
             <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
           </AppProvider>
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );
