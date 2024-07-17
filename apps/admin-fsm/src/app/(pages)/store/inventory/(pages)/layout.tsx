@@ -1,15 +1,11 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import queryString from 'query-string';
+import { useRouter } from 'next/navigation';
 import { Collection } from '@fsm/ui';
 import { useEffect } from 'react';
-import useSWR from 'swr';
 
-import { CollectionModel, PaginatedData } from '../../../../../models';
 import { options, useLayout } from '../../../../../hooks';
 import routes from '../../../../../routes';
-import clsx from 'clsx';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   //hooks

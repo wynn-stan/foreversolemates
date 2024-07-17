@@ -2,6 +2,7 @@
 
 import { Button, Collection, Field, Filters, Models, Paginate } from '@fsm/ui';
 import { useCallback, useState } from 'react';
+import styled from 'styled-components';
 import clsx from 'clsx';
 import useSWR from 'swr';
 import queryString from 'query-string';
@@ -10,11 +11,11 @@ import { motion } from 'framer-motion';
 import { options } from '../../../../../../../hooks';
 import { ProductCard } from '../../../../../../../components';
 import { PaginatedData, ProductModel } from '../../../../../../../models';
-import Add from '../Add';
 import Preview from '../Preview';
-import Update from '../Update';
-import Delete from '../Delete';
-import styled from 'styled-components';
+import Add from '../Add';
+// import Add from '../Add';
+// import Update from '../Update';
+// import Delete from '../Delete';
 
 interface Props {
   data: PaginatedData<ProductModel> | undefined;
@@ -172,7 +173,6 @@ export default function CollectionLayout({
       </div>
 
       {/* Modals */}
-      <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
 
       {selectedProduct && showPreview && (
         <Preview
@@ -182,6 +182,9 @@ export default function CollectionLayout({
         />
       )}
 
+      <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
+
+      {/* 
       {selectedProduct && showUpdate && (
         <Update
           mutate={mutate}
@@ -198,7 +201,7 @@ export default function CollectionLayout({
           show={showDelete}
           onHide={() => setShowDelete(false)}
         />
-      )}
+      )} */}
     </>
   );
 }

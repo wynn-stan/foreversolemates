@@ -1,275 +1,157 @@
-'use client';
-
-import { Button, Field, Modal, Pill } from '@fsm/ui';
-import { FieldArray } from 'formik';
-import { options } from '../../../../../../hooks';
 import { Formik, FormikHelpers } from 'formik';
-import * as yup from 'yup';
-import clsx from 'clsx';
-import AddAvailableAttribute from './Form/AddAvailableAttribute';
-import AddImages from './Form/AddImages';
-import { getFinalPrice } from './Form/Utils';
-import { schema } from '@foreversolemates/utils';
+import { Button, Modal, MultiStep } from '@fsm/ui';
 import { useState } from 'react';
-import Preview from './Preview';
+import clsx from 'clsx';
 
-interface IForm {
+import ProductInformation from './Form/ProductInfo';
+import { getFinalPrice } from './Form/utils/Utils';
+import ButtonGroup from './Form/ButtonGroup';
+import PricingAndAvailability from './Form/PricingAndAvailability';
+
+export interface IForm {
   collection_id: string;
   name: string;
   initial_price: number;
   discount: number;
-  available_units: number;
   alert: number;
   description: string;
   images: File[];
-  available_sizes: number[];
-  available_colors: string[];
   final_price: number;
+  sizes_and_units?: { size: number; available_units: number }[];
+  total_available_units?: number;
 }
 
 interface Props {
+  header: string;
+  onCancel: () => void;
   onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
+  submitLabel: 'Add' | 'Update' | 'Delete';
   defaultValues?: Partial<IForm>;
-  actionType: 'Add' | 'Update' | 'Delete';
 }
 
-export default function Form({ onSubmit, defaultValues, actionType }: Props) {
-  //hooks
-  const { collections, collectionOptions } = options.useGetCollections();
+interface Section {
+  title: string;
+  proceedLabel: string;
+  onProceed: () => void;
+  previousLabel?: string;
+  onPrevious?: () => void;
+  onCancel?: () => void;
+}
 
-  //state
-  const [showPreview, setShowPreview] = useState(false);
-  const [previewDetails, setPreviewDetails] = useState<IForm>({} as IForm);
+export default function Form({
+  defaultValues,
+  header,
+  submitLabel,
+  onSubmit,
+  onCancel,
+}: Props) {
+  /**
+   *  Variables
+   */
 
-  const defaultCollection = collectionOptions.find(
-    (item) => item.value === defaultValues?.collection_id
+  const sections = {
+    product_information: {
+      title: 'Product Information',
+      onPrevious: () => onCancel,
+      onProceed: () => setActiveSection('pricing_and_availability'),
+    },
+    pricing_and_availability: {
+      title: 'Pricing and Availability',
+      onPrevious: () => setActiveSection('product_information'),
+      onProceed: onSubmit,
+    },
+  };
+  const total_steps = Object.keys(sections).length;
+
+  /**
+   * State
+   */
+  const [activeSection, setActiveSection] = useState<keyof typeof sections>(
+    'product_information'
   );
 
+  /**
+   * Type
+   */
+  type TSection = (typeof sections)[keyof typeof sections];
+
+  /**
+   * Logic
+   */
+  const sectionKeys = Object.keys(sections);
+  const currentStep = sectionKeys.findIndex((key) => key === activeSection);
+  const nextDetails =
+    currentStep + 1 < sectionKeys.length
+      ? ((sections as any)?.[sectionKeys[currentStep + 1]] as TSection)
+      : null;
+  const previousDetails =
+    currentStep - 1 >= 0
+      ? ((sections as any)?.[sectionKeys[currentStep - 1]] as TSection)
+      : null;
+  const nextTitle = nextDetails?.title;
+  const activeSectionDetails = sections[activeSection];
+  const proceedLabel = nextDetails ? nextDetails.title : submitLabel;
+  const previousLabel = previousDetails?.title;
+
   return (
-    <>
+    <MultiStep
+      count={total_steps}
+      currentTitle={sections[activeSection].title}
+      currentStep={currentStep + 1}
+      nextTitle={nextTitle}
+    >
       <Formik
-        enableReinitialize
-        validateOnMount
-        validationSchema={yup.object({
-          name: schema.requireString('Product name'),
-          collection_id: schema.requireString('Collection'),
-          initial_price: schema.requireNumber('Initial price').min(1),
-          available_units: schema.requireNumber('Available units').min(1),
-          alert: schema.requireNumber('Low stock indicator'),
-          description: schema.requireString('Description'),
-          images: yup.array().of(
-            schema.requireFile({
-              field: 'image',
-            })
-          ),
-          // available_sizes: yup
-          //   .array()
-          //   .of(schema.requireNumber('Available size')),
-          // available_colors: yup
-          //   .array()
-          //   .of(schema.requireString('Available colors')),
-        })}
+        validationSchema={{}}
         initialValues={{
           collection_id: defaultValues?.collection_id || '',
           name: defaultValues?.name || '',
           initial_price: defaultValues?.initial_price || 0,
           discount: defaultValues?.discount || 0,
-          available_units: defaultValues?.available_units || 0,
           alert: defaultValues?.alert || 0,
           description: defaultValues?.description || '',
           images: defaultValues?.images || ([] as File[]),
-          available_sizes: defaultValues?.available_sizes || ([] as number[]),
-          available_colors: defaultValues?.available_colors || ([] as string[]),
           final_price: getFinalPrice(
             defaultValues?.initial_price || 0,
             defaultValues?.discount || 0
           ),
+          sizes_and_units: [],
         }}
-        onSubmit={(params, actions) => onSubmit(params, actions)}
+        onSubmit={() => {
+          //
+        }}
       >
-        {({
-          values,
-          handleSubmit,
-          isSubmitting,
-          isValid,
-          setFieldValue,
-          errors,
-        }) => (
-          <div
-            className={clsx(
-              'w-full h-full p-6 pb-0',
-              ' flex flex-col justify-between',
-              'overflow-auto'
+        <div className={clsx('flex flex-col justify-between gap-6')}>
+          <div className="h-[550px] overflow-y-auto">
+            {activeSection === 'product_information' && <ProductInformation />}
+            {activeSection === 'pricing_and_availability' && (
+              <PricingAndAvailability />
             )}
-          >
-            <div className="space-y-6">
-              <AddImages
-                label="Product images"
-                name="images"
-                images={values.images}
-                onAdd={(file) =>
-                  setFieldValue('images', [...values.images, file])
-                }
-              />
-
-              <p>
-                {errors.images?.includes('image size is too large') ? (
-                  <p className="text-red-40 text-xs">Image size is too large</p>
-                ) : (
-                  ''
-                )}
-              </p>
-
-              <Field.Group name="collection_id" label="Collection">
-                <Field.Select
-                  name="collection_id"
-                  className="w-full"
-                  value={values.collection_id}
-                  defaultValue={defaultCollection}
-                  placeholder="Select Collection"
-                  options={collectionOptions}
-                  onChange={(option) => {
-                    setFieldValue('collection_id', option?.value);
-                  }}
-                />
-              </Field.Group>
-
-              <Field.Group name="name" label="Product name">
-                <Field.Input
-                  name="name"
-                  placeholder="Product name"
-                  value={values.name}
-                />
-              </Field.Group>
-
-              <div className="flex gap-6">
-                <Field.Group
-                  wrapperClassName=""
-                  name="initial_price"
-                  label="Initial Price (GH₵)"
-                >
-                  <Field.Input
-                    type="number"
-                    min={1}
-                    name="initial_price"
-                    placeholder="0"
-                    value={values.initial_price}
-                    onChange={(e: any) => {
-                      setFieldValue('initial_price', e?.target?.value);
-                      setFieldValue(
-                        'final_price',
-                        getFinalPrice(e?.target.value, values.discount)
-                      );
-                    }}
-                  />
-                </Field.Group>
-
-                <Field.Group name="discount" label="Discount (%)">
-                  <Field.Input
-                    type="number"
-                    min={0}
-                    name="discount"
-                    placeholder="0"
-                    value={values.discount}
-                    onChange={(e: any) => {
-                      setFieldValue('discount', e?.target?.value);
-                      setFieldValue(
-                        'final_price',
-                        getFinalPrice(values.initial_price, e?.target.value)
-                      );
-                    }}
-                  />
-                </Field.Group>
-
-                <Field.Group name="final_price" label="Final Price (GH₵)">
-                  <Field.Input
-                    name="final_price"
-                    className="bg-gray-10 pointer-events-none"
-                    placeholder="0"
-                  />
-                </Field.Group>
-              </div>
-
-              <div className="flex gap-6">
-                <Field.Group
-                  wrapperClassName="flex-grow"
-                  name="available_units"
-                  label="Available units"
-                >
-                  <Field.Input
-                    type="number"
-                    name="available_units"
-                    placeholder="0"
-                    value={values.available_units}
-                  />
-                </Field.Group>
-
-                <Field.Group
-                  wrapperClassName="flex-grow"
-                  name="alert"
-                  label="Low stock indicator"
-                >
-                  <Field.Input
-                    type="number"
-                    name="alert"
-                    placeholder="0"
-                    value={values.alert}
-                  />
-                </Field.Group>
-              </div>
-
-              <Field.Group name="description" label="Description">
-                <Field.Input
-                  as="textarea"
-                  rows={7}
-                  name="description"
-                  placeholder="Description"
-                  value={values.description}
-                />
-              </Field.Group>
-
-              <AddAvailableAttribute
-                fieldname="available_sizes"
-                addComponentLabel="Add Size"
-                errorMessage="Size is required"
-                label="Available sizes"
-                valueType="number"
-                values={values.available_sizes}
-              />
-
-              <AddAvailableAttribute
-                fieldname="available_colors"
-                addComponentLabel="Add colors"
-                errorMessage="Color is required"
-                label="Available colors"
-                valueType="string"
-                values={values.available_colors}
-              />
-            </div>
-
-            <div className=" sticky bottom-0 bg-white flex justify-between gap-4 py-4 border-t-2 border-gray-10">
-              {/* Under design */}
-              {/* <Button onClick={() =>{
-              setPreviewDetails(values);
-               setShowPreview(true)
-            }} variant="outline-secondary" icon="eye">
-              Preview
-            </Button> */}
-
-              <div className="flex justify-end w-full">
-                <Button
-                  onClick={() => handleSubmit()}
-                  disabled={!isValid}
-                  variant={actionType === 'Delete' ? 'alert' : 'default'}
-                  {...{ isSubmitting }}
-                >
-                  {`${actionType} product`}
-                </Button>
-              </div>
-            </div>
           </div>
-        )}
+
+          <div className="flex justify-between">
+            <Button
+              className="rounded-lg"
+              variant="outline-tertiary"
+              onClick={() => activeSectionDetails?.onPrevious?.()}
+              icon={previousLabel ? 'arrow-left' : undefined}
+              direction="left"
+            >
+              <div className="max-w-[100px] truncate">
+                {previousLabel || 'Cancel'}
+              </div>
+            </Button>
+            <Button
+              className="rounded-lg"
+              icon="arrow-right"
+              onClick={() =>
+                activeSectionDetails.onProceed('' as any, '' as any)
+              }
+            >
+              <div className="max-w-[100px] truncate">{proceedLabel}</div>
+            </Button>
+          </div>
+        </div>
       </Formik>
-    </>
+    </MultiStep>
   );
 }

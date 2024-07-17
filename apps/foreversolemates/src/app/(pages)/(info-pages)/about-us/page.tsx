@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-
-import { useLayout } from '../../../../hooks';
-import Image from 'next/image';
 import { Icons } from '@fsm/ui';
+import Image from 'next/image';
 import clsx from 'clsx';
+
 import EventHighlights from './(components)/eventHighlights';
+import { useLayout } from '../../../../hooks';
 
 export default function Page() {
   //hooks

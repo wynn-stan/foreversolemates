@@ -94,7 +94,7 @@ export default function Button({
       className={clsx(
         'flex items-center justify-center gap-2',
         'py-3 px-4',
-        'rounded-sm',
+        'rounded-md',
         'font-medium',
         'disabled:pointer-events-none disabled:bg-gray-10 disabled:text-gray-40',
         variant_style[variant],

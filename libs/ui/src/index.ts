@@ -9,6 +9,7 @@ export { default as EmptyFormik } from './EmptyFormik/EmptyFormik';
 export { default as Collection } from './Collection/Collection';
 export { default as Copyright } from './Copyright/Copyright';
 export { default as Accordion } from './Accordion/Accordion';
+export { default as MultiStep } from './MultiStep/Multistep';
 export { default as Dropdown } from './Dropdown/Dropdown';
 export { default as Paginate } from './Paginate/Paginate';
 export { default as Animated } from './Animated/Animated';
