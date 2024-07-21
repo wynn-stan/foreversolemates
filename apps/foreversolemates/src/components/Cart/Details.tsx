@@ -25,7 +25,7 @@ export default function Details({ cartItems, onDelete }: Props) {
       {cartItems?.map((product, key) => {
         //variables
         const stockDetails = getStockSummary({
-          available_units: product?.available_units || 0,
+          available_units: product?.total_available_units || 0,
           low_stock_indicator: product?.alert || 0,
         });
 
