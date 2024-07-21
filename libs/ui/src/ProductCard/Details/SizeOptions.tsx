@@ -1,9 +1,12 @@
 import { HTMLAttributes } from 'react';
 import Pill from '../../Pill/Pill';
+import { ProductModel } from '../../models';
+
+type Option = { size: number; available_units: number };
 
 interface Props {
-  sizes: number[];
-  onClick?: (size: number) => void;
+  sizes: Option[];
+  onClick?: (option: Option) => void;
   checkedSize?: number;
 }
 
@@ -12,14 +15,14 @@ export default function SizeOptions({ sizes, onClick, checkedSize }: Props) {
     <div className="space-y-2">
       <div className="text-sm font-medium">Available sizes</div>
       <div className="flex gap-3 flex-wrap">
-        {sizes.map((size, index) => (
+        {sizes.map((item, index) => (
           <Pill
             size="sm"
             key={index}
-            checked={checkedSize === size}
-            onClick={() => onClick?.(size)}
+            checked={checkedSize === item.size}
+            onClick={() => onClick?.(item)}
           >
-            {size}
+            {item.size}
           </Pill>
         ))}
       </div>

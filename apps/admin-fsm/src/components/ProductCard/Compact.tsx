@@ -32,13 +32,13 @@ export default function Compact({
 
   return (
     <ProductCard.Compact
-      onClick={() => onPreview(details)}
+      onClick={() => onUpdate(details)}
       details={{
         discount: details.discount,
         initial_price: details.initial_price,
         product_image: details.images?.[0],
         product_name: details.product_name,
-        available_units: details.available_units,
+        available_units: details.total_available_units,
       }}
       actions={
         <div

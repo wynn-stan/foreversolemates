@@ -283,7 +283,7 @@ export default function DeliveryForm({
                       cacheOptions
                       defaultOptions
                       className="w-full border-gra"
-                      placeholder={`Search Delivery zones`}
+                      placeholder={`Search 100+ Delivery zones`}
                       value={''}
                       onChange={(option) => {
                         if (option) {

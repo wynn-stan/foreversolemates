@@ -71,7 +71,7 @@ export default function Page({ params: { id } }: Props) {
                   cart: [
                     {
                       ...details,
-                      selected_size: size,
+                      selected_size: size || undefined,
                       selected_quantity: quantity,
                       selected_color: color,
                     },

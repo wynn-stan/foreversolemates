@@ -1,12 +1,12 @@
+import { helpers } from '@foreversolemates/utils';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Modal } from '@fsm/ui';
 
 import { updateProductService } from '../../../../../../services/store';
 import { ModalProps, ProductModel } from '../../../../../../models';
-import { getFinalPrice } from './Form/Utils';
+import { getFinalPrice } from './Form/utils/Utils';
 import Form from './Form';
-import { useEffect, useState } from 'react';
-import { helpers } from '@foreversolemates/utils';
 
 interface Props extends ModalProps {
   mutate: () => void;
@@ -33,15 +33,12 @@ export default function Update({ details, mutate, show, onHide }: Props) {
   }, []);
 
   return (
-    <Modal.Side
-      containerClassName="!w-full max-w-[600px]"
-      direction="right"
-      header="Update Product"
-      {...{ show, onHide }}
-    >
+    <Modal className="!w-full max-w-[600px]" {...{ show, onHide }}>
       <Form
         defaultValues={{ ...defaultValues }}
-        actionType="Update"
+        header="Update Product"
+        submitLabel="Update"
+        onCancel={onHide}
         onSubmit={(params, { setSubmitting }) => {
           //variables
           const final_price = getFinalPrice(
@@ -55,21 +52,22 @@ export default function Update({ details, mutate, show, onHide }: Props) {
           formData.append('description', params.description);
           formData.append('discount', params.discount.toString());
           formData.append('final_price', final_price.toString());
-          formData.append('available_units', params.available_units.toString());
           formData.append('alert', params.alert.toString());
           formData.append('collection_id', params.collection_id);
-          formData.append(
-            'available_sizes',
-            JSON.stringify(params.available_sizes)
-          );
-          formData.append(
-            'available_colors',
-            JSON.stringify(params.available_colors)
-          );
-
           params.images.map((image, index) => {
             formData.append(`image_${index}`, image);
           });
+
+          params.available_sizes_and_units?.length &&
+            formData.append(
+              'available_sizes_and_units',
+              JSON.stringify(params.available_sizes_and_units)
+            );
+
+          formData.append(
+            'total_available_units',
+            params.total_available_units.toString()
+          );
 
           updateProductService(details._id, formData)
             .then(() => {
@@ -77,12 +75,14 @@ export default function Update({ details, mutate, show, onHide }: Props) {
               mutate && mutate();
               onHide();
             })
-            .catch(() => {
-              toast.error('Unable to update product. Please try again');
+            .catch(({ message }: { message?: string }) => {
+              toast.error(
+                message || 'Unable to update product Please try again'
+              );
               setSubmitting(false);
             });
         }}
       />
-    </Modal.Side>
+    </Modal>
   );
 }

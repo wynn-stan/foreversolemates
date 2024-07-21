@@ -13,7 +13,12 @@ export default function Preview({ details, show, onHide }: Props) {
       show={show}
       onHide={onHide}
     >
-      <ProductCard.Details details={details} />
+      <ProductCard.Details
+        details={details}
+        onAdd={(params, actions) => {
+          actions.setSubmitting(false);
+        }}
+      />
     </Modal>
   );
 }

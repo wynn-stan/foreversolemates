@@ -46,7 +46,7 @@ export function Checkbox({
         <Check
           className={clsx(
             'w-4 h-4 m-auto stroke-[3px]',
-            isChecked ? 'text-white' : 'text-transparent'
+            isChecked ? 'bg-black text-white' : 'text-transparent'
           )}
         />
       </div>

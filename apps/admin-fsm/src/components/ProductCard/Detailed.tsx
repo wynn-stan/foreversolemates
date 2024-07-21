@@ -51,7 +51,7 @@ export default function Detailed({
       </div>
       <div className="space-y-3 max-w-[420px] w-full 2xl:w-[420px]">
         <ProductCard.Details.StockIndicator
-          available_units={details.available_units}
+          available_units={details.total_available_units}
           low_stock_indicator={details.alert}
         />
 

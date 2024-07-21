@@ -13,9 +13,8 @@ import { ProductCard } from '../../../../../../../components';
 import { PaginatedData, ProductModel } from '../../../../../../../models';
 import Preview from '../Preview';
 import Add from '../Add';
-// import Add from '../Add';
-// import Update from '../Update';
-// import Delete from '../Delete';
+import Update from '../Update';
+import Delete from '../Delete';
 
 interface Props {
   data: PaginatedData<ProductModel> | undefined;
@@ -184,7 +183,6 @@ export default function CollectionLayout({
 
       <Add mutate={mutate} show={showAdd} onHide={() => setShowAdd(false)} />
 
-      {/* 
       {selectedProduct && showUpdate && (
         <Update
           mutate={mutate}
@@ -201,7 +199,7 @@ export default function CollectionLayout({
           show={showDelete}
           onHide={() => setShowDelete(false)}
         />
-      )} */}
+      )}
     </>
   );
 }

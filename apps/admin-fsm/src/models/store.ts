@@ -9,19 +9,21 @@ export interface CollectionModel {
 
 export interface ProductModel {
   _id: string;
-  available_sizes: number[];
+  // available_sizes: number[]; - taken off
   images: string[];
-  available_colors: string[];
+  // available_colors: string[]; - taken off
   product_name: string;
   initial_price: number;
   discount: number;
-  available_units: number;
+  // available_units: number; - taken off
+  total_available_units: number;
   alert: number;
   description: string;
   status: string;
   collection_id: string;
   createdOn: string;
   final_price: number;
+  available_sizes_and_units: { size: number; available_units: number }[];
 }
 
 export interface OrderModel {

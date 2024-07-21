@@ -12,22 +12,7 @@ import { useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { motion } from 'framer-motion';
-
-interface ProductModel {
-  _id: string;
-  available_sizes: number[];
-  images: string[];
-  available_colors: string[];
-  product_name: string;
-  initial_price: number;
-  discount: number;
-  available_units: number;
-  alert: number;
-  description: string;
-  status: string;
-  collection_id: string;
-  createdOn: string;
-}
+import { ProductModel } from '../models';
 
 interface Props {
   details: ProductModel;
@@ -49,11 +34,22 @@ function Details({
     //
   },
 }: Props) {
+  /**
+   * State
+   */
+  const [maxQuantity, setMaxQuantity] = useState(() => {
+    if (!details.available_sizes_and_units.length) {
+      return details.total_available_units > 0
+        ? details.total_available_units
+        : 0;
+    }
+    return 0;
+  });
+
   //variables - has available colors and sizes
-  const hasColors = details?.available_colors?.length;
-  const hasSizes = details?.available_sizes?.length;
-  const hasColorsOrSizes = hasColors || hasSizes;
-  const maxQuantity = details.available_units > 0 ? details.available_units : 0;
+  // const hasColors = details?.available_colors?.length;
+  // const hasColorsOrSizes = hasColors || hasSizes;
+  const hasSizes = details?.available_sizes_and_units?.length;
 
   return (
     <Formik
@@ -65,9 +61,9 @@ function Details({
           .min(1, 'Quantity must be at least 1')
           .max(maxQuantity, `Max quantity is ${maxQuantity}`)
           .required('Quantity is required'),
-        ...(hasColors
-          ? { color: yup.string().required('Color is required') }
-          : {}),
+        // ...(hasColors
+        //   ? { color: yup.string().required('Color is required') }
+        //   : {}),
         ...(hasSizes
           ? { size: yup.number().required('Size is required') }
           : {}),
@@ -83,6 +79,7 @@ function Details({
         isValid,
         handleSubmit,
         setFieldValue,
+        validateForm,
         resetForm,
         isSubmitting,
       }) => (
@@ -105,28 +102,32 @@ function Details({
                 discount={details.discount}
               />
             </div>
+
             <StockIndicator
-              available_units={details.available_units}
+              available_units={details.total_available_units}
               low_stock_indicator={details.alert}
             />
-            <Description description={details.description} />
-            {hasColorsOrSizes ? (
-              <div className="flex gap-6 flex-wrap">
-                {details?.available_sizes?.length ? (
-                  <div className="flex-grow">
-                    <SizeOptions
-                      checkedSize={values.size}
-                      onClick={(size) => {
-                        setFieldValue('size', size);
-                      }}
-                      sizes={details.available_sizes}
-                    />
-                  </div>
-                ) : (
-                  ''
-                )}
 
-                {details?.available_colors?.length ? (
+            <Description description={details.description} />
+
+            {details?.available_sizes_and_units?.length ? (
+              <div className="flex gap-6 flex-wrap">
+                <div className="flex-grow">
+                  <SizeOptions
+                    checkedSize={values.size}
+                    onClick={(item) => {
+                      setMaxQuantity(item.available_units);
+                      setFieldValue('size', item.size);
+                      setTimeout(() => {
+                        validateForm();
+                      });
+                    }}
+                    sizes={details.available_sizes_and_units}
+                  />
+                </div>
+
+                {/* Colors */}
+                {/* {details?.available_colors?.length ? (
                   <div className="flex-grow">
                     <ColorOptions
                       colors={details.available_colors}
@@ -138,7 +139,7 @@ function Details({
                   </div>
                 ) : (
                   ''
-                )}
+                )} */}
               </div>
             ) : (
               <></>

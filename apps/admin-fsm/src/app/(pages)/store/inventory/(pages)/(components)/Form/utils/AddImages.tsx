@@ -16,7 +16,7 @@ export default function AddImages({ images, name, label, onAdd }: Props) {
       <div className="w-full flex gap-3">
         <FieldArray name={name}>
           {(arrayHelpers) => (
-            <div className="flex flex-wrap gap-3">
+            <div key={images.length} className="flex flex-wrap gap-3">
               {images.map((image, index) => (
                 <>
                   <Field.ImageUpload.Preview

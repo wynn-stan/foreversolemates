@@ -1,3 +1,5 @@
+import { helpers } from '@foreversolemates/utils';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Modal } from '@fsm/ui';
 
@@ -6,10 +8,8 @@ import {
   updateProductService,
 } from '../../../../../../services/store';
 import { ModalProps, ProductModel } from '../../../../../../models';
-import { getFinalPrice } from './Form/Utils';
+import { getFinalPrice } from './Form/utils/Utils';
 import Form from './Form';
-import { useEffect, useState } from 'react';
-import { helpers } from '@foreversolemates/utils';
 
 interface Props extends ModalProps {
   mutate: () => void;
@@ -36,15 +36,12 @@ export default function Delete({ details, mutate, show, onHide }: Props) {
   }, []);
 
   return (
-    <Modal.Side
-      containerClassName="!w-full max-w-[600px]"
-      direction="right"
-      header="Delete Product"
-      {...{ show, onHide }}
-    >
+    <Modal className="!w-full max-w-[600px]" {...{ show, onHide }}>
       <Form
         defaultValues={{ ...defaultValues }}
-        actionType="Delete"
+        header="Delete Product"
+        submitLabel="Delete"
+        onCancel={onHide}
         onSubmit={(params, { setSubmitting }) => {
           deleteProductService(details._id)
             .then(() => {
@@ -52,12 +49,14 @@ export default function Delete({ details, mutate, show, onHide }: Props) {
               mutate && mutate();
               onHide();
             })
-            .catch(() => {
-              toast.error('Unable to delete product. Please try again');
+            .catch(({ message }: { message?: string }) => {
+              toast.error(
+                message || 'Unable to delete product. Please try again'
+              );
               setSubmitting(false);
             });
         }}
       />
-    </Modal.Side>
+    </Modal>
   );
 }

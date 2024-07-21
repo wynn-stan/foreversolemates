@@ -3,9 +3,12 @@ import { Field } from '@fsm/ui';
 
 import { options } from '../../../../../../../hooks';
 import AddImages from './utils/AddImages';
-import { IForm } from '../Form';
+import { IForm, SectionProps } from '../Form';
+import { useEffect, useState } from 'react';
 
-export default function ProductInformation() {
+export default function ProductInformation({
+  setActiveSectionIsValid,
+}: SectionProps) {
   /**
    * Formik Context
    */
@@ -16,6 +19,27 @@ export default function ProductInformation() {
    * Hooks
    */
   const { collections, collectionOptions } = options.useGetCollections();
+
+  /**
+   * Logic
+   */
+  const isValid = Boolean(
+    errors.images ||
+      !values.images.length ||
+      errors.collection_id ||
+      errors.name ||
+      errors.description
+  );
+  const defaultCollection = collectionOptions.find(
+    (item) => item.value === values?.collection_id
+  );
+
+  /**
+   * Effect
+   */
+  useEffect(() => {
+    setActiveSectionIsValid(isValid);
+  }, [isValid, setActiveSectionIsValid]);
 
   return (
     <div>
@@ -45,6 +69,7 @@ export default function ProductInformation() {
             onChange={(option) => {
               setFieldValue('collection_id', option?.value);
             }}
+            defaultValue={defaultCollection}
           />
         </Field.Group>
 
