@@ -4,6 +4,7 @@ import { Button, Icons, Modal } from '@fsm/ui';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
+import Thumbnail from './(eventHighlights)/thumbnail';
 
 interface IEvent {
   header: string;
@@ -52,11 +53,29 @@ export default function EventHighlights() {
    */
   const [selectedEvent, setSelectedEvent] = useState<IEvent>(mediaList[0]);
   const [showModal, setShowModal] = useState(false);
+  const [page, setPage] = useState(1);
 
   /**
    * Ref
    */
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  /**
+   * Logic
+   */
+  const items_per_page = 2;
+  const total_pages = Math.ceil(mediaList.length / items_per_page);
+  const last_item_on_page = (() => {
+    const last = page * items_per_page;
+    if (mediaList.length < last) return mediaList.length;
+    return last;
+  })();
+  const first_item_on_page = last_item_on_page - (items_per_page - 1);
+  const paginatedMediaList = [];
+
+  for (let i = first_item_on_page - 1; i < last_item_on_page; i++) {
+    paginatedMediaList.push(i);
+  }
 
   return (
     <>
@@ -126,48 +145,64 @@ export default function EventHighlights() {
               </div>
             </div>
           </div>
-          <div className="max-w-[200px] space-y-3">
+          <div className="hidden md:block max-w-[200px] space-y-3">
             {mediaList.map((item, key) => {
               const isActive = selectedEvent.header === item.header;
               return (
-                <div
-                  style={{
-                    boxShadow: isActive
-                      ? '0px 1px 16px rgba(0, 0, 0, 0.12)'
-                      : '',
-                  }}
-                  className={clsx(
-                    'rounded-lg border',
-                    !isActive
-                      ? ' border-gray-10'
-                      : 'border-gray-20 border-[2px]',
-                    'p-2 space-y-3'
-                  )}
+                <Thumbnail
+                  key={key}
+                  header={item.header}
+                  isActive={isActive}
                   onClick={() => {
                     if (!isActive) {
                       setSelectedEvent(item);
                       setTimeout(() => videoRef.current?.play());
                     }
                   }}
-                  key={key}
-                >
-                  <Image
-                    src={item.thumbnail}
-                    className={clsx(
-                      'w-full max-w-[180px] max-h-[86px] object-cover',
-                      'rounded-md',
-                      !isActive ? 'brightness-[0.4]' : ''
-                    )}
-                    width={180}
-                    height={86}
-                    alt="thumbnail"
-                  ></Image>
-                  <div className="truncate text-sm font-medium">
-                    {item.header}
-                  </div>
-                </div>
+                  thumbnail_image={item.thumbnail}
+                />
               );
             })}
+          </div>
+          <div className="md:hidden max-w-[180px] space-y-3">
+            {paginatedMediaList.map((index, key) => {
+              const item = mediaList[index];
+              const isActive = selectedEvent.header === item.header;
+              return (
+                <Thumbnail
+                  key={key}
+                  header={item.header}
+                  isActive={isActive}
+                  onClick={() => {
+                    if (!isActive) {
+                      setSelectedEvent(item);
+                      setTimeout(() => videoRef.current?.play());
+                    }
+                  }}
+                  thumbnail_image={item.thumbnail}
+                />
+              );
+            })}
+            <div className="flex justify-center gap-2 pt-2">
+              {Array.from({ length: total_pages }, (_, index) => {
+                const isActive = page === index + 1;
+                return (
+                  <div
+                    key={index}
+                    className={clsx(
+                      'flex items-center justify-center w-[24px] h-[24px] rounded-full cursor-pointer',
+                      'text-sm',
+                      isActive
+                        ? 'bg-black text-white'
+                        : 'bg-gray-5 text-gray-50'
+                    )}
+                    onClick={() => setPage(index + 1)}
+                  >
+                    {index + 1}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

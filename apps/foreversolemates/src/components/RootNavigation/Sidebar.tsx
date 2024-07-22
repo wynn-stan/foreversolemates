@@ -112,7 +112,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }: NavProps) {
         className={clsx(
           'py-4 px-4 min-w-[300px] bg-gray-60 text-gray-5 ',
           'flex flex-col justify-between',
-          'h-full'
+          'h-full overflow-y-auto'
         )}
       >
         <div className="space-y-10">
@@ -175,7 +175,7 @@ export default function Sidebar({ showSidebar, setShowSidebar }: NavProps) {
             })}
           </div>
         </div>
-        <div>
+        <div className="mt-6">
           {/* Handling Footer Links */}
           <div className={clsx('space-y-6')}>
             {Object.keys(FooterLinks).map((key, index) => {

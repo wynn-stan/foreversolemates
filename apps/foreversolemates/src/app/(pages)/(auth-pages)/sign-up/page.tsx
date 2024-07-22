@@ -14,7 +14,7 @@ import { InfoIcon } from 'lucide-react';
 
 export default function Page() {
   //state
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false); //modal doesn't open up by default?
 
   // hooks
   useBanner({
