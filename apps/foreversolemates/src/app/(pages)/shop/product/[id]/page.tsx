@@ -9,6 +9,7 @@ import useSWR from 'swr';
 
 import { options, useFilters, useLayout, useStore } from '../../../../../hooks';
 import { PaginatedData, ProductModel } from '../../../../../models';
+import { CartManager } from '../../../../../components';
 import Explore from '../../../../(components)/Explore';
 import routes from '../../../../../routes';
 
@@ -62,30 +63,21 @@ export default function Page({ params: { id } }: Props) {
         )}
 
         {details && (
-          <ProductCard.Details
-            details={details}
-            onAdd={({ color, quantity, size }, setSubmitting) => {
-              setStore((store) => {
-                return {
-                  ...store,
-                  cart: [
-                    {
-                      ...details,
-                      selected_size: size || undefined,
-                      selected_quantity: quantity,
-                      selected_color: color,
-                    },
-                    ...(store?.cart || []),
-                  ],
-                };
-              });
-
-              setTimeout(() => {
-                router.push(routes.cart.index);
-              }, 1500);
-              toast.success('Product added to cart');
-            }}
-          />
+          <CartManager details={details}>
+            {({ addToCart }) => (
+              <ProductCard.Details
+                details={details}
+                onAdd={({ color, quantity, size }, { setSubmitting }) => {
+                  addToCart({
+                    selected_color: color,
+                    selected_quantity: quantity,
+                    selected_size: size,
+                    setSubmitting,
+                  });
+                }}
+              />
+            )}
+          </CartManager>
         )}
       </div>
 
