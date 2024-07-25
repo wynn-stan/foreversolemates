@@ -3,6 +3,7 @@
 import {
   LogOutIcon,
   LucideIcon,
+  MapIcon,
   ShoppingBagIcon,
   TruckIcon,
   UserCogIcon,
@@ -64,6 +65,11 @@ export default function Sidebar({ toggleSidebar }: Props) {
           label: 'Order Management',
           icon: TruckIcon,
           slug: routes.store.order_management.index,
+        },
+        {
+          label: 'Delivery Management',
+          icon: MapIcon,
+          slug: routes.store.delivery_management.index,
         },
       ],
     },

@@ -28,3 +28,6 @@ export const deleteProductService = (id: string) =>
 
 export const updateOrderStatusService = (id: string, slug: string) =>
   http.patch<never, any>(`/update_status/${id}`, { state: slug });
+
+export const addLocationService = (payload: { name: string; cost: number }[]) =>
+  http.post<never, any>(`/location/bulk`, payload);
