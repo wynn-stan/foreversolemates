@@ -17,7 +17,7 @@ import {
 } from '../../../../utils';
 import { useLayout, useStore } from '../../../../hooks';
 import { UserModel } from '../../../../models';
-import { Cart } from '../../../../components/';
+import { Cart, CheckoutManager } from '../../../../components/';
 import routes from '../../../../routes';
 
 export default function Page() {
@@ -101,80 +101,97 @@ export default function Page() {
           <></>
         )}
 
-        <Order.DeliveryForm
-          //on login
-          {...(store?.user?.email
-            ? {}
-            : {
-                onLogin: () => {
-                  router.push(routes.login);
-                },
-              })}
-          //on zone selection
-          onZoneSelect={(cost) => {
-            setShippingCost(cost);
-          }}
-          // using user details
-          onUseDetails={
-            user?.email ? () => setUseUserDetails(!useUserDetails) : undefined
-          }
-          isUsingUserDetails={useUserDetails}
-          //default values
-          defaultValues={
-            useUserDetails
-              ? {
-                  country: delivery_details?.country,
-                  recipient_address: delivery_details?.recipient_address,
-                  recipient_city: delivery_details?.recipient_city,
-                  recipient_email: user?.email,
-                  recipient_first_name: user?.firstName,
-                  recipient_last_name: user?.firstName,
-                  recipient_phone: user?.mobileNo,
-                  recipient_postal_code: '',
-                }
-              : {}
-          }
-          // on submit
-          onSubmit={(params, { setSubmitting }) => {
-            const order_reference = generateID();
+        <CheckoutManager>
+          {({ validateCheckoutItems }) => {
+            return (
+              <Order.DeliveryForm
+                //on login
 
-            axios
-              .post<never, any>(`/api/generate-checkout-link`, {
-                amount: checkoutPayload.total,
-                email: store?.user?.email || params.recipient_email,
-                callback_url:
-                  process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
-                metadata: {
-                  ...checkoutPayload,
-                  delivery_details: {
-                    ...params,
-                    cost: params.shipping_method.cost,
-                    location: params.shipping_method.label,
-                  },
-                  email: store?.user?.email || params.recipient_email,
-                  order_reference,
-                },
-              })
-              .then(({ data: { url, reference } }) => {
-                setStore((store) => ({
-                  ...store,
-                  user: {
-                    ...store?.user,
-                    order_reference,
-                  },
-                }));
-                if (checkoutRef?.current) {
-                  checkoutRef.current.href = url;
-                  checkoutRef.current.click();
-                  setSubmitting(false);
+                {...(store?.user?.email
+                  ? {}
+                  : {
+                      onLogin: () => {
+                        router.push(routes.login);
+                      },
+                    })}
+                //on zone selection
+                onZoneSelect={(cost) => {
+                  setShippingCost(cost);
+                }}
+                // using user details
+                onUseDetails={
+                  user?.email
+                    ? () => setUseUserDetails(!useUserDetails)
+                    : () => router.push(routes.login)
                 }
-              })
-              .catch(() => {
-                toast.error('Something unexpected happened. Please try again');
-                setSubmitting(false);
-              });
+                isUsingUserDetails={useUserDetails}
+                //default values
+                defaultValues={
+                  useUserDetails
+                    ? {
+                        country: delivery_details?.country,
+                        recipient_address: delivery_details?.recipient_address,
+                        recipient_city: delivery_details?.recipient_city,
+                        recipient_email: user?.email,
+                        recipient_first_name: user?.firstName,
+                        recipient_last_name: user?.firstName,
+                        recipient_phone: user?.mobileNo,
+                        recipient_postal_code: '',
+                      }
+                    : {}
+                }
+                // on submit
+                onSubmit={(params, { setSubmitting }) => {
+                  const order_reference = generateID();
+                  validateCheckoutItems()
+                    .then(() => {
+                      axios
+                        .post<never, any>(`/api/generate-checkout-link`, {
+                          amount: checkoutPayload.total,
+                          email: store?.user?.email || params.recipient_email,
+                          callback_url:
+                            process?.env?.['NEXT_PUBLIC_PURCHASE_CALLBACK_URL'],
+                          metadata: {
+                            ...checkoutPayload,
+                            delivery_details: {
+                              ...params,
+                              cost: params.shipping_method.cost,
+                              location: params.shipping_method.label,
+                            },
+                            email: store?.user?.email || params.recipient_email,
+                            order_reference,
+                          },
+                        })
+                        .then(({ data: { url, reference } }) => {
+                          setStore((store) => ({
+                            ...store,
+                            user: {
+                              ...store?.user,
+                              order_reference,
+                            },
+                          }));
+                          if (checkoutRef?.current) {
+                            checkoutRef.current.href = url;
+                            checkoutRef.current.click();
+                            setSubmitting(false);
+                          }
+                        })
+                        .catch(() => {
+                          toast.error(
+                            'Something unexpected happened. Please try again'
+                          );
+                          setSubmitting(false);
+                        });
+                    })
+                    .catch(() => {
+                      toast.error('Errors found');
+                      setSubmitting(false);
+                    });
+                }}
+              />
+            );
           }}
-        />
+        </CheckoutManager>
 
         {/* Showing the order summary on large screens */}
         {cartHasItems && lg ? (
