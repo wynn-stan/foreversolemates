@@ -152,6 +152,15 @@ function Details({
                 }}
                 {...{ isValid, values, setFieldValue, isSubmitting }}
               />
+
+              {/* <Link
+                href={'https://www.instagram.com/direct/t/17844626705847523'}
+              >
+                <Button>
+                  Send a custom order
+                  <InstagramIcon />{' '}
+                </Button>
+              </Link> */}
             </div>
           </div>
         </motion.div>

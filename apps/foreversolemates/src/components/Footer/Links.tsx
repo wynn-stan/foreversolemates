@@ -1,5 +1,6 @@
 import { InstagramIcon, LinkedinIcon, TwitterIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
+import routes from '../../routes';
 
 export default function Links() {
   //variables
@@ -7,10 +8,13 @@ export default function Links() {
     {
       header: 'Customer Care',
       links: [
-        { text: 'Login/Register', href: '#' },
-        { text: 'Privacy Policy', href: '#' },
-        { text: 'Return Policy', href: '#' },
-        { text: 'Terms & Conditions', href: '#' },
+        { text: 'Privacy Policy', href: routes.policies.privacy_policy },
+        { text: 'Return Policy', href: routes.policies.returns_and_warranties },
+        {
+          text: 'Payments & Deliveries',
+          href: routes.policies.payments_and_deliveries,
+        },
+        { text: 'Terms of Service', href: routes.policies.terms_of_service },
       ],
     },
   ];
@@ -36,9 +40,9 @@ export default function Links() {
       {guides.map((item, key) => (
         <div key={key} className="space-y-3">
           <div className="font-medium">{item.header}</div>
-          <div>
+          <div className="space-y-2">
             {item.links.map((link, key) => (
-              <div key={key} className="text-sm">
+              <div key={key} className="text-sm hover:underline">
                 <Link href={link.href}>{link.text}</Link>
               </div>
             ))}

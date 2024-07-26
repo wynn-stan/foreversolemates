@@ -5,6 +5,7 @@ export { default as OrderHistoryItem } from './OrderHistoryItem/OrderHistoryItem
 export { default as LocalProductCard } from './LocalProductCard/LocalProductCard';
 export { default as RootNavigation } from './RootNavigation/RootNavigation';
 export { default as CheckoutManager } from './CheckoutManager/CheckoutManager';
+export { default as SectionHeader } from './SectionHeader/SectionHeader';
 export { default as PromoBanner } from './PromoBanner/PromoBanner';
 export { default as CartManager } from './CartManager/CartManager';
 export { default as Collection } from './Collection/Collection';

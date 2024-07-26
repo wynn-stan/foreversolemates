@@ -1,4 +1,9 @@
-import { Clock3Icon, MailIcon, PhoneIcon } from 'lucide-react';
+import {
+  Clock3Icon,
+  MailIcon,
+  MessageCircleMoreIcon,
+  PhoneIcon,
+} from 'lucide-react';
 
 export default function Info() {
   //variables
@@ -11,7 +16,12 @@ export default function Info() {
     {
       Icon: PhoneIcon,
       header: 'Phone',
-      desc: ['(+233) 07025005554'],
+      desc: ['(+233) 025 766 7118'],
+    },
+    {
+      Icon: MessageCircleMoreIcon,
+      header: 'WhatsApp',
+      desc: ['(+233) 025 766 7118'],
     },
     {
       Icon: MailIcon,

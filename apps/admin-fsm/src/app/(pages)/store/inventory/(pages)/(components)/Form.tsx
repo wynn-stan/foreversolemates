@@ -123,7 +123,7 @@ export default function Form({
           initial_price: schema.requireNumber('Initial price').min(1),
           total_available_units: yup
             .number()
-            .min(1, 'Must be at least 1')
+            // .min(1, 'Must be at least 1')
             .when('includes_sizes', (value, schema) => {
               if (!value)
                 return schema.required('Total available units is required');
