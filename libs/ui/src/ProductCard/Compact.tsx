@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Button, Dropdown } from '../index';
-import { ChevronDown, EyeIcon } from 'lucide-react';
+import { ArchiveIcon, ChevronDown, EyeIcon } from 'lucide-react';
 import { helpers, useWidth } from '@foreversolemates/utils';
 import styled from 'styled-components';
 import clsx from 'clsx';
@@ -16,6 +16,7 @@ interface Props {
     product_name: string;
     createdOn?: string;
     available_units?: number;
+    status?: 'active' | 'inactive';
   };
   onClick?: () => void;
   href?: string;
@@ -77,7 +78,28 @@ export default function Compact({
           'overflow-hidden rounded-lg'
         )}
       >
-        {(details?.available_units || 0) <= 0 ? (
+        {details.status === 'inactive' ? (
+          <div
+            className={clsx(
+              'absolute top-2 left-2',
+              'text-xs lg:text-sm font-medium'
+            )}
+          >
+            <div
+              className={clsx(
+                'text-red-50 bg-white',
+                'px-4 py-2',
+                'flex gap-2 items-center',
+                ' shadow-lg border border-gray-10  rounded-md'
+              )}
+            >
+              <div>
+                <ArchiveIcon size={16} strokeWidth={1.5} />
+              </div>
+              <div>Archived</div>
+            </div>
+          </div>
+        ) : (details?.available_units || 0) <= 0 ? (
           <div
             className={clsx(
               'absolute top-2 left-2',
@@ -182,5 +204,26 @@ export default function Compact({
         <div onClick={(e) => e.stopPropagation()}>{actions}</div>
       </div>
     </motion.div>
+  );
+}
+
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className={clsx(
+        'absolute top-2 left-2',
+        'text-xs lg:text-sm font-medium'
+      )}
+    >
+      <div
+        className={clsx(
+          'text-red-50 bg-white',
+          'px-4 py-2',
+          ' shadow-lg border border-gray-10  rounded-md'
+        )}
+      >
+        {children}
+      </div>
+    </div>
   );
 }

@@ -34,6 +34,7 @@ export default function Compact({
     <ProductCard.Compact
       onClick={() => onUpdate(details)}
       details={{
+        status: details.status as any,
         discount: details.discount,
         initial_price: details.initial_price,
         product_image: details.images?.[0],

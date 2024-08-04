@@ -10,7 +10,10 @@ interface Props {
 function Content({ description, header }: Props) {
   return (
     <div className="">
-      <SectionHeader title={header} />
+      <SectionHeader
+        headerClassName="!font-semibold text-center"
+        title={header}
+      />
       <div className="leading-relaxed">{description}</div>
     </div>
   );
