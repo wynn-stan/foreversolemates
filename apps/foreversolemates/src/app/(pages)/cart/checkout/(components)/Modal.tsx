@@ -27,6 +27,7 @@ export default function LocalModal({ onHide, show, mutate, errors }: Props) {
             id: error.product_id,
             size: error.selected_size,
           });
+          console.log(error);
           if (!cartItem) return <></>;
           return (
             <>
@@ -34,7 +35,6 @@ export default function LocalModal({ onHide, show, mutate, errors }: Props) {
                 message={error.message}
                 quantity={error?.selected_quantity}
                 maxQuantity={error?.db_available_quantity}
-                // size="lg"
                 type={error.type}
                 productDetails={{
                   final_price: cartItem.final_price || 0,

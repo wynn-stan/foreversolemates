@@ -23,7 +23,10 @@ export interface ProductModel {
   collection_id: string;
   createdOn: string;
   final_price: number;
-  available_sizes_and_units: { size: number; available_units: number }[];
+  available_sizes_and_units: {
+    size: string;
+    available_units: number;
+  }[];
 }
 
 export interface OrderModel {

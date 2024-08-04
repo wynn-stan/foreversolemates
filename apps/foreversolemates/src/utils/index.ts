@@ -75,5 +75,18 @@ export const getAvatarImage = ({
     size,
   })}`;
 
+export const formatAvailableSizesAndUnits = (
+  available_sizes_and_units: { size: string; available_units: number }[],
+  withInt?: boolean
+) => {
+  return available_sizes_and_units.filter(
+    (item, index) => item.size !== 'DEFAULT'
+  );
+  // .map((item, index) => ({
+  //   size: parseInt(item.size),
+  //   available_units: item.available_units,
+  // }));
+};
+
 export * from './animations';
 export * from './cart';

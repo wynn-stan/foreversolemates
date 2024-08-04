@@ -25,6 +25,7 @@ export const getFormattedCartData = ({
   const formattedProducts = cartItems?.map((item) => ({
     ...item,
     id: item?._id,
+    selected_size: item?.selected_size ? item?.selected_size : 'DEFAULT',
   }));
 
   //variables - tax

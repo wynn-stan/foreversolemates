@@ -19,7 +19,10 @@ export interface IForm {
   description: string;
   images: File[];
   final_price: number;
-  available_sizes_and_units: { size: number; available_units: number }[];
+  available_sizes_and_units: {
+    size: number;
+    available_units: number;
+  }[];
   total_available_units: number;
   includes_sizes: boolean;
 }
@@ -187,12 +190,12 @@ export default function Form({
             const params_units = params.total_available_units;
             const params_sizes = params.available_sizes_and_units;
 
-            if (params_units) return params_units;
             if (params_sizes.length >= 1) {
               return params_sizes.reduce((total, current) => {
                 return current.available_units + total;
               }, 0);
             }
+            if (params_units) return params_units;
             return 0;
           })();
 

@@ -34,6 +34,7 @@ export default function CheckoutManager({ children }: Props) {
    * variables
    */
   const cartItems = store?.cart || [];
+  console.log('cartItems', cartItems);
 
   /**
    * Function
@@ -73,7 +74,7 @@ export default function CheckoutManager({ children }: Props) {
         // get the selected size and available units of the db data relating to this cart item
         const updatedDBSizeUnit =
           updatedDataItem?.available_sizes_and_units.find((size_unit) => {
-            return size_unit.size === cartItem.selected_size;
+            return size_unit.size === (cartItem.selected_size as unknown);
           });
 
         if (
@@ -103,7 +104,7 @@ export default function CheckoutManager({ children }: Props) {
           errors.current.push({
             db_available_quantity,
             message: out_of_stock
-              ? `Selected product/size is sold out. Please remove from cart to continue.`
+              ? `Selected product is sold out. Please remove from cart to continue.`
               : `Maximum quantity available is ${db_available_quantity}. Please adjust your selection.`,
             selected_quantity: cartItem.selected_quantity,
             selected_size: undefined,

@@ -114,7 +114,7 @@ export default function CartManager({ details, children }: Props) {
       const new_total = (cartItem?.selected_quantity || 0) + selected_quantity;
       const cartItemSizeAndUnits = cartItem.available_sizes_and_units?.find(
         (item) => {
-          return item.size === selected_size;
+          return parseInt(item.size) === selected_size;
         }
       );
       const available_units = productHasSizes

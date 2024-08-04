@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 import Pill from '../../Pill/Pill';
 import { ProductModel } from '../../models';
 
-type Option = { size: number; available_units: number };
+type Option = { size: number | string; available_units: number };
 
 interface Props {
   sizes: Option[];

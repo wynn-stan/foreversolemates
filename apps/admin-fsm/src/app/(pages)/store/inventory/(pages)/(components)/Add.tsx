@@ -35,11 +35,17 @@ export default function Add({ mutate, show, onHide }: Props) {
             formData.append(`image_${index}`, image);
           });
 
-          params.available_sizes_and_units?.length &&
-            formData.append(
-              'available_sizes_and_units',
-              JSON.stringify(params.available_sizes_and_units)
-            );
+          formData.append(
+            'available_sizes_and_units',
+            params.available_sizes_and_units?.length
+              ? JSON.stringify(params.available_sizes_and_units)
+              : JSON.stringify([
+                  {
+                    size: 'DEFAULT',
+                    available_units: params.total_available_units,
+                  },
+                ])
+          );
 
           formData.append(
             'total_available_units',

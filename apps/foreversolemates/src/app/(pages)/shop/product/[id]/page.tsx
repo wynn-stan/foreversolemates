@@ -12,6 +12,7 @@ import { PaginatedData, ProductModel } from '../../../../../models';
 import { CartManager } from '../../../../../components';
 import Explore from '../../../../(components)/Explore';
 import routes from '../../../../../routes';
+import { formatAvailableSizesAndUnits } from '../../../../../utils';
 
 interface Props {
   params: {
@@ -52,6 +53,15 @@ export default function Page({ params: { id } }: Props) {
     setLayout({});
   }, []);
 
+  const formatttedDetails = details
+    ? {
+        ...details,
+        available_sizes_and_units: formatAvailableSizesAndUnits(
+          details?.available_sizes_and_units || []
+        ),
+      }
+    : undefined;
+
   return (
     <>
       <div className="flex justify-center pt-0 md:pt-8 px-4 sm:px-0 ">
@@ -62,11 +72,11 @@ export default function Page({ params: { id } }: Props) {
           </div>
         )}
 
-        {details && (
-          <CartManager details={details}>
+        {details && formatttedDetails && (
+          <CartManager details={formatttedDetails}>
             {({ addToCart }) => (
               <ProductCard.Details
-                details={details}
+                details={formatttedDetails}
                 onAdd={({ color, quantity, size }, { setSubmitting }) => {
                   addToCart({
                     selected_color: color,

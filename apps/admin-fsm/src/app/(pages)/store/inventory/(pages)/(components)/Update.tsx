@@ -17,11 +17,20 @@ export default function Update({ details, mutate, show, onHide }: Props) {
   //state
   const [imageFiles, setImageFiles] = useState<File[]>();
 
+  //variables - filtered sizes
+  const available_sizes_and_units = details.available_sizes_and_units
+    .filter((item, index) => item.size !== 'DEFAULT')
+    .map((item, index) => ({
+      size: parseInt(item.size),
+      available_units: item.available_units,
+    }));
+
   //variables - form default values
   const defaultValues = {
     ...details,
     name: details.product_name,
     images: imageFiles,
+    available_sizes_and_units,
   };
 
   //effect
@@ -58,11 +67,17 @@ export default function Update({ details, mutate, show, onHide }: Props) {
             formData.append(`image_${index}`, image);
           });
 
-          params.available_sizes_and_units?.length &&
-            formData.append(
-              'available_sizes_and_units',
-              JSON.stringify(params.available_sizes_and_units)
-            );
+          formData.append(
+            'available_sizes_and_units',
+            params.available_sizes_and_units?.length
+              ? JSON.stringify(params.available_sizes_and_units)
+              : JSON.stringify([
+                  {
+                    size: 'DEFAULT',
+                    available_units: params.total_available_units,
+                  },
+                ])
+          );
 
           formData.append(
             'total_available_units',
