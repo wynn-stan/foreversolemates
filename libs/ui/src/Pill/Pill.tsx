@@ -6,9 +6,11 @@ import OrderStatus from './OrderStatus';
 interface Props extends HTMLAttributes<HTMLDivElement> {
   checked?: boolean;
   size?: 'sm' | 'md' | 'lg';
+  withoutIcon?: boolean;
 }
 
 function Pill({
+  withoutIcon = false,
   size = 'lg',
   checked,
   className,
@@ -44,7 +46,7 @@ function Pill({
       onClick={onClick}
       {...props}
     >
-      {checked ? <CheckIcon size={16} /> : ''}
+      {checked && !withoutIcon ? <CheckIcon size={16} /> : ''}
       <div>{children}</div>
     </div>
   );

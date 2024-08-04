@@ -155,7 +155,7 @@ function Details({
                 } else {
                   const item = details.available_sizes_and_units.find(
                     (item, index) => {
-                      return parseInt(item.size) === values.size;
+                      return item.size === (values.size as unknown);
                     }
                   );
                   if (item) return item.available_units <= 0;
