@@ -229,7 +229,7 @@ function Details({
   description: string;
 }) {
   return (
-    <Modal header="Details" {...{ show, onHide }}>
+    <Modal size="sm" header="Details" {...{ show, onHide }}>
       <div className="space-y-6">
         <div className="text-xl font-medium">{header}</div>
         <div>{description}</div>

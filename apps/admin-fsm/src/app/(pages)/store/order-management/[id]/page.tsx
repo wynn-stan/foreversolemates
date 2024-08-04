@@ -87,8 +87,8 @@ export default function Page({ params: { id } }: Props) {
             <Order.PaymentDetails
               className="w-full h-fit"
               {...data.payment_details}
-              fees={(data?.payment_details?.fees || 0) / 100}
-              amount={(data?.payment_details?.amount || 0) / 100}
+              fees={data?.payment_details?.fees || 0}
+              amount={data?.payment_details?.amount || 0}
             />
 
             <Order.OrderSummary
@@ -99,6 +99,10 @@ export default function Page({ params: { id } }: Props) {
               tax_amount={data?.tax_amount}
               total={data?.total}
               status={data?.delivery_status as any}
+              custom_message_cost={
+                data?.delivery_details?.custom_message ? 10 : 0
+              }
+              shipping_cost={data?.delivery_details?.cost}
               className="w-full"
               order_reference={data?.order_reference}
             />
@@ -112,6 +116,9 @@ export default function Page({ params: { id } }: Props) {
             disabled
             defaultValues={data?.delivery_details as any}
             onZoneSelect={() => {
+              //
+            }}
+            onAddCustomMessage={() => {
               //
             }}
             onSubmit={() => {

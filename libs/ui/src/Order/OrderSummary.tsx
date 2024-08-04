@@ -21,6 +21,7 @@ interface Props {
   className?: string;
   order_reference?: string;
   shipping_cost?: number;
+  custom_message_cost?: number;
 }
 
 export default function Summary({
@@ -36,6 +37,7 @@ export default function Summary({
   showList = false,
   className,
   shipping_cost,
+  custom_message_cost,
 }: Props) {
   //variables - disabled button
   const isValid = items.length;
@@ -80,6 +82,12 @@ export default function Summary({
         <div className=" flex justify-between font-medium">
           <div>Subtotal</div>
           <div>GH₵{subtotal}</div>
+        </div>
+
+        {/* Packing Message Cost */}
+        <div className="text-sm text-gray-60 flex justify-between font-medium">
+          <div>Packaging Message </div>
+          <div>{custom_message_cost ? `GH₵${custom_message_cost}` : '--'}</div>
         </div>
 
         {/* Shipping Cost */}

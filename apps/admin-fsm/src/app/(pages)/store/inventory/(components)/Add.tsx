@@ -4,9 +4,7 @@ import Form from './Form';
 import { addCollectionService } from '../../../../../services/store';
 import { toast } from 'react-toastify';
 
-interface Props extends ModalProps {}
-
-export default function Add({ show, onHide, mutate }: Props) {
+export default function Add({ show, onHide, mutate }: ModalProps) {
   return (
     <Modal header="Add Collection" size="sm" {...{ show, onHide }}>
       <Form

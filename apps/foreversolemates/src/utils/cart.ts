@@ -3,9 +3,11 @@ import { CartItem } from '../models';
 export const getFormattedCartData = ({
   cartItems,
   shipping_cost = 0,
+  custom_message_cost = 0,
 }: {
   shipping_cost?: number;
   cartItems: Partial<CartItem>[];
+  custom_message_cost?: number;
 }) => {
   //variables - constant tax
   const tax_percent = 0;
@@ -29,7 +31,7 @@ export const getFormattedCartData = ({
   const tax_amount = (tax_percent / 100) * subtotal;
 
   //variables - total
-  const total = subtotal + tax_amount + shipping_cost;
+  const total = subtotal + tax_amount + shipping_cost + custom_message_cost;
 
   //variables
   const getAllProductsCombined = cartItems
@@ -55,6 +57,7 @@ export const getFormattedCartData = ({
     products_bought: formattedProducts,
     custom_fields: dashboard_display,
     shipping_cost,
+    custom_message_cost,
   };
 
   return details;

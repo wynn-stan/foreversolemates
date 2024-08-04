@@ -44,6 +44,8 @@ export interface OrderModel {
     recipient_phone: string;
     recipient_email: string;
     _id: string;
+    custom_message?: string;
+    cost: number;
   };
 
   delivery_status: string;

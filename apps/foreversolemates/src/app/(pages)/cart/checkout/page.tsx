@@ -16,9 +16,10 @@ import {
   getFormattedCartData,
 } from '../../../../utils';
 import { useLayout, useStore } from '../../../../hooks';
-import { UserModel } from '../../../../models';
+import { CheckoutError, UserModel } from '../../../../models';
 import { Cart, CheckoutManager } from '../../../../components/';
 import routes from '../../../../routes';
+import LocalModal from './(components)/Modal';
 
 export default function Page() {
   //hooks
@@ -29,7 +30,10 @@ export default function Page() {
 
   //state
   const [shippingCost, setShippingCost] = useState(0);
+  const [customMessageCost, setCustomMessageCost] = useState(0);
   const [useUserDetails, setUseUserDetails] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [errors, setErrors] = useState([] as CheckoutError[]);
 
   //ref
   const checkoutRef = useRef<HTMLAnchorElement>(null);
@@ -56,6 +60,7 @@ export default function Page() {
   const checkoutPayload = getFormattedCartData({
     cartItems: store?.cart || [],
     shipping_cost: shippingCost,
+    custom_message_cost: customMessageCost,
   });
 
   /**
@@ -66,6 +71,7 @@ export default function Page() {
     tax_amount: checkoutPayload.tax_amount,
     total: checkoutPayload.total,
     shipping_cost: shippingCost,
+    custom_message_cost: customMessageCost,
     items: store?.cart || [],
     onCancel: () => ({}),
     onCheckout: () => ({}),
@@ -118,6 +124,10 @@ export default function Page() {
                 onZoneSelect={(cost) => {
                   setShippingCost(cost);
                 }}
+                //on custom message inclusion
+                onAddCustomMessage={(cost) => {
+                  setCustomMessageCost(cost);
+                }}
                 // using user details
                 onUseDetails={
                   user?.email
@@ -157,6 +167,9 @@ export default function Page() {
                               ...params,
                               cost: params.shipping_method.cost,
                               location: params.shipping_method.label,
+                              ...(params.includes_custom_message
+                                ? { custom_message: params.custom_message }
+                                : {}),
                             },
                             email: store?.user?.email || params.recipient_email,
                             order_reference,
@@ -183,9 +196,13 @@ export default function Page() {
                           setSubmitting(false);
                         });
                     })
-                    .catch(() => {
+                    .catch(({ errors }) => {
+                      setErrors(errors);
                       toast.error('Errors found');
-                      setSubmitting(false);
+                      setTimeout(() => {
+                        setShowModal(true);
+                        setSubmitting(false);
+                      });
                     });
                 }}
               />
@@ -218,6 +235,12 @@ export default function Page() {
         {' '}
         Google{' '}
       </Link>
+
+      <LocalModal
+        errors={errors}
+        show={showModal}
+        onHide={() => setShowModal(false)}
+      />
     </>
   );
 }

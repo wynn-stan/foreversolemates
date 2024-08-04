@@ -141,7 +141,8 @@ export function Modal({
       >
         <div
           className={clsx(
-            'w-full rounded-lg mx-4 my-auto',
+            'w-full ',
+            size !== 'full' && 'rounded-lg mx-4 my-auto',
             'shadow-3xl bg-white relative'
           )}
         >

@@ -25,5 +25,6 @@ export { default as Order } from './Order/Order';
 export { default as Logo } from './Logo/Index';
 export { default as Auth } from './Auth/Auth';
 export { default as Pill } from './Pill/Pill';
+export { default as Cart } from './Cart/Cart';
 
 export * as Models from './models';

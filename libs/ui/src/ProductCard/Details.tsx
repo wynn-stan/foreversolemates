@@ -13,6 +13,9 @@ import { Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { motion } from 'framer-motion';
 import { ProductModel } from '../models';
+import Link from 'next/link';
+import Button from '../Button/Button';
+import { InstagramIcon } from 'lucide-react';
 
 interface Props {
   details: ProductModel;
@@ -144,24 +147,48 @@ function Details({
             ) : (
               <></>
             )}
-            <div className="h-full">
-              <AddToCart
-                maxQuantity={maxQuantity}
-                handleSubmit={() => {
-                  handleSubmit();
-                }}
-                {...{ isValid, values, setFieldValue, isSubmitting }}
-              />
 
-              {/* <Link
-                href={'https://www.instagram.com/direct/t/17844626705847523'}
-              >
-                <Button>
-                  Send a custom order
-                  <InstagramIcon />{' '}
-                </Button>
-              </Link> */}
-            </div>
+            {(() => {
+              const showCustomOrder = (() => {
+                if (!details.available_sizes_and_units.length) {
+                  return details.total_available_units <= 0 ? true : false;
+                } else {
+                  const item = details.available_sizes_and_units.find(
+                    (item, index) => {
+                      return item.size === values.size;
+                    }
+                  );
+                  if (item) return item.available_units <= 0;
+                  return false;
+                }
+              })();
+
+              return (
+                <div className="h-full">
+                  {showCustomOrder ? (
+                    <Link
+                      target="_blank"
+                      href={
+                        'https://www.instagram.com/direct/t/17844626705847523'
+                      }
+                    >
+                      <Button>
+                        Send a custom order
+                        <InstagramIcon />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <AddToCart
+                      maxQuantity={maxQuantity}
+                      handleSubmit={() => {
+                        handleSubmit();
+                      }}
+                      {...{ isValid, values, setFieldValue, isSubmitting }}
+                    />
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </motion.div>
       )}

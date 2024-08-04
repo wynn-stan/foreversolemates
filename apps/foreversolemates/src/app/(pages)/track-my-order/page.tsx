@@ -131,6 +131,10 @@ export default function Page() {
                 total={data.total}
                 status={data?.delivery_status as any}
                 order_reference={store?.user?.order_reference}
+                shipping_cost={data?.delivery_details?.cost}
+                custom_message_cost={
+                  data?.delivery_details?.custom_message ? 10 : 0
+                }
               />
 
               <Order.PaymentDetails {...data.payment_details} />
@@ -142,6 +146,9 @@ export default function Page() {
 
             <Order.DeliveryForm
               disabled
+              onAddCustomMessage={() => {
+                //
+              }}
               onZoneSelect={() => {
                 //
               }}

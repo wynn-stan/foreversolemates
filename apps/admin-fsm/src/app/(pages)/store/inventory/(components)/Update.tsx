@@ -78,7 +78,10 @@ export default function Update({ show, onHide, mutate, details }: Props) {
       ) : (
         <div className="space-y-4">
           {Array.from({ length: 5 }, (_, i) => (
-            <div className="min-w-[100px] w-full h-[25px] bg-gray-20 animate-pulse" />
+            <div
+              key={i}
+              className="min-w-[100px] w-full h-[25px] bg-gray-20 animate-pulse"
+            />
           ))}
         </div>
       )}

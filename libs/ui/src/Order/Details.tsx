@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ProductCard, ProductImage } from '../index';
+import { Button, Cart, ProductCard, ProductImage } from '../index';
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -26,16 +26,43 @@ export default function Details({ cartItems, onDelete }: Props) {
       {/* Horizontal Rule */}
       <div className="w-full bg-gray-5 h-[1px]" />
 
-      {cartItems?.map((product, key) => {
-        //variables
-        const stockDetails = getStockSummary({
-          available_units: product?.total_available_units || 0,
-          low_stock_indicator: product?.alert || 0,
-        });
+      <div className="space-y-10">
+        {cartItems?.map((product, key) => {
+          //variables
+          const stockDetails = getStockSummary({
+            available_units: product?.total_available_units || 0,
+            low_stock_indicator: product?.alert || 0,
+          });
 
-        return (
-          <AnimatePresence key={key}>
-            <motion.div
+          return (
+            <>
+              <AnimatePresence key={key}>
+                <Cart.Item
+                  quantity={product.selected_quantity}
+                  type={'delete'}
+                  productDetails={{
+                    final_price: product.final_price || 0,
+                    imgSrc: product?.images?.[0] || '',
+                    product_name: product?.product_name || '',
+                    size: product.selected_size,
+                    description: product?.description || '',
+                  }}
+                  onDelete={() => {
+                    product?._id && onDelete(key);
+                  }}
+                />
+              </AnimatePresence>
+              <div className="w-full bg-gray-5 h-[1px]" />
+            </>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * <motion.div
               key={cartItems.length}
               // exit={{
               //   opacity: 0,
@@ -140,17 +167,12 @@ export default function Details({ cartItems, onDelete }: Props) {
                         product?._id && onDelete(key);
                       }}
                     >
-                      {/* Delete */}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              {/* Horizontal Rule */}
-              <div className="w-full bg-gray-5 h-[1px]" />
-            </motion.div>
-          </AnimatePresence>
-        );
-      })}
-    </div>
-  );
-}
+                      {/* Delete 
+                //       </Button>
+                //       </div>
+                //     </div>
+                //   </div>
+                //   {/* Horizontal Rule 
+                //   <div className="w-full bg-gray-5 h-[1px]" />
+                // </motion.div>
+ */

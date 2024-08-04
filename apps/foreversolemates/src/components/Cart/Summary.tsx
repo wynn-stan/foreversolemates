@@ -11,6 +11,7 @@ interface Props {
   showActions?: boolean;
   showList?: boolean;
   shipping_cost?: number;
+  custom_message_cost?: number;
 }
 
 export default function Summary({
@@ -20,12 +21,17 @@ export default function Summary({
   showActions = true,
   showList = false,
   shipping_cost,
+  custom_message_cost,
 }: Props) {
   //variables - disabled button
   const isValid = items.length;
 
   //variables - cart summary
-  const cartSummary = getFormattedCartData({ cartItems: items });
+  const cartSummary = getFormattedCartData({
+    cartItems: items,
+    shipping_cost,
+    custom_message_cost,
+  });
 
   return (
     <div className="space-y-4">
@@ -41,6 +47,12 @@ export default function Summary({
         <div className=" flex justify-between font-medium">
           <div>Subtotal</div>
           <div>GH₵{cartSummary.subtotal}</div>
+        </div>
+
+        {/* Custom Message Cost */}
+        <div className="text-sm text-gray-60 flex justify-between font-medium">
+          <div>Packaging Message </div>
+          <div>{custom_message_cost ? `GH₵${custom_message_cost}` : '--'}</div>
         </div>
 
         {/* Shipping Cost */}

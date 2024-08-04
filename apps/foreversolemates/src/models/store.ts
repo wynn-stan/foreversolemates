@@ -73,6 +73,7 @@ export interface OrderModel {
     _id: string;
     cost?: number;
     location?: string;
+    custom_message?: string;
   };
 
   delivery_status: string;

@@ -27,6 +27,19 @@ export async function POST(request: Request, response: Response) {
   try {
     const data = body?.data;
 
+    console.log({
+      ...data?.metadata,
+      payment_details: {
+        id: data?.id,
+        reference: data?.reference,
+        amount: data?.amount,
+        gateway_response: data?.gateway_response,
+        paid_at: data?.paid_at,
+        channel: data?.channel,
+        fees: data?.fees,
+      },
+    });
+
     const response = axios
       .post<never, any>(`${process?.env?.NEXT_PUBLIC_BASE_API}/order`, {
         ...data?.metadata,

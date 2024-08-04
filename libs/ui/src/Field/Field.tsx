@@ -10,6 +10,7 @@ import Group from './Group/Group';
 import Date from './Date/Date';
 import GPS from './GPS/GPS';
 import Password from './Password/Password';
+import Number from './Number/Number';
 
 export default Object.assign(
   {},
@@ -24,5 +25,6 @@ export default Object.assign(
     Phone,
     Search,
     Password,
+    Number,
   }
 );

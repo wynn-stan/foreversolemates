@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { CartItem, ProductModel } from '../../models';
+import { CartItem, CheckoutError, ProductModel } from '../../models';
 import { useStore } from '../../hooks';
 import axios from 'axios';
 import { useRef, useState } from 'react';
@@ -13,12 +13,6 @@ import { http } from '@foreversolemates/utils';
 // }
 
 type TFormattedData = { [key: string]: ProductModel };
-type Errors = {
-  message: string;
-  selected_size: any;
-  selected_quantity: number;
-  db_available_quantity: number;
-}[];
 
 interface Props {
   children: ({
@@ -34,7 +28,7 @@ export default function CheckoutManager({ children }: Props) {
    */
   const { store, setStore } = useStore();
   const updatedData = useRef<TFormattedData>();
-  const errors = useRef([] as Errors);
+  const errors = useRef([] as CheckoutError[]);
 
   /**
    * variables
@@ -71,7 +65,7 @@ export default function CheckoutManager({ children }: Props) {
     cartItems?.map((cartItem) => {
       // the db data of the current cart item
       const updatedDataItem = updatedData.current?.[`${cartItem._id}`];
-      // if these values don't exist, which they will, don't proceed (typescript safety what not)
+      // if these values don't exist, though they will, don't proceed (typescript safety what not)
       if (!cartItem || !cartItem.selected_quantity) return;
 
       //if the current product has attached sizes/variants
@@ -84,24 +78,39 @@ export default function CheckoutManager({ children }: Props) {
 
         if (
           cartItem.selected_quantity > (updatedDBSizeUnit?.available_units || 0)
-        )
+        ) {
+          const db_available_quantity = updatedDBSizeUnit?.available_units || 0;
+          const out_of_stock = db_available_quantity <= 0;
           errors.current.push({
             db_available_quantity: updatedDBSizeUnit?.available_units || 0,
-            message: 'error again',
+            message: out_of_stock
+              ? `Selected size is sold out. Please remove from cart to continue.`
+              : `Maximum quantity available is ${db_available_quantity}. Please adjust your selection.`,
             selected_quantity: cartItem.selected_quantity,
             selected_size: updatedDBSizeUnit?.size,
+            product_id: cartItem._id || '',
+            type: out_of_stock ? 'delete' : 'quantity',
           });
+        }
       } else {
         if (
           cartItem.selected_quantity >
           (updatedDataItem?.total_available_units || 0)
-        )
+        ) {
+          const db_available_quantity =
+            updatedDataItem?.total_available_units || 0;
+          const out_of_stock = db_available_quantity <= 0;
           errors.current.push({
-            db_available_quantity: updatedDataItem?.total_available_units || 0,
-            message: 'error again',
+            db_available_quantity,
+            message: out_of_stock
+              ? `Selected product/size is sold out. Please remove from cart to continue.`
+              : `Maximum quantity available is ${db_available_quantity}. Please adjust your selection.`,
             selected_quantity: cartItem.selected_quantity,
             selected_size: undefined,
+            product_id: cartItem._id || '',
+            type: out_of_stock ? 'delete' : 'quantity',
           });
+        }
       }
     });
   };
@@ -110,6 +119,7 @@ export default function CheckoutManager({ children }: Props) {
    * Function
    */
   const validateCheckoutItems = async () => {
+    errors.current = [];
     const unique_products = getCartProductsWithUniqueIDs();
 
     await Promise.all(
@@ -126,7 +136,7 @@ export default function CheckoutManager({ children }: Props) {
 
     raiseErrorsIfProductsMismatch();
 
-    if (errors.current.length) throw { errors };
+    if (errors.current.length) throw { errors: errors.current };
   };
 
   return <>{children({ validateCheckoutItems })}</>;

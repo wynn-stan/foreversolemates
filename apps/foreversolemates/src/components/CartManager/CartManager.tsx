@@ -170,13 +170,13 @@ export default function CartManager({ details, children }: Props) {
                 <div>{errorDetails.items_in_cart}</div>
               </div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-end">
               <Button variant="outline-black" onClick={onHide}>
                 Close
               </Button>
-              <Button onClick={() => router.push(routes.cart.index)}>
+              {/* <Button onClick={() => router.push(routes.cart.index)}>
                 View Cart
-              </Button>
+              </Button> */}
             </div>
           </div>
         </Modal>

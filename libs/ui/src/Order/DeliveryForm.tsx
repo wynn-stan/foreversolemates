@@ -1,7 +1,7 @@
 'use client';
 
 import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
-import { http, schema } from '@foreversolemates/utils';
+import { helpers, http, schema } from '@foreversolemates/utils';
 import { components } from 'react-select';
 import { debounce, set } from 'lodash';
 import { useState } from 'react';
@@ -32,16 +32,20 @@ interface IForm {
     value: string;
     cost: number;
   };
+  includes_custom_message: boolean;
+  custom_message: string;
+  custom_message_cost: number;
 }
 
 interface Props {
-  onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
   defaultValues?: Partial<IForm> & { cost?: number; location?: string };
   disabled?: boolean;
-  onZoneSelect: (cost: number) => void;
+  isUsingUserDetails?: boolean;
   onLogin?: () => void;
   onUseDetails?: () => void;
-  isUsingUserDetails?: boolean;
+  onZoneSelect: (cost: number) => void;
+  onAddCustomMessage: (cost: number) => void;
+  onSubmit: (params: IForm, actions: FormikHelpers<IForm>) => void;
 }
 
 export default function DeliveryForm({
@@ -51,6 +55,7 @@ export default function DeliveryForm({
   defaultValues,
   onZoneSelect,
   onUseDetails,
+  onAddCustomMessage,
   isUsingUserDetails = false,
 }: Props) {
   //state
@@ -120,6 +125,10 @@ export default function DeliveryForm({
         recipient_phone: defaultValues?.recipient_phone || '',
         recipient_email: defaultValues?.recipient_email || '',
         shipping_method: {} as any,
+        includes_custom_message:
+          defaultValues?.includes_custom_message || false,
+        custom_message: defaultValues?.custom_message || '',
+        custom_message_cost: defaultValues?.custom_message_cost || 10,
       }}
       onSubmit={(params, actions) => {
         onSubmit(params, actions);
@@ -276,6 +285,51 @@ export default function DeliveryForm({
                   />
                 </Field.Group>
               </div>
+
+              <Field.Checkbox
+                className="!gap-2"
+                name="includes_custom_message"
+                checked={
+                  values.includes_custom_message ||
+                  Boolean(values.custom_message)
+                }
+                onClick={() => {
+                  if (!values.includes_custom_message) {
+                    onAddCustomMessage(values.custom_message_cost);
+                  } else {
+                    setFieldValue('custom_message', '');
+                    onAddCustomMessage(0);
+                  }
+
+                  setFieldValue(
+                    'includes_sizes',
+                    !values.includes_custom_message
+                  );
+                }}
+              >
+                <div className="text-base">
+                  <span className="">Include message in packaging </span>
+                  <span className="font-medium">
+                    ({helpers.currencyFormatter(values.custom_message_cost)})
+                  </span>
+                </div>
+              </Field.Checkbox>
+
+              {values.includes_custom_message && (
+                <Field.Group
+                  name="custom_message"
+                  label={`Custom message (${values.custom_message?.length}/256)`}
+                >
+                  <Field.Input
+                    as={'textarea'}
+                    rows={4}
+                    maxLength={256}
+                    name="custom_message"
+                    value={values.custom_message}
+                    placeholder="Custom message"
+                  />
+                </Field.Group>
+              )}
 
               <Field.Group name="name" label="Delivery Zone">
                 <div className="flex flex-col gap-2 w-full">
